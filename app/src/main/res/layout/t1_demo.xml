@@ -1,0 +1,512 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:background="#DBE0E4"
+    android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DBE0E4"
+        >
+        <!--
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/top_bar"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+         -->
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+
+        <FrameLayout
+            android:background="#DBE0E4"
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/content_frame"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_above="@+id/bottom"
+            android:layout_height="match_parent"/>
+
+
+        <ScrollView
+            android:id="@+id/buttonView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:layout_above="@+id/bottom"
+            android:background="#DBE0E4"
+            >
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linConfigMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#4F5A78"
+                    android:visibility="visible"
+                    android:layout_below="@+id/toolbar"
+                    android:layout_margin="@dimen/dim20"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15">
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/settings_icon"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CONFIGARAZION"
+                        android:layout_marginLeft="@dimen/dim15"
+                        android:gravity="center_horizontal"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linClientMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#85C744"
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/dim20"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15">
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/client_icon"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CLIENTI"
+                        android:layout_marginLeft="@dimen/dim15"
+                        android:gravity="center_horizontal"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linProductMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#EFA945"
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/dim20"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15">
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/product_icon"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PRODOTTI"
+                        android:layout_marginLeft="@dimen/dim15"
+                        android:gravity="center_horizontal"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linDocumentMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#E74C3C"
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/dim20"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15">
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/file"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DOCUMENTI"
+                        android:layout_marginLeft="@dimen/dim5"
+                        android:gravity="center_horizontal"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linSincroMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#515151"
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/dim20"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15"
+                    android:layout_marginBottom="@dimen/dim10"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/settings_icon"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SINCRO"
+                        android:layout_marginLeft="@dimen/dim5"
+                        android:gravity="center_horizontal"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="#4F5A78"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/dim15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Copyright"
+                android:gravity="center_horizontal"
+                android:textColor="#1C273F"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:layout_width="@dimen/dim5"
+                android:layout_height="@dimen/dim5"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/copy_right_icon"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Setup 2014 SALAGE v127"
+
+                android:layout_marginLeft="@dimen/dim5"
+                android:gravity="center_horizontal"
+                android:textColor="#1C273F"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start"
+        android:background="#0F1523"
+        android:layout_marginTop="0dp">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/dim20"
+                android:paddingBottom="@dimen/dim20"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim35">
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dim70"
+                        android:src="@drawable/salage_logo"
+                        />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#3E3E3E"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/linNav"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:background="#192438"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim10">
+
+
+                    <TextView
+                        android:id="@+id/tvNavigation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NAVIGAZIONE"
+                        android:layout_marginLeft="@dimen/dim15"
+                        android:gravity="center_horizontal"
+                        android:textColor="#717781"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#3E3E3E"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ABADC1"
+                    android:layout_marginTop="2dp"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/linConfig"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#4F5A78"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15">
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/settings_icon"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tvConfig"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CONFIGARAZION"
+                        android:layout_marginLeft="@dimen/dim5"
+                        android:gravity="center_horizontal"
+                        android:textColor="#1C273F"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="@dimen/dim8"
+                        android:layout_height="@dimen/dim8"
+                        android:background="#27AE60"
+                        android:layout_marginLeft="@dimen/dim50"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/dim20"
+                        />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ABADC1"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/linClientMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#4F5A78"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/client_icon"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CLIENTI"
+                        android:layout_marginLeft="@dimen/dim15"
+                        android:gravity="center_horizontal"
+                        android:textColor="#141E35"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ABADC1"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/linProductMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#4F5A78"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/product_icon"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PRODOTTO"
+                        android:layout_marginLeft="@dimen/dim15"
+                        android:gravity="center_horizontal"
+                        android:textColor="#141E35"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ABADC1"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/linDocumentMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#4F5A78"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/file"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DOCUMENTI"
+                        android:layout_marginLeft="@dimen/dim15"
+                        android:gravity="center_horizontal"
+                        android:textColor="#141E35"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ABADC1"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/linSincroMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:background="#4F5A78"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim15"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/dim20"
+                        android:layout_height="@dimen/dim20"
+                        android:src="@drawable/settings_icon"
+                        android:layout_marginLeft="@dimen/dim15"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SINCRO"
+                        android:layout_marginLeft="@dimen/dim15"
+                        android:gravity="center_horizontal"
+                        android:textColor="#141E35"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ABADC1"
+                    />
+            </LinearLayout>
+        </ScrollView>
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
+
+
+
+
+

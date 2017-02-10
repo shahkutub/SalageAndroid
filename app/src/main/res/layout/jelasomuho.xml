@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    >
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="জেলা সমূহ"
+        android:textColor="#ffff"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#0563A8"
+        android:padding="5dp"
+        />
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"
+    />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <TextView
+        android:id="@+id/tvDhaka"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ঢাকা জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvGajipur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="গাজীপুর জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvBNorsingdi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="নরসিংদী জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvSoriotPur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="শরীয়তপুর জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvNetrokona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="নারায়ণগঞ্জ জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvTangail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="টাঙ্গাইল জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvKisorgong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="কিশোরগঞ্জ জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvManikGong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="মানিকগঞ্জ জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvMunsiGong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="মুন্সিগঞ্জ জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvRajbari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="রাজবাড়ী জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvforidpur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ফরিদপুর জেলা"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            />
+        <TextView
+            android:id="@+id/tvMadaripur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="মাদারীপুর জেলা"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:background="#ffffff"
+            android:padding="10dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            />
+        <TextView
+            android:id="@+id/tvGopalgonj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="গোপালগঞ্জ জেলা"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:background="#F5F5F5"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            />
+
+
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

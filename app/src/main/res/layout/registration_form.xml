@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/topViewHelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/dim5"
+        android:background="#82B538"
+        >
+        <ImageView
+            android:id="@+id/dissmissHelpBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:visibility="gone"
+            android:src="@drawable/back_white" />
+
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="রেজিস্ট্রেশন ফরম"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:textColor="@color/whiteMy" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/topViewHelp"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dim8"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+            <EditText
+                android:id="@+id/etNmae"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_bg"
+                android:padding="@dimen/dim10"
+                android:hint="নাম"
+                android:inputType="textCapSentences"
+                android:textSize="@dimen/dim15"
+                android:layout_marginTop="@dimen/dim10"
+                />
+
+        <EditText
+            android:id="@+id/etPoricjitiNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="পরিচিতি নং"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <EditText
+            android:id="@+id/etpodobi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="পদবী"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <EditText
+            android:id="@+id/etBach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="ব্যাচ"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <TextView
+            android:id="@+id/tvBcsTarikh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="বিসিএস প্রশাসন ক্যাডারে যোগদানের তারিখ"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <EditText
+            android:id="@+id/etBortomankormoStol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="বর্তমান কর্মস্থল"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <TextView
+            android:id="@+id/tbBortomanKomroTarikh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="বর্তমান কর্মস্থলে যোগদানের তারিখ"
+            android:textSize="@dimen/dim15"
+            android:inputType="number"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <TextView
+            android:id="@+id/tvJonmotarikh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="জন্ম তারিখ"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <EditText
+            android:id="@+id/etnijJela"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="নিজ জেলা"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <EditText
+            android:id="@+id/etSpousJela"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="স্পাউসের জেলা"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+
+        <EditText
+            android:id="@+id/etMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:inputType="number"
+            android:hint="মোবাইল নং"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="ই-মেইল"
+            android:textSize="@dimen/dim15"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="@dimen/dim10"
+            />
+
+        <EditText
+            android:id="@+id/etBoibahikObosta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="বৈবাহিক অবস্থা"
+            android:textSize="@dimen/dim15"
+            android:inputType="textCapSentences"
+            android:layout_marginTop="@dimen/dim10"
+            />
+
+        <EditText
+            android:id="@+id/etSthayeTikana"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="স্থায়ী ঠিকানা"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+
+        <EditText
+            android:id="@+id/etsikhaJuggta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="সর্বোচ্চ শিক্ষাগত যোগ্যতা"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+
+        <EditText
+            android:id="@+id/etsikhaJuggtaSompurno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="শিক্ষাগত যোগ্যতা (সম্পূর্ণ)"
+            android:textSize="@dimen/dim15"
+            android:inputType="textCapSentences"
+            android:layout_marginTop="@dimen/dim10"
+            />
+
+        <EditText
+            android:id="@+id/etPuratonCahkriSthol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="পূর্বতন চাকরি স্থল"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <EditText
+            android:id="@+id/etPuratonCahkriStholGulu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="পূর্বতন চাকরি স্থলগুলো"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/dim15"
+            android:layout_marginTop="@dimen/dim10"
+            />
+        <EditText
+            android:id="@+id/etJatioPorichyNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:padding="@dimen/dim10"
+            android:hint="জাতীয় পরিচয় পত্র নং"
+            android:textSize="@dimen/dim15"
+            android:inputType="number"
+            android:layout_marginTop="@dimen/dim10"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/linTakephoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/dim15"
+            >
+
+            <ImageView
+                android:id="@+id/imgPicture"
+                android:layout_width="@dimen/dim100"
+                android:layout_height="@dimen/dim100"
+                android:src="@drawable/camera"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ছবি সংযুক্ত করুন"
+                android:textSize="20sp"
+                />
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textSize="20sp"
+            android:paddingRight="@dimen/dim35"
+            android:paddingLeft="@dimen/dim35"
+            android:paddingBottom="@dimen/dim10"
+            android:paddingTop="@dimen/dim10"
+            android:layout_marginBottom="@dimen/dim30"
+            android:background="@drawable/submit_bg"
+            />
+    </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

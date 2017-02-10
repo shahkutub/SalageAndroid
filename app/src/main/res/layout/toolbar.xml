@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#4F5A78"
+    android:minHeight="?attr/actionBarSize"
+    local:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/img_home"
+            android:layout_width="@dimen/dim20"
+            android:visibility="gone"
+            android:layout_height="@dimen/dim20"
+            android:layout_centerVertical="true"
+            android:src="@drawable/home"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dim20"
+            />
+
+        <TextView
+            android:id="@+id/tvToolBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SALAGE           "
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.Toolbar>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <RelativeLayout
+        android:id="@+id/topViewHelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+      >
+        <ImageView
+            android:id="@+id/dissmissHelpBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:visibility="invisible"
+            android:src="@drawable/back_white" />
+
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ঢাকা জেলা"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+
+<WebView
+    android:id="@+id/webDjela"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+
+    >
+
+</WebView>
+</LinearLayout>

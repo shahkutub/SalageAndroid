@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="পদবি ভিত্তিক অফিসারের তালিকা"
+        android:textColor="#ffff"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#0563A8"
+        android:padding="5dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/tvDhaka"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="সহকারী কমিশনার"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#F5F5F5"
+                android:padding="10dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvGajipur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="সহকরী কমিশনার"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#ffffff"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvBNorsingdi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="অতিরিক্ত জেলা প্রশাসক"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#F5F5F5"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvSoriotPur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="সহকারি কমিশনার"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#ffffff"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvNetrokona"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="উপেজলা নির্বাহী অফিসার"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#F5F5F5"
+                android:padding="10dp"
+                />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvTangail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="অতিরিক্ত জেলা প্রশাসক (রাজস্ব)"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#ffffff"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvKisorgong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="জেলা প্রশাসক"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#F5F5F5"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvManikGong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="সহকারী কমিশনার (ভূমি)"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#ffffff"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvMunsiGong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="উপ-পরিচালক (উপ-সচিব)"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#F5F5F5"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvRajbari"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="অতিরিক্ত জেলা প্রশাসক, ফরিদপুর"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#ffffff"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvforidpur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="সহকারী কমশিনার"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#F5F5F5"
+                android:padding="10dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvMadaripur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="অতিরিক্ত জেলা প্রশাসক (সার্বিক)"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#ffffff"
+                android:padding="10dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+            <TextView
+                android:id="@+id/tvGopalgonj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="সিনিয়র সহকারী সচিব"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="#F5F5F5"
+                android:padding="10dp"
+                android:layout_marginBottom="20dp"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

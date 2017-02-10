@@ -1,0 +1,364 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        tools:context=".view.HomeActivity">
+        <!--
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/top_bar"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+         -->
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+
+        <FrameLayout
+            android:background="@android:color/white"
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/content_frame"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start"
+        android:background="#82B538"
+        android:layout_marginTop="0dp">
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:id="@+id/prochchod"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+=
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="প্রচ্ছদ"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+=
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/white"
+                                />
+
+                            <LinearLayout
+                                android:id="@+id/bivagPorichiti"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="বিভাগ পরিচিতি"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@color/black"
+                                        android:textSize="15sp" />
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+
+                            <LinearLayout
+                                android:id="@+id/jelaSomuho"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="জেলা সমূহ"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+
+                            </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+
+
+                            <LinearLayout
+                                android:id="@+id/kormokortaBrindo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="কর্মকর্তাবৃন্দ"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+                            <LinearLayout
+                                android:id="@+id/jelaProsasok"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="জেলা প্রশাসক"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+                            <LinearLayout
+                                android:id="@+id/otiriktJelaProsasok"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="অতিরিক্ত জেলা প্রশাসক"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+
+
+                            <LinearLayout
+                                android:id="@+id/otiriktoMejistrate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="অতিরিক্ত জেলা ম্যাজিস্ট্রেট"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+                            <LinearLayout
+                                android:id="@+id/upoPorichalok"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="উপ-পরিচালক (স্থানীয় সরকার)"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+                            <LinearLayout
+                                android:id="@+id/upojelaOfficer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="উপজেলা নির্বাহী অফিসার"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+                            <LinearLayout
+                                android:id="@+id/sohoKariCommissioner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="সহকারী কমিশনার(ভূমি)"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+                            <LinearLayout
+                                android:id="@+id/podobiBittik"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="পদবী ভিত্তিক"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+
+                            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+                            <LinearLayout
+                                android:id="@+id/sohokariBrindo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="সহকারীবৃন্দ"
+                                        android:gravity="center_horizontal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="15sp" />
+
+                                </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        />
+
+                </LinearLayout>
+
+
+
+    </android.support.design.widget.NavigationView>
+
+    <!--
+    <fragment
+        android:id="@+id/fragment_navigation_drawer"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:layout="@layout/fragment_navigation_drawer"
+        tools:layout="@layout/fragment_navigation_drawer" />
+ -->
+</android.support.v4.widget.DrawerLayout>

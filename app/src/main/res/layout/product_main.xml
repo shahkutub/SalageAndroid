@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8E8E8"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/product_bg"
+        android:layout_marginTop="@dimen/dim20"
+        android:layout_marginLeft="@dimen/dim20"
+        android:layout_marginRight="@dimen/dim20"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim10"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+                android:text="Codice/barcode"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+                android:text=""
+                android:hint="codice/barcode"
+                android:background="#ffffff"
+                android:padding="@dimen/dim10"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ADADAD"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim10"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+                android:text="prodotti"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+                android:text="prodotti"
+                android:background="#ffffff"
+                android:padding="@dimen/dim10"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ADADAD"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="class"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dim50"
+                ></Spinner>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ADADAD"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="sottoclasse"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dim50"
+                ></Spinner>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ADADAD"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim10"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="marche"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dim50"
+                ></Spinner>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ADADAD"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim10"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="action"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="CERCA"
+                android:layout_height="@dimen/dim70"
+                android:id="@+id/textView3" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

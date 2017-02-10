@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="বিভাগীয় কমিশনারের কার্যালয়ের সকল কর্মকর্তাদের তালিকা"
+        android:textColor="#ffff"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#0563A8"
+        android:padding="5dp"
+        />
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"
+    />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <TextView
+        android:id="@+id/tvBivaComi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="বিভাগীয় কমিশনার"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvBivaComiOti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="অতিরিক্ত বিভাগীয় কমিশনার (সার্বিক)"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvBivaComiRsjo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="অতিরিক্ত বিভাগীয় কমিশনার (রাজস্ব)"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvPoricalok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="পরিচালক"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvAppMb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="অতিরিক্ত কমিশনার (এপিএমবি)"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvUpPoricalok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="উপ-পরিচালক"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvSohoRajo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="সহকারী কমিশনার (রাজস্ব)"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvSohoKomiSar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="সহকারী কমিশনার (সার্বিক)"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvSohoKomiUnn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="সহকারী কমিশনার (উন্নয়ন)"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvSohoKomiMat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="সহকারী কমিশনার (মাঠ প্রশাসন)"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tvSohokomiApmb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="সহকারী কমিশনার (এপিএমবি)"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="#F5F5F5"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>
