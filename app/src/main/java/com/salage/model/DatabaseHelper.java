@@ -772,6 +772,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 	}
 
+	public void addCategory(CateGoryInfo cateGoryInfo) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(CATE_CATE_ID, cateGoryInfo.getCATE_ID());
+		values.put(CATE_CATE_DESCRIPTION, cateGoryInfo.getCATE_DESCRIPTION());
+		values.put(CATE_CATE_TIMESTAMP, cateGoryInfo.getCATE_TIMESTAMP());
+		values.put(CATE_IS_DELETED, cateGoryInfo.getIS_DELETED());
+		// Inserting Row
+		db.insert(TABLE_cate_categories, null, values);
+		db.close(); // Closing database connection
+	}
+
 
 	public void addSubcategory(SubCatTableInfo subCatTableInfo) {
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -1116,6 +1129,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 
+
+	// Getting All CatTableInfo
+	public List<CateGoryInfo> getAllCategories() {
+		List<CateGoryInfo> catList = new ArrayList<CateGoryInfo>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_cate_categories;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				CateGoryInfo document = new CateGoryInfo();
+				document.setId(cursor.getString(0));
+				document.setCATE_ID(cursor.getString(1));
+				document.setCATE_DESCRIPTION(cursor.getString(2));
+				document.setCATE_TIMESTAMP(cursor.getString(3));
+				document.setIS_DELETED(cursor.getString(4));
+				// Adding contact to list
+				catList.add(document);
+			} while (cursor.moveToNext());
+		}
+
+		// return contact list
+		return catList;
+	}
+
 	// Getting All SubCatTableInfo
 	public List<SubCatTableInfo> getAllSubcategories() {
 		List<SubCatTableInfo> subCatList = new ArrayList<SubCatTableInfo>();
@@ -1149,7 +1190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public List<ProductTableInfo> getAllProducts() {
 		List<ProductTableInfo> subCatList = new ArrayList<ProductTableInfo>();
 		// Select All Query
-		String selectQuery = "SELECT  * FROM " + TABLE_user_users;
+		String selectQuery = "SELECT  * FROM " + TABLE_prod_products;
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
@@ -1299,7 +1340,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 	// Updating single contact
-//	public int updateContact(Contact contact,String name) {
+//	public int updateContact(ProductTableInfo contact,String name) {
 //		SQLiteDatabase db = this.getWritableDatabase();
 //
 //		ContentValues values = new ContentValues();

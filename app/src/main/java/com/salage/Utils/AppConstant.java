@@ -1,7 +1,14 @@
 package com.salage.Utils;
 
 
+import android.util.Log;
+
+import com.salage.model.CateGoryInfo;
+import com.salage.model.DatabaseHelper;
 import com.salage.model.UpojelaOfficerInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shohel on 2/15/2016.
@@ -30,5 +37,18 @@ public class AppConstant {
     public static int CAMERA_RUNTIME_PERMISSION=2,WRITEEXTERNAL_PERMISSION_RUNTIME=3,LOCATION_PERMISSION=4;
     public static boolean isGallery=false;
     public static UpojelaOfficerInfo upojelaOfficerInfo = new UpojelaOfficerInfo();
+
+    public static List getCat(DatabaseHelper db){
+        List<CateGoryInfo> cateGoryInfoList= new ArrayList<CateGoryInfo>();
+        cateGoryInfoList = db.getAllCategories();
+        Log.e("cat size: ", ""+cateGoryInfoList.size());
+        for (CateGoryInfo cd : cateGoryInfoList) {
+            String log = "cat_des: "+cd.getCATE_DESCRIPTION()+" ,catId: " + cd.getCATE_ID();
+            // Writing Contacts to log
+            Log.e("cat DATA: ", log);
+
+        }
+        return cateGoryInfoList;
+    }
 
 }

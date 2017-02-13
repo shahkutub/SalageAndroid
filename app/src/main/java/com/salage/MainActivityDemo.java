@@ -29,14 +29,31 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.icteuro.salage.R;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.salage.Utils.AlertMessage;
 import com.salage.Utils.AppConstant;
+import com.salage.Utils.BusyDialog;
+import com.salage.Utils.NetInfo;
 import com.salage.Utils.PersistentUser;
+import com.salage.model.AgentInfo;
+import com.salage.model.CateGoryInfo;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.DocumentTableInfo;
+import com.salage.model.JsonInfo;
+import com.salage.model.JsonStructure;
+import com.salage.model.PriceListTableInfo;
+import com.salage.model.ProductTableInfo;
+import com.salage.model.SyncResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by User on 2/4/2017.
@@ -58,6 +75,14 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
    Activity activity;
     private DatabaseHelper db;
     private List<DocumentTableInfo> documentTableInfoList  = new ArrayList<>();
+    private List<ProductTableInfo> ProductTableInfoList  = new ArrayList<>();
+    private List<CateGoryInfo> cateGoryInfoList  = new ArrayList<>();
+
+    private String json;
+    private JsonStructure jsonStructure;
+    private Vector<JsonInfo> listVec = new Vector<JsonInfo>();
+    SyncResponse syncResponse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +139,6 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
 
 
     private void initUi() {
-        insertContact();
         buttonView = (ScrollView)findViewById(R.id.buttonView);
         linNav = (LinearLayout)findViewById(R.id.linNav);
         linConfig = (LinearLayout)findViewById(R.id.linConfig);
@@ -217,11 +241,118 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             }
         });
 
-
+        makeJson();
     }
 
 
-    private void insertContact() {
+    private void makeJson() {
+
+        JsonInfo jsonInfo = new JsonInfo();
+        jsonInfo.setTableName("cate_categories");
+        jsonInfo.setIdName("CATE_ID");
+        listVec.add(jsonInfo);
+
+        JsonInfo jsonInfo1 = new JsonInfo();
+        jsonInfo1.setTableName("subc_subcategories");
+        jsonInfo1.setIdName("SUBC_ID");
+        listVec.add(jsonInfo1);
+
+        JsonInfo jsonInfo2 = new JsonInfo();
+        jsonInfo2.setTableName("conf_config");
+        jsonInfo2.setIdName("CONF_CO_CODE");
+        listVec.add(jsonInfo2);
+
+        JsonInfo jsonInfo3 = new JsonInfo();
+        jsonInfo3.setTableName("doch_document_heads");
+        jsonInfo3.setIdName("DOCH_ID");
+        listVec.add(jsonInfo3);
+
+        JsonInfo jsonInfo4 = new JsonInfo();
+        jsonInfo4.setTableName("doch_document_rows");
+        jsonInfo4.setIdName("DOCR_ROWNUM");
+        listVec.add(jsonInfo4);
+
+        JsonInfo jsonInfo5 = new JsonInfo();
+        jsonInfo5.setTableName("cust_customers");
+        jsonInfo5.setIdName("CUST_CODE");
+        listVec.add(jsonInfo5);
+
+        JsonInfo jsonInfo6 = new JsonInfo();
+        jsonInfo6.setTableName("prod_products");
+        jsonInfo6.setIdName("PROD_CODE");
+        listVec.add(jsonInfo6);
+
+        JsonInfo jsonInfo7 = new JsonInfo();
+        jsonInfo7.setTableName("paym_payments");
+        jsonInfo7.setIdName("PAYM_ID");
+        listVec.add(jsonInfo7);
+
+        JsonInfo jsonInfo8 = new JsonInfo();
+        jsonInfo8.setTableName("vatt_vat");
+        jsonInfo8.setIdName("VATT_ID");
+        listVec.add(jsonInfo8);
+
+        JsonInfo jsonInfo9 = new JsonInfo();
+        jsonInfo9.setTableName("conf_config");
+        jsonInfo9.setIdName("CONF_CO_CODE");
+        listVec.add(jsonInfo9);
+
+
+        JsonInfo jsonInfo10 = new JsonInfo();
+        jsonInfo10.setTableName("pric_pricelists");
+        jsonInfo10.setIdName("");
+        listVec.add(jsonInfo10);
+
+        JsonInfo jsonInfo11 = new JsonInfo();
+        jsonInfo11.setTableName("barc_barcodes");
+        jsonInfo11.setIdName("BARC_BARCODE");
+        listVec.add(jsonInfo11);
+
+        JsonInfo jsonInfo12 = new JsonInfo();
+        jsonInfo12.setTableName("bran_brands");
+        jsonInfo12.setIdName("BRAN_ID");
+        listVec.add(jsonInfo12);
+
+        JsonInfo jsonInfo13 = new JsonInfo();
+        jsonInfo13.setTableName("agen_agents");
+        jsonInfo13.setIdName("AGEN_CODE");
+        listVec.add(jsonInfo13);
+
+        JsonInfo jsonInfo14 = new JsonInfo();
+        jsonInfo14.setTableName("dest_destinations");
+        jsonInfo14.setIdName("DEST_ID");
+        listVec.add(jsonInfo14);
+
+        JsonInfo jsonInfo15 = new JsonInfo();
+        jsonInfo15.setTableName("catd_categoriesdiscounts");
+        jsonInfo15.setIdName("");
+        listVec.add(jsonInfo15);
+
+        JsonInfo jsonInfo16 = new JsonInfo();
+        jsonInfo16.setTableName("cupr_customersproducts");
+        jsonInfo16.setIdName("");
+        listVec.add(jsonInfo16);
+
+         Vector<AgentInfo> listAgent = new Vector<AgentInfo>();
+         AgentInfo agentInfo = new AgentInfo();
+         agentInfo.setAGEN_CODE("ASH101");
+        listAgent.add(agentInfo);
+
+
+        jsonStructure = new JsonStructure();
+        jsonStructure.setInfo(listAgent);
+        jsonStructure.setData(listVec);
+
+        Gson gson = new Gson();
+        json = gson.toJson(jsonStructure);
+        Log.e("gson Data", "" + json);
+
+   syncData("http://www.ict-euro.com/demo/salage/websync/index");
+
+        listVec.clear();
+    }
+
+    private void insertDocumentHed() {
 
         /**
          * CRUD Operations
@@ -239,6 +370,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         Log.d("Reading: ", "Reading all contacts..");
 
         documentTableInfoList = db.getAllDocumentss();
+
         for (DocumentTableInfo cn : documentTableInfoList) {
             String log = "Id: "+cn.getAGEN_CODE()+" ,Name: " + cn.getCUST_NAME1() + " ,Phone: " + cn.getDOCH_TERM_ID();
             // Writing Contacts to log
@@ -427,4 +559,170 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             //linProductMain.setVisibility(View.VISIBLE);
         }
     }
+
+
+    protected void syncData(final String url) {
+
+        if (!NetInfo.isOnline(con)) {
+            AlertMessage.showMessage(con, "Alert",
+                    "No Internet");
+            return;
+        }
+
+        final BusyDialog busyNow = new BusyDialog(con, true, false);
+        busyNow.show();
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+
+        final RequestParams param = new RequestParams();
+
+        try {
+
+            param.put("json_data", json);
+
+        } catch (final Exception e1) {
+            e1.printStackTrace();
+        }
+
+        client.post(url, param, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (busyNow != null) {
+                    busyNow.dismis();
+                }
+
+                Log.e("resposne ", ">>" + new String(responseBody));
+
+                Gson g = new Gson();
+                syncResponse = g.fromJson(new String(responseBody), SyncResponse.class);
+
+                if(syncResponse.getData().getCate_categories().size()>0){
+                    List<CateGoryInfo> categoryData =new ArrayList<CateGoryInfo>();
+                    categoryData.addAll(syncResponse.getData().getCate_categories());
+
+                    for(int i = 0; i < categoryData.size(); i++) {
+                        db.addCategory(new CateGoryInfo(categoryData.get(i).getCATE_ID(),
+                                categoryData.get(i).getCATE_DESCRIPTION(),categoryData.get(i).getCATE_TIMESTAMP(),
+                                categoryData.get(i).getIS_DELETED()));
+
+                        cateGoryInfoList = db.getAllCategories();
+                        Log.e("cat size: ", ""+cateGoryInfoList.size());
+                        for (CateGoryInfo cd : cateGoryInfoList) {
+                            String log = "cat_des: "+cd.getCATE_DESCRIPTION()+" ,catId: " + cd.getCATE_ID();
+                            // Writing Contacts to log
+                            Log.e("cat DATA: ", log);
+
+                        }
+
+                    }
+
+                }
+
+
+                if(syncResponse.getData().getProd_products().size()>0){
+                    List<ProductTableInfo> proDcData =new ArrayList<ProductTableInfo>();
+                    proDcData.addAll(syncResponse.getData().getProd_products());
+
+                    for(int i = 0; i < proDcData.size(); i++) {
+                       db.addProduct(new ProductTableInfo(proDcData.get(i).getPROD_CODE(),
+                               proDcData.get(i).getPROD_DESCRIPTION(), proDcData.get(i).getCATE_ID(),
+                               proDcData.get(i).getSUBC_ID(), proDcData.get(i).getBRAN_ID(),
+                               proDcData.get(i).getSUPP_ID(), proDcData.get(i).getPROD_MU(),
+                               proDcData.get(i).getPROD_MIN_QT(), proDcData.get(i).getPROD_P0(),
+                               proDcData.get(i).getPROD_P1(),
+                               proDcData.get(i).getPROD_P2(), proDcData.get(i).getPROD_P3(),
+                               proDcData.get(i).getPROD_P4(), proDcData.get(i).getPROD_P5(),
+                               proDcData.get(i).getPROD_P6(),
+                               proDcData.get(i).getPROD_P7(), proDcData.get(i).getPROD_P8(),
+                               proDcData.get(i).getPROD_P9(), proDcData.get(i).getVATT_ID(),
+                               proDcData.get(i).getPROD_AVL_QTY(),
+                               proDcData.get(i).getPROD_IMAGE(), proDcData.get(i).getPROD_PDF(),
+                               proDcData.get(i).getPROD_TIMESTAMP(), proDcData.get(i).getPROD_AVL_TIMESTAMP(),
+                               proDcData.get(i).getIS_DELETED()));
+
+                        ProductTableInfoList = db.getAllProducts();
+                        Log.e("PROD size: ", ""+ProductTableInfoList.size());
+                        for (ProductTableInfo pd : ProductTableInfoList) {
+                            String log = "PROD_CODE: "+pd.getPROD_CODE()+" ,PROD_P0: " + pd.getPROD_P0() + " ,PROD_P4: " + pd.getPROD_P4();
+                            // Writing Contacts to log
+                            Log.e("PROD DATA: ", log);
+
+                        }
+
+                    }
+
+                }
+
+                if(syncResponse.getData().getDoch_document_heads().size()>0){
+                     List<DocumentTableInfo> docData =new ArrayList<DocumentTableInfo>();
+                    docData.addAll(syncResponse.getData().getDoch_document_heads());
+
+
+                    for(int i = 0; i < docData.size(); i++) {
+                        Log.e("DOC DATA",""+docData.get(0).getCUST_NAME1());
+                        db.addDocument(new DocumentTableInfo(docData.get(i).getDOCH_TERM_CODE(),
+                                docData.get(i).getDOCH_TERM_ID(),docData.get(i).getDOCH_TYPE(),
+                                docData.get(i).getDOCH_NUMBER(),docData.get(i).getDOCH_DATE(),
+                                docData.get(i).getAGEN_CODE(),
+                                docData.get(i).getDOCH_PRICELIST(),docData.get(i).getCUST_CODE(),
+                                docData.get(i).getCUST_NAME1(),docData.get(i).getCUST_NAME2(),
+                                docData.get(i).getCUST_ADDRESS(),docData.get(i).getCUST_ZIP(),
+                                docData.get(i).getCUST_CITY(),docData.get(i).getCUST_MAIL(),
+                                docData.get(i).getCUST_PROVINCE(),docData.get(i).getCUST_COUNTRY(),
+                                docData.get(i).getCUST_DISCOUNT(),docData.get(i).getSPECIAL_VATT(),
+                                docData.get(i).getDEST_ID(),
+                                docData.get(i).getDEST_NAME(),docData.get(i).getDEST_ADDRESS(),
+                                docData.get(i).getDEST_ZIP(),docData.get(i).getDEST_CITY(),
+                                docData.get(i).getDEST_PROVINCE(),docData.get(i).getDEST_COUNTRY(),
+                                docData.get(i).getVATT_ID(),docData.get(i).getPAYM_ID(),
+                                docData.get(i).getDOCH_NOTE(),docData.get(i).getDOCH_TAXABLE(),
+                                docData.get(i).getDOCH_VAT(),docData.get(i).getDOCH_TOTAL(),
+                                docData.get(i).getDOCH_SENT(),docData.get(i).getIS_DELETED(),
+                                docData.get(i).getDOCH_TIMESTAMP()));
+
+                        documentTableInfoList = db.getAllDocumentss();
+                        Log.e("DB DATA: ", ""+documentTableInfoList.size());
+                        for (DocumentTableInfo cn : documentTableInfoList) {
+                            String log = "Id: "+cn.getAGEN_CODE()+" ,Name: " + cn.getCUST_NAME1() + " ,Phone: " + cn.getDOCH_TERM_ID();
+                            // Writing Contacts to log
+                            Log.e("DB DATA: ", log);
+
+                        }
+
+                    }
+
+//                    for (DocumentTableInfo cn : syncResponse.getData().doch_document_heads) {
+//                        db.addDocument(new DocumentTableInfo("sd","dff","ff","ff","ff","ss","ff","vv","bb",
+//                                "ss","cc","tt","tt","j","hj","jj","h","h","h","j","m","m",
+//                                "x","c","c","c","v","v","c","c","v","v","v","v"));
+//
+//                    }
+                }
+                //insertDocumentHed();
+               // Log.e("status", "" + jAnsModel.getStatus());
+
+//                if (jAnsModel.getStatus().equalsIgnoreCase("true")) {
+//
+//                    Toast.makeText(con, jAnsModel.getMessage() + "",
+//                            Toast.LENGTH_LONG).show();
+//
+//                    finish();
+//
+//                } else {
+//
+//                    AlertMessage.showMessage(con, "Status",
+//                            jAnsModel.getMessage() + "");
+//                    return;
+//                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        } );
+
+    }
+
 }

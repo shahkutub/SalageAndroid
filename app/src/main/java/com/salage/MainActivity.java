@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +26,14 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.icteuro.salage.R;
+import com.salage.model.JsonInfo;
+import com.salage.model.JsonStructure;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener{
 
@@ -416,6 +421,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 				 */
             }
         };
+
+
 
     }
 
