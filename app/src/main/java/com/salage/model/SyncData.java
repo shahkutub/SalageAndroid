@@ -13,6 +13,24 @@ public class SyncData {
     public List<DocumentTableInfo> doch_document_heads =new ArrayList<DocumentTableInfo>();
     public List<ProductTableInfo> prod_products =new ArrayList<ProductTableInfo>();
     public List<CateGoryInfo> cate_categories =new ArrayList<CateGoryInfo>();
+    public List<SubCatTableInfo> subc_subcategories =new ArrayList<SubCatTableInfo>();
+    public List<BrandsTableInfo> bran_brands =new ArrayList<BrandsTableInfo>();
+
+    public List<BrandsTableInfo> getBran_brands() {
+        return bran_brands;
+    }
+
+    public void setBran_brands(List<BrandsTableInfo> bran_brands) {
+        this.bran_brands = bran_brands;
+    }
+
+    public List<SubCatTableInfo> getSubc_subcategories() {
+        return subc_subcategories;
+    }
+
+    public void setSubc_subcategories(List<SubCatTableInfo> subc_subcategories) {
+        this.subc_subcategories = subc_subcategories;
+    }
 
     public List<CateGoryInfo> getCate_categories() {
         return cate_categories;

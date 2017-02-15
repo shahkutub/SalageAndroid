@@ -790,11 +790,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
+		values.put(SUBC_ID, subCatTableInfo.getSUBC_ID());
 		values.put(SUBC_CATE_ID, subCatTableInfo.getCATE_ID());
-		values.put(SUBC_CATE_ID, subCatTableInfo.getSUBC_ID());
 		values.put(SUBC_DESCRIPTION, subCatTableInfo.getSUBC_DESCRIPTION());
 		values.put(SUBC_TIMESTAMP, subCatTableInfo.getSUBC_TIMESTAMP());
-		values.put(SUBC_CATE_ID, subCatTableInfo.getSUBC_ID());
+		values.put(SUBC_IS_DELETED, subCatTableInfo.getIS_DELETED());
 		// Inserting Row
 		db.insert(TABLE_subc_subcategories, null, values);
 		db.close(); // Closing database connection
@@ -1353,13 +1353,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //	}
 
 	// Deleting single contact
-//	public void deleteContact(Contact contact) {
-//		SQLiteDatabase db = this.getWritableDatabase();
-//		db.delete(TABLE_CONTACTS, KEY_NAME + " = ?",
-//				new String[] { String.valueOf(contact.getName()) });
-//		db.close();
-//	}
+	public void deleteCatagory() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_cate_categories);
+		db.close();
+	}
 
+	public void deleteBrands() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_BRANDS);
+		db.close();
+	}
+
+	public void deleteSubCatagory() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_subc_subcategories);
+		db.close();
+	}
+
+	public void deleteProduct() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_prod_products);
+		db.close();
+	}
+
+	public void deleteDocument() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_DOCUMENTS);
+		db.close();
+	}
 
 	// Getting contacts Count
 //	public int getContactsCount() {

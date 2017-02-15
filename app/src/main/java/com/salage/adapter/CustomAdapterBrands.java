@@ -7,24 +7,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.icteuro.salage.R;
+import com.salage.model.BrandsTableInfo;
 import com.salage.model.CateGoryInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends BaseAdapter implements AdapterView.OnItemSelectedListener{
+public class CustomAdapterBrands extends BaseAdapter implements AdapterView.OnItemSelectedListener{
     Context context;
     int flags[];
-    List <CateGoryInfo> lisCat = new ArrayList<>();
+    List <BrandsTableInfo> lisCat = new ArrayList<>();
     LayoutInflater inflter;
     private RelativeLayout relView;
     private List<String> subDes = new ArrayList<String>();
-    public CustomAdapter(Context applicationContext, List<CateGoryInfo> lisCat) {
+    public CustomAdapterBrands(Context applicationContext, List<BrandsTableInfo> lisCat) {
         this.context = applicationContext;
         this.lisCat = lisCat;
         inflter = (LayoutInflater.from(applicationContext));
@@ -57,7 +57,7 @@ public class CustomAdapter extends BaseAdapter implements AdapterView.OnItemSele
         relView  = (RelativeLayout) view.findViewById(R.id.relView);
         TextView tvCtName = (TextView)view.findViewById(R.id.tvCtName);
 
-        tvCtName.setText(lisCat.get(i).getCATE_DESCRIPTION());
+        tvCtName.setText(lisCat.get(i).getBRAN_DESCRIPTION());
        // icon.setImageResource(flags[i]);
         return view;
     }

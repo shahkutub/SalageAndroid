@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dim5"
+        android:layout_marginLeft="@dimen/dim10"
+        android:layout_marginRight="@dimen/dim10"
+        android:background="@drawable/edittext_bg"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim5"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="Codice/barcode:"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvCode"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text=""
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim5"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="prodotti:"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvProdotti"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text=""
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim5"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="classe:"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvClasse"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text=""
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim5"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text="marche:"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvMarche"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/dim15"
+
+                android:text=""
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgVisibility"
+            android:layout_width="@dimen/dim30"
+            android:layout_height="@dimen/dim30"
+            android:src="@drawable/ic_visibility_black_24dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dim10"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -17,16 +17,16 @@ import com.salage.model.CateGoryInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends BaseAdapter implements AdapterView.OnItemSelectedListener{
+public class CustomAdapterSubCat extends BaseAdapter implements AdapterView.OnItemSelectedListener{
     Context context;
     int flags[];
     List <CateGoryInfo> lisCat = new ArrayList<>();
     LayoutInflater inflter;
     private RelativeLayout relView;
     private List<String> subDes = new ArrayList<String>();
-    public CustomAdapter(Context applicationContext, List<CateGoryInfo> lisCat) {
+    public CustomAdapterSubCat(Context applicationContext, List<String> subDes) {
         this.context = applicationContext;
-        this.lisCat = lisCat;
+        this.subDes =  subDes;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
@@ -38,7 +38,7 @@ public class CustomAdapter extends BaseAdapter implements AdapterView.OnItemSele
 //    }
     @Override
     public int getCount() {
-        return lisCat.size();
+        return subDes.size();
     }
 
     @Override
@@ -57,14 +57,16 @@ public class CustomAdapter extends BaseAdapter implements AdapterView.OnItemSele
         relView  = (RelativeLayout) view.findViewById(R.id.relView);
         TextView tvCtName = (TextView)view.findViewById(R.id.tvCtName);
 
-        tvCtName.setText(lisCat.get(i).getCATE_DESCRIPTION());
+            tvCtName.setText(subDes.get(i));
+
+
        // icon.setImageResource(flags[i]);
         return view;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        relView.setBackgroundColor(Color.MAGENTA);
+        relView.setBackgroundColor(Color.parseColor("#969696"));
     }
 
     @Override

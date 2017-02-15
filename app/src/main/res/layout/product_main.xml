@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
     >
 
+
+    <ScrollView
+        android:id="@+id/scTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim10"
+        android:layout_marginBottom="@dimen/dim10"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/product_bg"
-        android:layout_marginTop="@dimen/dim20"
+
         android:layout_marginLeft="@dimen/dim20"
         android:layout_marginRight="@dimen/dim20"
         >
@@ -68,23 +81,32 @@
             android:background="#ADADAD"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dim10"
+            android:layout_height="@dimen/dim50"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             >
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight=".5"
                 android:textSize="@dimen/dim15"
-
+                android:padding="@dimen/dim10"
                 android:text="class"
                 android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="#D6D7D7"
+                >
             <Spinner
                 android:id="@+id/spinnerClass"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dim50"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 ></Spinner>
+
+            </LinearLayout>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -93,22 +115,33 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dim10"
+            android:layout_height="@dimen/dim50"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
+
             >
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight=".5"
                 android:textSize="@dimen/dim15"
-
-                android:text="sottoclasse"
+                android:padding="@dimen/dim5"
+                android:text="sottoclass"
                 android:layout_height="wrap_content" />
-            <Spinner
+
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dim50"
-                ></Spinner>
+                android:layout_weight="1.5"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="#D6D7D7"
+                >
+                <Spinner
+                    android:id="@+id/spinnerSottoClass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    ></Spinner>
+
+            </LinearLayout>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -117,22 +150,33 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dim10"
+            android:layout_height="@dimen/dim50"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
+
             >
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight=".5"
                 android:textSize="@dimen/dim15"
-
+                android:padding="@dimen/dim10"
                 android:text="marche"
                 android:layout_height="wrap_content" />
-            <Spinner
+
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dim50"
-                ></Spinner>
+                android:layout_weight="1.5"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="#D6D7D7"
+                >
+                <Spinner
+                    android:id="@+id/spinnerMarche"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    ></Spinner>
+
+            </LinearLayout>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -142,7 +186,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dim10"
+            android:padding="@dimen/dim5"
+
             >
             <TextView
                 android:layout_width="0dp"
@@ -152,16 +197,98 @@
                 android:text="action"
                 android:layout_height="wrap_content" />
 
-            <Button
+            <TextView
+                android:id="@+id/tvSearch"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textSize="@dimen/dim15"
-
+                android:background="@color/gray"
                 android:text="CERCA"
-                android:layout_height="@dimen/dim70"
+                android:gravity="center"
+                android:layout_height="@dimen/dim50"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dim10"
+            android:padding="@dimen/dim20"
+
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dim15"
+                android:text="Show"
+                />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                ></Spinner>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/dim15"
+                android:text="Entries"
+                android:layout_height="wrap_content"
                 android:id="@+id/textView3" />
         </LinearLayout>
 
+        <ListView
+            android:id="@+id/listProDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
 
-    </LinearLayout>
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dim5"
+            android:textSize="@dimen/dim15"
+            android:gravity="center"
+            android:text="Showing 0 to 0 of 0 entries"
+            android:id="@+id/textView" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/dim5"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dim15"
+                android:text="Privious"
+                android:layout_marginRight="@dimen/dim10"
+                />
+
+            <TextView
+                android:layout_width="@dimen/dim30"
+                android:layout_height="@dimen/dim30"
+                android:textSize="@dimen/dim15"
+                android:text="1"
+                android:gravity="center"
+                android:background="@drawable/edittext_bg"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/dim15"
+                android:text="Next"
+                android:layout_marginLeft="@dimen/dim10"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

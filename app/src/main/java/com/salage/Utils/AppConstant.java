@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.salage.model.CateGoryInfo;
 import com.salage.model.DatabaseHelper;
+import com.salage.model.ProductTableInfo;
 import com.salage.model.UpojelaOfficerInfo;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class AppConstant {
     public static int CAMERA_RUNTIME_PERMISSION=2,WRITEEXTERNAL_PERMISSION_RUNTIME=3,LOCATION_PERMISSION=4;
     public static boolean isGallery=false;
     public static UpojelaOfficerInfo upojelaOfficerInfo = new UpojelaOfficerInfo();
+    public static ProductTableInfo productTableInfo = new ProductTableInfo();
+
 
     public static List getCat(DatabaseHelper db){
         List<CateGoryInfo> cateGoryInfoList= new ArrayList<CateGoryInfo>();

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1F1F1"
+    >
+
+    <RelativeLayout
+        android:background="#4F5A78"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:id="@+id/topViewNewList">
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/catHeadText"
+            android:textColor="@color/whiteMy"
+            android:textSize="20sp"
+            android:text="testata protti"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            />
+
+        <ImageView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:padding="@dimen/dim10"
+            android:id="@+id/dissmissCatListBtn"
+            android:src="@drawable/back_white"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/edittext_bg"
+        android:layout_margin="@dimen/dim10"
+
+        >
+
+        <ImageView
+            android:id="@+id/imgProd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim170"
+            android:src="@drawable/ic_launcher"
+            />
+
+        <TextView
+            android:id="@+id/tvCodedPro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/black"
+            android:padding="@dimen/dim15"
+            android:background="@drawable/edittext_bg"
+            />
+
+        <TextView
+            android:id="@+id/tvDescriptPro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/black"
+            android:padding="@dimen/dim15"
+            android:background="@drawable/edittext_bg"
+            />
+        <TextView
+            android:id="@+id/tvLinkPdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/black"
+            android:padding="@dimen/dim15"
+            android:background="@drawable/edittext_bg"
+            />
+        <TextView
+            android:id="@+id/tvCat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/black"
+            android:padding="@dimen/dim15"
+            android:background="@drawable/edittext_bg"
+            /><TextView
+        android:id="@+id/tvSubCat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:padding="@dimen/dim15"
+        android:background="@drawable/edittext_bg"
+        />
+
+        <TextView
+            android:id="@+id/tvMarche"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/black"
+            android:padding="@dimen/dim15"
+            android:background="@drawable/edittext_bg"
+            />
+
+        <TextView
+            android:id="@+id/tvIva"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/black"
+            android:padding="@dimen/dim15"
+            android:background="@drawable/edittext_bg"
+            />
+
+
+
+        <TextView
+            android:id="@+id/tvSup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/black"
+            android:padding="@dimen/dim15"
+            android:background="@drawable/edittext_bg"
+            />
+
+        <TextView
+            android:id="@+id/tvBarcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/black"
+            android:padding="@dimen/dim15"
+            android:layout_marginBottom="@dimen/dim30"
+            android:background="@drawable/edittext_bg"
+            />
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

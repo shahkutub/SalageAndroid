@@ -40,6 +40,7 @@ import com.salage.Utils.BusyDialog;
 import com.salage.Utils.NetInfo;
 import com.salage.Utils.PersistentUser;
 import com.salage.model.AgentInfo;
+import com.salage.model.BrandsTableInfo;
 import com.salage.model.CateGoryInfo;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.DocumentTableInfo;
@@ -47,6 +48,7 @@ import com.salage.model.JsonInfo;
 import com.salage.model.JsonStructure;
 import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
+import com.salage.model.SubCatTableInfo;
 import com.salage.model.SyncResponse;
 
 import java.util.ArrayList;
@@ -77,6 +79,9 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     private List<DocumentTableInfo> documentTableInfoList  = new ArrayList<>();
     private List<ProductTableInfo> ProductTableInfoList  = new ArrayList<>();
     private List<CateGoryInfo> cateGoryInfoList  = new ArrayList<>();
+    private List<SubCatTableInfo> subcateGoryInfoList  = new ArrayList<>();
+    private List<BrandsTableInfo> brandsTableInfoList  = new ArrayList<>();
+
 
     private String json;
     private JsonStructure jsonStructure;
@@ -347,7 +352,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         json = gson.toJson(jsonStructure);
         Log.e("gson Data", "" + json);
 
-   syncData("http://www.ict-euro.com/demo/salage/websync/index");
+   syncData("http://www.ict-euro.com/demo/salage/websync_native/index");
 
         listVec.clear();
     }
@@ -596,124 +601,143 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                 Gson g = new Gson();
                 syncResponse = g.fromJson(new String(responseBody), SyncResponse.class);
 
-                if(syncResponse.getData().getCate_categories().size()>0){
-                    List<CateGoryInfo> categoryData =new ArrayList<CateGoryInfo>();
-                    categoryData.addAll(syncResponse.getData().getCate_categories());
+                if(syncResponse!=null){
 
-                    for(int i = 0; i < categoryData.size(); i++) {
-                        db.addCategory(new CateGoryInfo(categoryData.get(i).getCATE_ID(),
-                                categoryData.get(i).getCATE_DESCRIPTION(),categoryData.get(i).getCATE_TIMESTAMP(),
-                                categoryData.get(i).getIS_DELETED()));
 
-                        cateGoryInfoList = db.getAllCategories();
-                        Log.e("cat size: ", ""+cateGoryInfoList.size());
-                        for (CateGoryInfo cd : cateGoryInfoList) {
-                            String log = "cat_des: "+cd.getCATE_DESCRIPTION()+" ,catId: " + cd.getCATE_ID();
-                            // Writing Contacts to log
-                            Log.e("cat DATA: ", log);
+                    if(syncResponse.getData().getBran_brands().size()>0){
+                        List<BrandsTableInfo> brandsTableInfo =new ArrayList<BrandsTableInfo>();
+                        brandsTableInfo.addAll(syncResponse.getData().getBran_brands());
+                        db.deleteBrands();
+                        for(int i = 0; i < brandsTableInfo.size(); i++) {
+
+                            db.addBrand(new BrandsTableInfo(brandsTableInfo.get(i).getBRAN_ID(),
+                                    brandsTableInfo.get(i).getBRAN_DESCRIPTION(),brandsTableInfo.get(i).getBRAN_TIMESTAMP(),
+                                    brandsTableInfo.get(i).getIS_DELETED()));
+
+                            brandsTableInfoList = db.getAllBrands();
+                            Log.e("cat size: ", ""+brandsTableInfoList.size());
+                            for (BrandsTableInfo cd : brandsTableInfoList) {
+                                String log = "BRAN_DESCRIPTION: "+cd.getBRAN_DESCRIPTION()+" ,BRAN_ID: " + cd.getBRAN_ID();
+                                // Writing Contacts to log
+                                Log.e("cat DATA: ", log);
+                            }
+                        }
+                    }
+
+                    if(syncResponse.getData().getSubc_subcategories().size()>0){
+                        List<SubCatTableInfo> subCategoryData =new ArrayList<SubCatTableInfo>();
+                        subCategoryData.addAll(syncResponse.getData().getSubc_subcategories());
+                        db.deleteSubCatagory();
+                        for(int i = 0; i < subCategoryData.size(); i++) {
+
+                            db.addSubcategory(new SubCatTableInfo(subCategoryData.get(i).getSUBC_ID(),
+                                    subCategoryData.get(i).getSUBC_DESCRIPTION(),subCategoryData.get(i).getCATE_ID(),
+                                    subCategoryData.get(i).getSUBC_TIMESTAMP(),subCategoryData.get(i).getIS_DELETED()));
+
+                            subcateGoryInfoList = db.getAllSubcategories();
+                            Log.e("cat size: ", ""+subcateGoryInfoList.size());
+                            for (SubCatTableInfo cd : subcateGoryInfoList) {
+                                String log = "cat_des: "+cd.getCATE_ID()+" ,catId: " + cd.getSUBC_DESCRIPTION();
+                                // Writing Contacts to log
+                                Log.e("cat DATA: ", log);
+                            }
+                        }
+                    }
+
+
+                    if(syncResponse.getData().getCate_categories().size()>0){
+                        List<CateGoryInfo> categoryData =new ArrayList<CateGoryInfo>();
+                        categoryData.addAll(syncResponse.getData().getCate_categories());
+                        db.deleteCatagory();
+                        for(int i = 0; i < categoryData.size(); i++) {
+
+                            db.addCategory(new CateGoryInfo(categoryData.get(i).getCATE_ID(),
+                                    categoryData.get(i).getCATE_DESCRIPTION(),categoryData.get(i).getCATE_TIMESTAMP(),
+                                    categoryData.get(i).getIS_DELETED()));
+
+                            cateGoryInfoList = db.getAllCategories();
+                            Log.e("cat size: ", ""+cateGoryInfoList.size());
+                            for (CateGoryInfo cd : cateGoryInfoList) {
+                                String log = "cat_des: "+cd.getCATE_DESCRIPTION()+" ,catId: " + cd.getCATE_ID();
+                                // Writing Contacts to log
+                                Log.e("cat DATA: ", log);
+                            }
+                        }
+                    }
+
+                    if(syncResponse.getData().getProd_products().size()>0){
+                        List<ProductTableInfo> proDcData =new ArrayList<ProductTableInfo>();
+                        proDcData.addAll(syncResponse.getData().getProd_products());
+                        db.deleteProduct();
+                        for(int i = 0; i < proDcData.size(); i++) {
+                            db.addProduct(new ProductTableInfo(proDcData.get(i).getPROD_CODE(),
+                                    proDcData.get(i).getPROD_DESCRIPTION(), proDcData.get(i).getCATE_ID(),
+                                    proDcData.get(i).getSUBC_ID(), proDcData.get(i).getBRAN_ID(),
+                                    proDcData.get(i).getSUPP_ID(), proDcData.get(i).getPROD_MU(),
+                                    proDcData.get(i).getPROD_MIN_QT(), proDcData.get(i).getPROD_P0(),
+                                    proDcData.get(i).getPROD_P1(),
+                                    proDcData.get(i).getPROD_P2(), proDcData.get(i).getPROD_P3(),
+                                    proDcData.get(i).getPROD_P4(), proDcData.get(i).getPROD_P5(),
+                                    proDcData.get(i).getPROD_P6(),
+                                    proDcData.get(i).getPROD_P7(), proDcData.get(i).getPROD_P8(),
+                                    proDcData.get(i).getPROD_P9(), proDcData.get(i).getVATT_ID(),
+                                    proDcData.get(i).getPROD_AVL_QTY(),
+                                    proDcData.get(i).getPROD_IMAGE(), proDcData.get(i).getPROD_PDF(),
+                                    proDcData.get(i).getPROD_TIMESTAMP(), proDcData.get(i).getPROD_AVL_TIMESTAMP(),
+                                    proDcData.get(i).getIS_DELETED()));
+
+                            ProductTableInfoList = db.getAllProducts();
+                            Log.e("PROD size: ", ""+ProductTableInfoList.size());
+                            for (ProductTableInfo pd : ProductTableInfoList) {
+                                String log = "PROD_CODE: "+pd.getPROD_CODE()+" ,PROD_P0: " + pd.getPROD_P0() + " ,PROD_P4: " + pd.getPROD_P4();
+                                // Writing Contacts to log
+                                Log.e("PROD DATA: ", log);
+
+                            }
+
+                        }
+                    }
+
+                    if(syncResponse.getData().getDoch_document_heads().size()>0){
+                        List<DocumentTableInfo> docData =new ArrayList<DocumentTableInfo>();
+                        docData.addAll(syncResponse.getData().getDoch_document_heads());
+                        db.deleteDocument();
+
+                        for(int i = 0; i < docData.size(); i++) {
+                            Log.e("DOC DATA",""+docData.get(0).getCUST_NAME1());
+                            db.addDocument(new DocumentTableInfo(docData.get(i).getDOCH_TERM_CODE(),
+                                    docData.get(i).getDOCH_TERM_ID(),docData.get(i).getDOCH_TYPE(),
+                                    docData.get(i).getDOCH_NUMBER(),docData.get(i).getDOCH_DATE(),
+                                    docData.get(i).getAGEN_CODE(),
+                                    docData.get(i).getDOCH_PRICELIST(),docData.get(i).getCUST_CODE(),
+                                    docData.get(i).getCUST_NAME1(),docData.get(i).getCUST_NAME2(),
+                                    docData.get(i).getCUST_ADDRESS(),docData.get(i).getCUST_ZIP(),
+                                    docData.get(i).getCUST_CITY(),docData.get(i).getCUST_MAIL(),
+                                    docData.get(i).getCUST_PROVINCE(),docData.get(i).getCUST_COUNTRY(),
+                                    docData.get(i).getCUST_DISCOUNT(),docData.get(i).getSPECIAL_VATT(),
+                                    docData.get(i).getDEST_ID(),
+                                    docData.get(i).getDEST_NAME(),docData.get(i).getDEST_ADDRESS(),
+                                    docData.get(i).getDEST_ZIP(),docData.get(i).getDEST_CITY(),
+                                    docData.get(i).getDEST_PROVINCE(),docData.get(i).getDEST_COUNTRY(),
+                                    docData.get(i).getVATT_ID(),docData.get(i).getPAYM_ID(),
+                                    docData.get(i).getDOCH_NOTE(),docData.get(i).getDOCH_TAXABLE(),
+                                    docData.get(i).getDOCH_VAT(),docData.get(i).getDOCH_TOTAL(),
+                                    docData.get(i).getDOCH_SENT(),docData.get(i).getIS_DELETED(),
+                                    docData.get(i).getDOCH_TIMESTAMP()));
+
+                            documentTableInfoList = db.getAllDocumentss();
+                            Log.e("DB DATA: ", ""+documentTableInfoList.size());
+                            for (DocumentTableInfo cn : documentTableInfoList) {
+                                String log = "Id: "+cn.getAGEN_CODE()+" ,Name: " + cn.getCUST_NAME1() + " ,Phone: " + cn.getDOCH_TERM_ID();
+                                // Writing Contacts to log
+                                Log.e("DB DATA: ", log);
+
+                            }
 
                         }
 
                     }
-
                 }
-
-
-                if(syncResponse.getData().getProd_products().size()>0){
-                    List<ProductTableInfo> proDcData =new ArrayList<ProductTableInfo>();
-                    proDcData.addAll(syncResponse.getData().getProd_products());
-
-                    for(int i = 0; i < proDcData.size(); i++) {
-                       db.addProduct(new ProductTableInfo(proDcData.get(i).getPROD_CODE(),
-                               proDcData.get(i).getPROD_DESCRIPTION(), proDcData.get(i).getCATE_ID(),
-                               proDcData.get(i).getSUBC_ID(), proDcData.get(i).getBRAN_ID(),
-                               proDcData.get(i).getSUPP_ID(), proDcData.get(i).getPROD_MU(),
-                               proDcData.get(i).getPROD_MIN_QT(), proDcData.get(i).getPROD_P0(),
-                               proDcData.get(i).getPROD_P1(),
-                               proDcData.get(i).getPROD_P2(), proDcData.get(i).getPROD_P3(),
-                               proDcData.get(i).getPROD_P4(), proDcData.get(i).getPROD_P5(),
-                               proDcData.get(i).getPROD_P6(),
-                               proDcData.get(i).getPROD_P7(), proDcData.get(i).getPROD_P8(),
-                               proDcData.get(i).getPROD_P9(), proDcData.get(i).getVATT_ID(),
-                               proDcData.get(i).getPROD_AVL_QTY(),
-                               proDcData.get(i).getPROD_IMAGE(), proDcData.get(i).getPROD_PDF(),
-                               proDcData.get(i).getPROD_TIMESTAMP(), proDcData.get(i).getPROD_AVL_TIMESTAMP(),
-                               proDcData.get(i).getIS_DELETED()));
-
-                        ProductTableInfoList = db.getAllProducts();
-                        Log.e("PROD size: ", ""+ProductTableInfoList.size());
-                        for (ProductTableInfo pd : ProductTableInfoList) {
-                            String log = "PROD_CODE: "+pd.getPROD_CODE()+" ,PROD_P0: " + pd.getPROD_P0() + " ,PROD_P4: " + pd.getPROD_P4();
-                            // Writing Contacts to log
-                            Log.e("PROD DATA: ", log);
-
-                        }
-
-                    }
-
-                }
-
-                if(syncResponse.getData().getDoch_document_heads().size()>0){
-                     List<DocumentTableInfo> docData =new ArrayList<DocumentTableInfo>();
-                    docData.addAll(syncResponse.getData().getDoch_document_heads());
-
-
-                    for(int i = 0; i < docData.size(); i++) {
-                        Log.e("DOC DATA",""+docData.get(0).getCUST_NAME1());
-                        db.addDocument(new DocumentTableInfo(docData.get(i).getDOCH_TERM_CODE(),
-                                docData.get(i).getDOCH_TERM_ID(),docData.get(i).getDOCH_TYPE(),
-                                docData.get(i).getDOCH_NUMBER(),docData.get(i).getDOCH_DATE(),
-                                docData.get(i).getAGEN_CODE(),
-                                docData.get(i).getDOCH_PRICELIST(),docData.get(i).getCUST_CODE(),
-                                docData.get(i).getCUST_NAME1(),docData.get(i).getCUST_NAME2(),
-                                docData.get(i).getCUST_ADDRESS(),docData.get(i).getCUST_ZIP(),
-                                docData.get(i).getCUST_CITY(),docData.get(i).getCUST_MAIL(),
-                                docData.get(i).getCUST_PROVINCE(),docData.get(i).getCUST_COUNTRY(),
-                                docData.get(i).getCUST_DISCOUNT(),docData.get(i).getSPECIAL_VATT(),
-                                docData.get(i).getDEST_ID(),
-                                docData.get(i).getDEST_NAME(),docData.get(i).getDEST_ADDRESS(),
-                                docData.get(i).getDEST_ZIP(),docData.get(i).getDEST_CITY(),
-                                docData.get(i).getDEST_PROVINCE(),docData.get(i).getDEST_COUNTRY(),
-                                docData.get(i).getVATT_ID(),docData.get(i).getPAYM_ID(),
-                                docData.get(i).getDOCH_NOTE(),docData.get(i).getDOCH_TAXABLE(),
-                                docData.get(i).getDOCH_VAT(),docData.get(i).getDOCH_TOTAL(),
-                                docData.get(i).getDOCH_SENT(),docData.get(i).getIS_DELETED(),
-                                docData.get(i).getDOCH_TIMESTAMP()));
-
-                        documentTableInfoList = db.getAllDocumentss();
-                        Log.e("DB DATA: ", ""+documentTableInfoList.size());
-                        for (DocumentTableInfo cn : documentTableInfoList) {
-                            String log = "Id: "+cn.getAGEN_CODE()+" ,Name: " + cn.getCUST_NAME1() + " ,Phone: " + cn.getDOCH_TERM_ID();
-                            // Writing Contacts to log
-                            Log.e("DB DATA: ", log);
-
-                        }
-
-                    }
-
-//                    for (DocumentTableInfo cn : syncResponse.getData().doch_document_heads) {
-//                        db.addDocument(new DocumentTableInfo("sd","dff","ff","ff","ff","ss","ff","vv","bb",
-//                                "ss","cc","tt","tt","j","hj","jj","h","h","h","j","m","m",
-//                                "x","c","c","c","v","v","c","c","v","v","v","v"));
-//
-//                    }
-                }
-                //insertDocumentHed();
-               // Log.e("status", "" + jAnsModel.getStatus());
-
-//                if (jAnsModel.getStatus().equalsIgnoreCase("true")) {
-//
-//                    Toast.makeText(con, jAnsModel.getMessage() + "",
-//                            Toast.LENGTH_LONG).show();
-//
-//                    finish();
-//
-//                } else {
-//
-//                    AlertMessage.showMessage(con, "Status",
-//                            jAnsModel.getMessage() + "");
-//                    return;
-//                }
 
             }
 
