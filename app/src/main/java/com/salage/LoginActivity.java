@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.log_in_form);
         context=this;
         initUI();
-
+        AppConstant.logInt+=1;
     }
 
     private void initUI() {

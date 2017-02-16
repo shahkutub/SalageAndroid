@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.icteuro.salage.R;
 import com.salage.model.CateGoryInfo;
+import com.salage.model.SubCatTableInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +21,13 @@ import java.util.List;
 public class CustomAdapterSubCat extends BaseAdapter implements AdapterView.OnItemSelectedListener{
     Context context;
     int flags[];
-    List <CateGoryInfo> lisCat = new ArrayList<>();
+    List <SubCatTableInfo> lisCat = new ArrayList<>();
     LayoutInflater inflter;
     private RelativeLayout relView;
     private List<String> subDes = new ArrayList<String>();
-    public CustomAdapterSubCat(Context applicationContext, List<String> subDes) {
+    public CustomAdapterSubCat(Context applicationContext, List<SubCatTableInfo> lisCat,List<String> subDes){
         this.context = applicationContext;
+        this.lisCat =  lisCat;
         this.subDes =  subDes;
         inflter = (LayoutInflater.from(applicationContext));
     }
@@ -38,7 +40,7 @@ public class CustomAdapterSubCat extends BaseAdapter implements AdapterView.OnIt
 //    }
     @Override
     public int getCount() {
-        return subDes.size();
+        return lisCat.size();
     }
 
     @Override
@@ -56,8 +58,9 @@ public class CustomAdapterSubCat extends BaseAdapter implements AdapterView.OnIt
         view = inflter.inflate(R.layout.custom_spinner_items, null);
         relView  = (RelativeLayout) view.findViewById(R.id.relView);
         TextView tvCtName = (TextView)view.findViewById(R.id.tvCtName);
+        //subDes.add("Select sottoclasse");
 
-            tvCtName.setText(subDes.get(i));
+            tvCtName.setText(lisCat.get(i).getSUBC_DESCRIPTION());
 
 
        // icon.setImageResource(flags[i]);

@@ -38,6 +38,7 @@ import com.salage.Utils.AlertMessage;
 import com.salage.Utils.AppConstant;
 import com.salage.Utils.BusyDialog;
 import com.salage.Utils.NetInfo;
+import com.salage.Utils.PersistData;
 import com.salage.Utils.PersistentUser;
 import com.salage.model.AgentInfo;
 import com.salage.model.BrandsTableInfo;
@@ -67,7 +68,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    TextView tvToolBarTitle;
+    TextView tvToolBarTitle,tvSyncConfig,tvConfig;
     private LinearLayout linNav,linConfig,linClientMenu,linProductMenu,linDocumentMenu,linSincroMenu,
             linConfigMain,linClientMain,linProductMain,linDocumentMain,linSincroMain;
     Button btnSave;
@@ -157,6 +158,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         linProductMain = (LinearLayout)findViewById(R.id.linProductMain);
         linDocumentMain = (LinearLayout)findViewById(R.id.linDocumentMain);
         linSincroMain = (LinearLayout)findViewById(R.id.linSincroMain);
+        tvSyncConfig = (TextView)findViewById(R.id.tvSyncConfig);
+        tvConfig = (TextView)findViewById(R.id.tvConfig);
 
         btnSave = (Button)findViewById(R.id.btnSave);
 
@@ -164,11 +167,11 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
-                //buttonView.setVisibility(View.GONE);
-                if(!PersistentUser.isLogged(con)){
+                if(tvSyncConfig.getText().toString().equalsIgnoreCase("CONFIGARAZION")){
                     startActivity(new Intent(con, LoginActivity.class));
+                }else{
+                    makeJson();
                 }
-                //setContentFragment(new LoginCofigFragement(), true,"Active Work");
             }
         });
 
@@ -207,13 +210,23 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             }
         });
 
+        linSincroMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                makeJson();
+            }
+        });
+
 
         linConfigMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(!PersistentUser.isLogged(con)){
+                if(tvSyncConfig.getText().toString().equalsIgnoreCase("CONFIGARAZION")){
                     startActivity(new Intent(con, LoginActivity.class));
+                }else{
+                    makeJson();
                 }
                // setContentFragment(new LoginCofigFragement(), false,"Active Work");
             }
@@ -246,7 +259,12 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             }
         });
 
-        makeJson();
+        linSincroMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                makeJson();
+            }
+        });
     }
 
 
@@ -545,8 +563,15 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     protected void onResume() {
         super.onResume();
 
-        if(PersistentUser.isLogged(con)){
-            //Toast.makeText(con,"clicked", Toast.LENGTH_SHORT).show();
+        if(PersistentUser.isLogged(con)&& AppConstant.logInt==1){
+            tvSyncConfig.setText("SYNCRO");
+            tvConfig.setText("SYNCRO");
+        }
+
+        if (PersistData.getStringData(con,AppConstant.isSync).equalsIgnoreCase("true")){
+            tvSyncConfig.setText("CONFIGARAZION");
+            tvConfig.setText("CONFIGARAZION");
+
             buttonView.setVisibility(View.VISIBLE);
             linClientMain.setVisibility(View.VISIBLE);
             linProductMain.setVisibility(View.VISIBLE);
@@ -557,11 +582,6 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             linProductMenu.setVisibility(View.VISIBLE);
             linDocumentMenu.setVisibility(View.VISIBLE);
             linSincroMenu.setVisibility(View.VISIBLE);
-
-
-
-        }else {
-            //linProductMain.setVisibility(View.VISIBLE);
         }
     }
 
@@ -602,6 +622,21 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                 syncResponse = g.fromJson(new String(responseBody), SyncResponse.class);
 
                 if(syncResponse!=null){
+
+                    PersistData.setStringData(con,AppConstant.isSync,"true");
+                    tvSyncConfig.setText("CONFIGARAZION");
+                    tvConfig.setText("CONFIGARAZION");
+
+                    buttonView.setVisibility(View.VISIBLE);
+                    linClientMain.setVisibility(View.VISIBLE);
+                    linProductMain.setVisibility(View.VISIBLE);
+                    linDocumentMain.setVisibility(View.VISIBLE);
+                    linSincroMain.setVisibility(View.VISIBLE);
+
+                    linClientMenu.setVisibility(View.VISIBLE);
+                    linProductMenu.setVisibility(View.VISIBLE);
+                    linDocumentMenu.setVisibility(View.VISIBLE);
+                    linSincroMenu.setVisibility(View.VISIBLE);
 
 
                     if(syncResponse.getData().getBran_brands().size()>0){

@@ -31,7 +31,8 @@ public class AppConstant {
     public static String AGEN_TYPE ="AGEN_TYPE";
 
     public static int processingFee =0;
-    public static int hourlyRate =0;
+    public static int logInt =0;
+    public static String isSync ="false";
 
 
 

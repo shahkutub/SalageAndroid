@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,13 +41,14 @@ public class ProductMainFragement extends BaseFragment{
         private Spinner spinnerClass,spinnerSottoClass,spinnerMarche;
         private List<CateGoryInfo> cateGoryInfoList  = new ArrayList<>();
         private List<SubCatTableInfo> subCateGoryInfoList  = new ArrayList<>();
+        private List<SubCatTableInfo> subCateGoryInfoSpinnerList  = new ArrayList<>();
         private List<BrandsTableInfo> barnadsList  = new ArrayList<>();
         private List<ProductTableInfo> productList  = new ArrayList<>();
         private List<ProductTableInfo> productDetailsList  = new ArrayList<>();
         private List<String> subDes = new ArrayList<String>();
         private ListView listProDetails;
         private TextView tvSearch;
-
+        private boolean isSpinnerInitial = true;
         private CustomAdapterSubCat customAdapterSubCat;
         private CustomAdapterProduct customAdapterProduct;
         String  catId,subCatId;
@@ -69,6 +71,8 @@ public class ProductMainFragement extends BaseFragment{
             barnadsList = db.getAllBrands();
             productList = db.getAllProducts();
 
+            subCateGoryInfoSpinnerList.add(new SubCatTableInfo("select"));
+
             listProDetails = (ListView)getView().findViewById(R.id.listProDetails);
             tvSearch = (TextView)getView().findViewById(R.id.tvSearch);
 
@@ -86,34 +90,48 @@ public class ProductMainFragement extends BaseFragment{
                 @Override
                 public void onClick(View view) {
                     productDetailsList.clear();
-                    for(int i=0;i<productList.size();i++){
-                        if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())){
 
-                            productDetailsList.add(productList.get(i));
-                            if(productDetailsList.size()>0){
-
-                                customAdapterProduct = new CustomAdapterProduct(con);
-                                listProDetails.setAdapter(customAdapterProduct);
-                                listProDetails.setVisibility(View.VISIBLE);
-                                customAdapterProduct.notifyDataSetChanged();
-
-
+                    if(!TextUtils.isEmpty(subCatId)){
+                        for(int i=0;i<productList.size();i++){
+                            if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())&& subCatId.equalsIgnoreCase(productList.get(i).getSUBC_ID())){
+                                productDetailsList.add(productList.get(i));
+                                Log.e("productDetailsList size",""+productDetailsList.size());
                             }
-                            Log.e("productDetailsList size",""+productDetailsList.size());
-                        }else {
-                            customAdapterProduct = new CustomAdapterProduct(con);
-                            listProDetails.setAdapter(customAdapterProduct);
-                            customAdapterProduct.notifyDataSetChanged();
-                            listProDetails.setVisibility(View.GONE);
                         }
+                    }else {
+                        for(int i=0;i<productList.size();i++){
+                            if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())){
+                                productDetailsList.add(productList.get(i));
+                                Log.e("productDetailsList size",""+productDetailsList.size());
+                            }
+                        }
+                    }
+
+
+                    if(productDetailsList.size()>0){
+                        customAdapterProduct = new CustomAdapterProduct(con);
+                        listProDetails.setAdapter(customAdapterProduct);
+                        listProDetails.setVisibility(View.VISIBLE);
+                        customAdapterProduct.notifyDataSetChanged();
+                    }else {
+                        customAdapterProduct = new CustomAdapterProduct(con);
+                        listProDetails.setAdapter(customAdapterProduct);
+                        customAdapterProduct.notifyDataSetChanged();
+                        listProDetails.setVisibility(View.GONE);
                     }
 
                 }
             });
 
+
+
+
             spinnerClass = (Spinner)getView().findViewById(R.id.spinnerClass);
             spinnerSottoClass = (Spinner)getView().findViewById(R.id.spinnerSottoClass);
             spinnerMarche = (Spinner)getView().findViewById(R.id.spinnerMarche);
+            spinnerClass.setPrompt("Select Classe");
+            spinnerSottoClass.setPrompt("Select Sotto classe");
+            spinnerMarche.setPrompt("Select marche");
 //            spinnerClass.setOnItemSelectedListener(this);
 //            spinnerSottoClass.setOnItemSelectedListener(this);
 
@@ -123,34 +141,33 @@ public class ProductMainFragement extends BaseFragment{
             CustomAdapterBrands customAdapterBrands=new CustomAdapterBrands(con,barnadsList);
             spinnerMarche.setAdapter(customAdapterBrands);
 
+
             spinnerClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    subDes.clear();
-                    catId = cateGoryInfoList.get(i).getCATE_ID();
-                    Log.e("catId",""+catId);
-                    for(int s = 0; s<subCateGoryInfoList.size();s++){
 
+                        subCateGoryInfoSpinnerList.clear();
+                        catId = cateGoryInfoList.get(i).getCATE_ID();
 
-                        if(cateGoryInfoList.get(i).getCATE_ID().equalsIgnoreCase(subCateGoryInfoList.get(s).getCATE_ID())){
-                            //Log.e("click","click");
-                            subDes.add(subCateGoryInfoList.get(s).getSUBC_DESCRIPTION());
-                            //String data = subDes.get(0);
-//                            Log.e("subDes",""+data);
-//                            Log.e("subDes",""+subDes.size());
-                                customAdapterSubCat = new CustomAdapterSubCat(con,subDes);
-                                spinnerSottoClass.setAdapter(customAdapterSubCat);
-                               customAdapterSubCat.notifyDataSetChanged();
-                                //subDes.clear();
+                        for(int s = 0; s<subCateGoryInfoList.size();s++){
 
-                        }else {
-                            customAdapterSubCat = new CustomAdapterSubCat(con,subDes);
+                            if(cateGoryInfoList.get(i).getCATE_ID().equalsIgnoreCase(subCateGoryInfoList.get(s).getCATE_ID())) {
+                                //Log.e("click","click");
+                                //subDes.add(subCateGoryInfoList.get(s).getSUBC_DESCRIPTION());
+                                subCateGoryInfoSpinnerList.add(subCateGoryInfoList.get(s));
+                                Log.e("subSpinnerList size",""+subCateGoryInfoSpinnerList.size());
+                            }
+                        }
+
+                        if(subCateGoryInfoSpinnerList.size()>0){
+                            customAdapterSubCat = new CustomAdapterSubCat(con,subCateGoryInfoSpinnerList,subDes);
                             spinnerSottoClass.setAdapter(customAdapterSubCat);
                             customAdapterSubCat.notifyDataSetChanged();
-
+                            //subDes.clear();
+                        }else {
+                            customAdapterSubCat.notifyDataSetChanged();
                         }
                     }
-                }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
@@ -158,6 +175,20 @@ public class ProductMainFragement extends BaseFragment{
                 }
             });
 
+
+            spinnerSottoClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    subCatId = subCateGoryInfoSpinnerList.get(i).getSUBC_ID();
+                    Log.e("subCatId",""+subCatId);
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
     }
 
     private class CustomAdapterProduct extends ArrayAdapter<ProductTableInfo> {
@@ -171,6 +202,7 @@ public class ProductMainFragement extends BaseFragment{
         }
 
         @SuppressLint("NewApi")
+
         @Override
         public View getView(final int position, View convertView,
                             ViewGroup parent) {

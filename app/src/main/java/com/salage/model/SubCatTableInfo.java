@@ -16,6 +16,12 @@ public class SubCatTableInfo {
     public SubCatTableInfo() {
     }
 
+
+    public SubCatTableInfo(String SUBC_DESCRIPTION) {
+        this.SUBC_DESCRIPTION = SUBC_DESCRIPTION;
+    }
+
+
     public SubCatTableInfo(String SUBC_ID, String SUBC_DESCRIPTION, String CATE_ID,
                            String SUBC_TIMESTAMP, String IS_DELETED) {
         this.SUBC_ID = SUBC_ID;
