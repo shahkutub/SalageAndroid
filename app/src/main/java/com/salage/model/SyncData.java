@@ -15,6 +15,16 @@ public class SyncData {
     public List<CateGoryInfo> cate_categories =new ArrayList<CateGoryInfo>();
     public List<SubCatTableInfo> subc_subcategories =new ArrayList<SubCatTableInfo>();
     public List<BrandsTableInfo> bran_brands =new ArrayList<BrandsTableInfo>();
+    public List<CustomerTableInfo> cust_customers =new ArrayList<CustomerTableInfo>();
+
+
+    public List<CustomerTableInfo> getCust_customers() {
+        return cust_customers;
+    }
+
+    public void setCust_customers(List<CustomerTableInfo> cust_customers) {
+        this.cust_customers = cust_customers;
+    }
 
     public List<BrandsTableInfo> getBran_brands() {
         return bran_brands;

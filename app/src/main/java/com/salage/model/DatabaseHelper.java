@@ -896,6 +896,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 
+	public void addCustomer(CustomerTableInfo docRowTableInfo) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(CUST_CUST_CODE, docRowTableInfo.getCUST_CODE());
+		values.put(CUST_CUST_NAME1,   docRowTableInfo.getCUST_NAME1());
+		values.put(CUST_CUST_NAME2, docRowTableInfo.getCUST_NAME2());
+		values.put(CUST_CUST_ADDRESS, docRowTableInfo.getCUST_ADDRESS());
+		values.put(CUST_CUST_ZIP, docRowTableInfo.getCUST_ZIP());
+		values.put(CUST_CUST_CITY, docRowTableInfo.getCUST_CITY());
+		values.put(CUST_CUST_PROVINCE, docRowTableInfo.getCUST_PROVINCE());
+		values.put(CUST_COUNTRY, docRowTableInfo.getCUST_COUNTRY());
+		values.put(CUST_CUST_TEL, docRowTableInfo.getCUST_TEL());
+		values.put(CUST_CUST_FAX, docRowTableInfo.getCUST_FAX());
+		values.put(CUST_CUST_MOBILE, docRowTableInfo.getCUST_MOBILE());
+		values.put(CUST_CUST_MAIL, docRowTableInfo.getCUST_MAIL());
+		values.put(CUST_CUST_CF, docRowTableInfo.getCUST_CF());
+		values.put(CUST_CUST_VATNUM, docRowTableInfo.getCUST_VATNUM());
+		values.put(CUST_CUST_IBAN, docRowTableInfo.getCUST_IBAN());
+		values.put(CUST_VATT_ID, docRowTableInfo.getVATT_ID());
+		values.put(CUST_PAYM_ID, docRowTableInfo.getPAYM_ID());
+		values.put(CUST_AGEN_CODE, docRowTableInfo.getAGEN_CODE());
+		values.put(CUST_CUST_PRICELIST, docRowTableInfo.getCUST_PRICELIST());
+		values.put(CUST_CUST_DISCOUNT, docRowTableInfo.getCUST_DISCOUNT());
+		values.put(CUST_CUST_STATE, docRowTableInfo.getCUST_STATE());
+		values.put(CUST_CUST_TIMESTAMP, docRowTableInfo.getCUST_TIMESTAMP());
+		values.put(CUST_IS_DELETED, docRowTableInfo.getIS_DELETED());
+
+
+		// Inserting Row
+		db.insert(TABLE_cust_customers, null, values);
+		db.close(); // Closing database connection
+	}
+
 	// Getting single contact
 //	DocumentTableInfo getContact(int id) {
 //		SQLiteDatabase db = this.getReadableDatabase();
@@ -911,6 +945,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //		// return contact
 //		return contact;
 //	}
+// Getting All DocumentTableInfo
+	public List<CustomerTableInfo> getAllCustomer() {
+		List<CustomerTableInfo> docList = new ArrayList<CustomerTableInfo>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_cust_customers;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if (cursor.moveToFirst()) {
+			do {
+
+				CustomerTableInfo document = new CustomerTableInfo();
+				document.setId(cursor.getString(0));
+				document.setCUST_CODE(cursor.getString(1));
+				document.setCUST_NAME1(cursor.getString(2));
+				document.setCUST_NAME2(cursor.getString(3));
+				document.setCUST_ADDRESS(cursor.getString(4));
+				document.setCUST_ZIP(cursor.getString(5));
+				document.setCUST_CITY(cursor.getString(6));
+				document.setCUST_PROVINCE(cursor.getString(7));
+				document.setCUST_COUNTRY(cursor.getString(8));
+				document.setCUST_TEL(cursor.getString(9));
+				document.setCUST_FAX(cursor.getString(10));
+				document.setCUST_MOBILE(cursor.getString(11));
+				document.setCUST_MAIL(cursor.getString(12));
+				document.setCUST_CF(cursor.getString(13));
+				document.setCUST_VATNUM(cursor.getString(14));
+				document.setCUST_IBAN(cursor.getString(15));
+				document.setVATT_ID(cursor.getString(16));
+
+				document.setPAYM_ID(cursor.getString(17));
+				document.setAGEN_CODE(cursor.getString(18));
+				document.setCUST_PRICELIST(cursor.getString(19));
+				document.setCUST_DISCOUNT(cursor.getString(20));
+				document.setCUST_STATE(cursor.getString(21));
+				document.setCUST_TIMESTAMP(cursor.getString(22));
+				document.setIS_DELETED(cursor.getString(23));
+
+				docList.add(document);
+			} while (cursor.moveToNext());
+		}
+
+		// return contact list
+		return docList;
+	}
+
+
 
 	// Getting All DocumentTableInfo
 	public List<DocumentTableInfo> getAllDocumentss() {
@@ -1358,6 +1440,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("delete from "+ TABLE_cate_categories);
 		db.close();
 	}
+
+	public void deleteCustomer() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_cust_customers);
+		db.close();
+	}
+
 
 	public void deleteBrands() {
 		SQLiteDatabase db = this.getWritableDatabase();

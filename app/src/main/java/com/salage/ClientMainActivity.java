@@ -2,94 +2,73 @@ package com.salage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.icteuro.salage.R;
-import com.salage.Utils.AAPBDHttpClient;
-import com.salage.Utils.AlertMessage;
 import com.salage.Utils.AppConstant;
-import com.salage.Utils.BusyDialog;
-import com.salage.Utils.NetInfo;
-import com.salage.model.AgentInfo;
-import com.salage.model.AgentTableInfo;
 import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
-import com.salage.model.ProductTableInfo;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Executors;
 
 /**
- * Created by User on 7/20/2016.
+ * Created by User on 2/17/2017.
  */
-public class ClientFragement extends BaseFragment {
-    Context con;
-    private TextView tvSubmit,tvTitleContact;
 
+public class ClientMainActivity extends AppCompatActivity {
+    Context context;
+
+    private TextView tvSubmit,tvTitleContact;
+    private ImageView dissmissCatListBtn;
     private String name,email,message;
     private List<CustomerTableInfo> customerTableInfo  = new ArrayList<>();
     private List<CustomerTableInfo> customerTableInfoList  = new ArrayList<>();
     private ListView listClient;
     private CustomAdapterProduct customAdapterProduct;
-    public static ClientFragement instanse;
     DatabaseHelper db;
-    public static ClientFragement getInstanse(){
-        return instanse;
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.client_main, container, false);
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        setContentView(R.layout.client_main);
+        context=this;
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        con = getActivity();
-        db = new DatabaseHelper(con);
+        db = new DatabaseHelper(this);
         customerTableInfo = db.getAllCustomer();
         customerTableInfoList.clear();
-       for(int i=0;i<customerTableInfo.size();i++){
-           if(customerTableInfo.get(i).getIS_DELETED().equalsIgnoreCase("0")){
-               customerTableInfoList.add(customerTableInfo.get(i));
-           }
-       }
+        for(int i=0;i<customerTableInfo.size();i++){
+            if(customerTableInfo.get(i).getIS_DELETED().equalsIgnoreCase("0")){
+                customerTableInfoList.add(customerTableInfo.get(i));
+            }
+        }
 
-        listClient = (ListView)getView().findViewById(R.id.listClient);
-        customAdapterProduct = new CustomAdapterProduct(con);
+        listClient = (ListView)findViewById(R.id.listClient);
+        customAdapterProduct = new CustomAdapterProduct(context);
         listClient.setAdapter(customAdapterProduct);
         customAdapterProduct.notifyDataSetChanged();
 
-
-
-
+        dissmissCatListBtn = (ImageView) findViewById(R.id.dissmissCatListBtn);
+        dissmissCatListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private class CustomAdapterProduct extends ArrayAdapter<CustomerTableInfo> {
@@ -144,9 +123,8 @@ public class ClientFragement extends BaseFragment {
                 imgEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ClientDialogFragment motamotDialogFragment = new ClientDialogFragment();
-                        motamotDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme);
-                        motamotDialogFragment.show(getActivity().getFragmentManager(), "");
+                        AppConstant.customerTableInfo=query;
+                    startActivity(new Intent(context,ClientDetailsActivity.class));
                     }
                 });
 
@@ -160,24 +138,5 @@ public class ClientFragement extends BaseFragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        db = new DatabaseHelper(con);
-        customerTableInfo = db.getAllCustomer();
-        customerTableInfoList.clear();
-        for(int i=0;i<customerTableInfo.size();i++){
-            if(customerTableInfo.get(i).getIS_DELETED().equalsIgnoreCase("0")){
-                customerTableInfoList.add(customerTableInfo.get(i));
-            }
-        }
 
-        //listClient = (ListView)getView().findViewById(R.id.listClient);
-        customAdapterProduct = new CustomAdapterProduct(con);
-        listClient.setAdapter(customAdapterProduct);
-        customAdapterProduct.notifyDataSetChanged();
-
-        Log.e("callonresue","callonresue");
-
-    }
 }

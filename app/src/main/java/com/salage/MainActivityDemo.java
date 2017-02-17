@@ -43,6 +43,7 @@ import com.salage.Utils.PersistentUser;
 import com.salage.model.AgentInfo;
 import com.salage.model.BrandsTableInfo;
 import com.salage.model.CateGoryInfo;
+import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.DocumentTableInfo;
 import com.salage.model.JsonInfo;
@@ -82,6 +83,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     private List<CateGoryInfo> cateGoryInfoList  = new ArrayList<>();
     private List<SubCatTableInfo> subcateGoryInfoList  = new ArrayList<>();
     private List<BrandsTableInfo> brandsTableInfoList  = new ArrayList<>();
+    private List<CustomerTableInfo> CustomerTableInfoList  = new ArrayList<>();
 
 
     private String json;
@@ -237,7 +239,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
-                setContentFragment(new ClientFragement(), false,"Active Work");
+                startActivity(new Intent(con, ClientMainActivity.class));
+                //setContentFragment(new ClientFragement(), false,"Active Work");
             }
         });
 
@@ -637,6 +640,37 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                     linProductMenu.setVisibility(View.VISIBLE);
                     linDocumentMenu.setVisibility(View.VISIBLE);
                     linSincroMenu.setVisibility(View.VISIBLE);
+
+
+                    if(syncResponse.getData().getCust_customers().size()>0){
+                        List<CustomerTableInfo> customerTableInfo =new ArrayList<CustomerTableInfo>();
+                        customerTableInfo.addAll(syncResponse.getData().getCust_customers());
+                        db.deleteCustomer();
+                        for(int i = 0; i < customerTableInfo.size(); i++) {
+
+                            db.addCustomer(new CustomerTableInfo(customerTableInfo.get(i).getCUST_CODE(),
+                                    customerTableInfo.get(i).getCUST_NAME1(),customerTableInfo.get(i).getCUST_NAME2(),
+                                    customerTableInfo.get(i).getCUST_ADDRESS(),customerTableInfo.get(i).getCUST_ZIP(),
+                                    customerTableInfo.get(i).getCUST_CITY(),customerTableInfo.get(i).getCUST_PROVINCE(),
+                                    customerTableInfo.get(i).getCUST_COUNTRY(),customerTableInfo.get(i).getCUST_TEL(),
+                                    customerTableInfo.get(i).getCUST_FAX(),customerTableInfo.get(i).getCUST_MOBILE(),
+                                    customerTableInfo.get(i).getCUST_MAIL(),customerTableInfo.get(i).getCUST_CF(),
+                                    customerTableInfo.get(i).getCUST_VATNUM(),customerTableInfo.get(i).getCUST_IBAN(),
+                                    customerTableInfo.get(i).getVATT_ID(),customerTableInfo.get(i).getPAYM_ID(),
+                                    customerTableInfo.get(i).getAGEN_CODE(),customerTableInfo.get(i).getCUST_PRICELIST(),
+                                    customerTableInfo.get(i).getCUST_DISCOUNT(),customerTableInfo.get(i).getCUST_STATE(),
+                                    customerTableInfo.get(i).getCUST_TIMESTAMP(),customerTableInfo.get(i).getIS_DELETED()));
+
+                            CustomerTableInfoList = db.getAllCustomer();
+                            Log.e("cuInfo size: ", ""+customerTableInfo.size());
+                            for (CustomerTableInfo cd : customerTableInfo) {
+                                String log = "BRANcuInfoId: "+cd.getVATT_ID()+" ,cuInfoCode: " + cd.getCUST_CODE();
+                                // Writing Contacts to log
+                                Log.e("cat DATA: ", log);
+                            }
+                        }
+                    }
+
 
 
                     if(syncResponse.getData().getBran_brands().size()>0){

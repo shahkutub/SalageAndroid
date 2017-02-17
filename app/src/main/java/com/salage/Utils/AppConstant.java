@@ -4,6 +4,7 @@ package com.salage.Utils;
 import android.util.Log;
 
 import com.salage.model.CateGoryInfo;
+import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.ProductTableInfo;
 import com.salage.model.UpojelaOfficerInfo;
@@ -40,6 +41,7 @@ public class AppConstant {
     public static boolean isGallery=false;
     public static UpojelaOfficerInfo upojelaOfficerInfo = new UpojelaOfficerInfo();
     public static ProductTableInfo productTableInfo = new ProductTableInfo();
+    public static CustomerTableInfo customerTableInfo = new CustomerTableInfo();
 
 
     public static List getCat(DatabaseHelper db){
