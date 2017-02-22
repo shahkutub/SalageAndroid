@@ -190,7 +190,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
-                setContentFragment(new ClientFragement(), false,"Active Work");
+                startActivity(new Intent(con, ClientMainActivity.class));
+                //setContentFragment(new ClientFragement(), false,"Active Work");
             }
         });
 
@@ -199,7 +200,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
-                setContentFragment(new ProductMainFragement(), false,"Active Work");
+                startActivity(new Intent(con, ProductMainActivity.class));
+                //setContentFragment(new ProductMainFragement(), false,"Active Work");
             }
         });
 
@@ -208,7 +210,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
-                setContentFragment(new DocumentMainFragement(), false,"Active Work");
+                startActivity(new Intent(con, DocumentMainActivity.class));
+               // setContentFragment(new DocumentMainFragement(), false,"Active Work");
             }
         });
 
@@ -249,7 +252,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
-                setContentFragment(new ProductMainFragement(), false,"Active Work");
+                startActivity(new Intent(con, ProductMainActivity.class));
+                //setContentFragment(new ProductMainFragement(), false,"Active Work");
             }
         });
 
@@ -258,7 +262,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
-                setContentFragment(new DocumentMainFragement(), false,"Active Work");
+                startActivity(new Intent(con, DocumentMainActivity.class));
+                //setContentFragment(new DocumentMainFragement(), false,"Active Work");
             }
         });
 
@@ -361,7 +366,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
 
          Vector<AgentInfo> listAgent = new Vector<AgentInfo>();
          AgentInfo agentInfo = new AgentInfo();
-         agentInfo.setAGEN_CODE("ASH101");
+         agentInfo.setAGEN_CODE(PersistData.getStringData(con,AppConstant.agentCode));
         listAgent.add(agentInfo);
 
 

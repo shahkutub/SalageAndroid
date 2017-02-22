@@ -73,10 +73,10 @@ public class ClientDetailsActivity extends AppCompatActivity {
         etFax.setText(AppConstant.customerTableInfo.getCUST_FAX());
         etMobile.setText(AppConstant.customerTableInfo.getCUST_MOBILE());
         etEmail.setText(AppConstant.customerTableInfo.getCUST_MAIL());
-//        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
-//        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
-//        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
-//        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
+        etCodeFiscal.setText(AppConstant.customerTableInfo.getCUST_CF());
+       // etPrtitaIVA.setText(AppConstant.customerTableInfo.getCUST_CODE());
+        etIbn.setText(AppConstant.customerTableInfo.getCUST_IBAN());
+        etSconti.setText(AppConstant.customerTableInfo.getCUST_ZIP());
 //        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
 //        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
 //        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());

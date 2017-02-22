@@ -12,9 +12,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.icteuro.salage.R;
@@ -40,6 +42,8 @@ public class ClientMainActivity extends AppCompatActivity {
     private ListView listClient;
     private CustomAdapterProduct customAdapterProduct;
     DatabaseHelper db;
+    private Spinner spinnerShowClient;
+    int dataLimit = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,16 +55,47 @@ public class ClientMainActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         customerTableInfo = db.getAllCustomer();
         customerTableInfoList.clear();
+
+        listClient = (ListView)findViewById(R.id.listClient);
+
+
         for(int i=0;i<customerTableInfo.size();i++){
             if(customerTableInfo.get(i).getIS_DELETED().equalsIgnoreCase("0")){
                 customerTableInfoList.add(customerTableInfo.get(i));
+                customAdapterProduct = new CustomAdapterProduct(context);
+                listClient.setAdapter(customAdapterProduct);
+                customAdapterProduct.notifyDataSetChanged();
             }
         }
 
-        listClient = (ListView)findViewById(R.id.listClient);
-        customAdapterProduct = new CustomAdapterProduct(context);
-        listClient.setAdapter(customAdapterProduct);
-        customAdapterProduct.notifyDataSetChanged();
+        spinnerShowClient = (Spinner)findViewById(R.id.spinnerShowClient);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.array_name, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerShowClient.setAdapter(adapter);
+        spinnerShowClient.setSelection(2);
+        dataLimit = Integer.parseInt(spinnerShowClient.getSelectedItem().toString().trim());
+
+        spinnerShowClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                dataLimit = Integer.parseInt(spinnerShowClient.getSelectedItem().toString().trim());
+
+                if(dataLimit>customerTableInfoList.size()){
+                    dataLimit = customerTableInfoList.size();
+                    customAdapterProduct = new CustomAdapterProduct(context);
+                    listClient.setAdapter(customAdapterProduct);
+                    customAdapterProduct.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         dissmissCatListBtn = (ImageView) findViewById(R.id.dissmissCatListBtn);
         dissmissCatListBtn.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +116,11 @@ public class ClientMainActivity extends AppCompatActivity {
 
         }
 
-        @SuppressLint("NewApi")
+
+        @Override
+        public int getCount() {
+            return dataLimit;
+        }
 
         @Override
         public View getView(final int position, View convertView,
