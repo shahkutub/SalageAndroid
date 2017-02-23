@@ -276,6 +276,7 @@ public class ProductMainActivity extends AppCompatActivity {
                 tvClasse.setText(query.getCATE_ID());
                 tvMarche.setText(query.getBRAN_ID());
 
+                Log.e("imageUrl", ""+query.getPROD_IMAGE());
                 imgVisibility.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

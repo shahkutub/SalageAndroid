@@ -2,10 +2,15 @@ package com.salage;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -41,6 +46,7 @@ import com.salage.Utils.NetInfo;
 import com.salage.Utils.PersistData;
 import com.salage.Utils.PersistentUser;
 import com.salage.model.AgentInfo;
+import com.salage.model.AgentTableInfo;
 import com.salage.model.BrandsTableInfo;
 import com.salage.model.CateGoryInfo;
 import com.salage.model.CustomerTableInfo;
@@ -53,6 +59,12 @@ import com.salage.model.ProductTableInfo;
 import com.salage.model.SubCatTableInfo;
 import com.salage.model.SyncResponse;
 
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -84,6 +96,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     private List<SubCatTableInfo> subcateGoryInfoList  = new ArrayList<>();
     private List<BrandsTableInfo> brandsTableInfoList  = new ArrayList<>();
     private List<CustomerTableInfo> CustomerTableInfoList  = new ArrayList<>();
+    private List<AgentTableInfo> agentTableInfoList  = new ArrayList<>();
 
 
     private String json;
@@ -168,7 +181,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         linConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawers();
+                //drawerLayout.closeDrawers();
                 if(tvSyncConfig.getText().toString().equalsIgnoreCase("CONFIGARAZION")){
                     startActivity(new Intent(con, LoginActivity.class));
                 }else{
@@ -188,7 +201,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         linClientMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawers();
+                //drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
                 startActivity(new Intent(con, ClientMainActivity.class));
                 //setContentFragment(new ClientFragement(), false,"Active Work");
@@ -198,7 +211,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         linProductMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawers();
+                //drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
                 startActivity(new Intent(con, ProductMainActivity.class));
                 //setContentFragment(new ProductMainFragement(), false,"Active Work");
@@ -208,7 +221,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         linDocumentMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawers();
+                //drawerLayout.closeDrawers();
                 buttonView.setVisibility(View.GONE);
                 startActivity(new Intent(con, DocumentMainActivity.class));
                // setContentFragment(new DocumentMainFragement(), false,"Active Work");
@@ -218,7 +231,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         linSincroMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawers();
+                //drawerLayout.closeDrawers();
                 makeJson();
             }
         });
@@ -647,6 +660,33 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                     linSincroMenu.setVisibility(View.VISIBLE);
 
 
+                    if(syncResponse.getData().getAgen_agents().size()>0){
+                        List<AgentTableInfo> agentData =new ArrayList<AgentTableInfo>();
+                        agentData.addAll(syncResponse.getData().getAgen_agents());
+                        db.deleteAgent();
+                        for(int i = 0; i < agentData.size(); i++) {
+
+                            db.addAgents(new AgentTableInfo(agentData.get(i).getAGEN_CODE(),
+                                    agentData.get(i).getAGEN_NAME1(),agentData.get(i).getAGEN_NAME2(),
+                                    agentData.get(i).getAGEN_EMAIL(),agentData.get(i).getAGEN_PASSWORD(),
+                                    agentData.get(i).getAGEN_ENABLED(),agentData.get(i).getAGEN_CANCHANGEPRICE(),
+                                    agentData.get(i).getAGEN_CANCHANGEPAYM(),agentData.get(i).getAGEN_CANCHANGEVAT(),
+                                    agentData.get(i).getAGEN_CANADDCUST(),agentData.get(i).getAGEN_CANADDDEST(),
+                                    agentData.get(i).getAGEN_CANCHANGEDESC(),agentData.get(i).getAGEN_CANUSENOCODE(),
+                                    agentData.get(i).getAGEN_CANADDCOMMENTS(),agentData.get(i).getAGEN_TIMESTAMP(),
+                                    agentData.get(i).getIS_DELETED(),agentData.get(i).getAGENT_TYPE()));
+
+                            agentTableInfoList = db.getAllAgents();
+                            Log.e("AGEN size: ", ""+agentTableInfoList.size());
+                            for (AgentTableInfo cd : agentTableInfoList) {
+                                String log = "AGEN_CODE: "+cd.getAGEN_CODE()+" ,AGEN_NAME1: " + cd.getAGEN_NAME1();
+                                // Writing Contacts to log
+                                Log.e("AGENT DATA: ", log);
+                            }
+                        }
+                    }
+
+
                     if(syncResponse.getData().getCust_customers().size()>0){
                         List<CustomerTableInfo> customerTableInfo =new ArrayList<CustomerTableInfo>();
                         customerTableInfo.addAll(syncResponse.getData().getCust_customers());
@@ -763,7 +803,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                             ProductTableInfoList = db.getAllProducts();
                             Log.e("PROD size: ", ""+ProductTableInfoList.size());
                             for (ProductTableInfo pd : ProductTableInfoList) {
-                                String log = "PROD_CODE: "+pd.getPROD_CODE()+" ,PROD_P0: " + pd.getPROD_P0() + " ,PROD_P4: " + pd.getPROD_P4();
+                                String log = "PROD_Image: "+pd.getPROD_CODE()+" ,PROD_P0: " + pd.getPROD_P0() + " ,PROD_P4: " + pd.getPROD_P4();
                                 // Writing Contacts to log
                                 Log.e("PROD DATA: ", log);
 
@@ -822,5 +862,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         } );
 
     }
+
+
 
 }

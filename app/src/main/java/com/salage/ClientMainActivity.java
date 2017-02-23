@@ -35,7 +35,7 @@ public class ClientMainActivity extends AppCompatActivity {
     Context context;
 
     private TextView tvSubmit,tvTitleContact;
-    private ImageView dissmissCatListBtn;
+    private ImageView dissmissCatListBtn,img_add;
     private String name,email,message;
     private List<CustomerTableInfo> customerTableInfo  = new ArrayList<>();
     private List<CustomerTableInfo> customerTableInfoList  = new ArrayList<>();
@@ -98,6 +98,15 @@ public class ClientMainActivity extends AppCompatActivity {
 
 
         dissmissCatListBtn = (ImageView) findViewById(R.id.dissmissCatListBtn);
+        img_add = (ImageView) findViewById(R.id.img_add);
+        img_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppConstant.customerTableInfo=null;
+                startActivity(new Intent(context,ClientDetailsActivity.class));
+            }
+        });
+
         dissmissCatListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

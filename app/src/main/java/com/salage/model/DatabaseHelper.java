@@ -1460,6 +1460,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.close();
 	}
 
+	public void deleteAgent() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_AGENT);
+		db.close();
+	}
+
 	public void deleteProduct() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("delete from "+ TABLE_prod_products);

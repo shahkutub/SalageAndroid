@@ -32,6 +32,9 @@ public class ProductTableInfo {
 	String PROD_TIMESTAMP;
 	String PROD_AVL_TIMESTAMP;
 	String IS_DELETED;
+//	String fileImage;
+//	String filePdf;
+
 
 
 	public ProductTableInfo() {
@@ -269,6 +272,22 @@ public class ProductTableInfo {
 	public void setPROD_AVL_TIMESTAMP(String PROD_AVL_TIMESTAMP) {
 		this.PROD_AVL_TIMESTAMP = PROD_AVL_TIMESTAMP;
 	}
+//
+//	public String getFileImage() {
+//		return fileImage;
+//	}
+//
+//	public void setFileImage(String fileImage) {
+//		this.fileImage = fileImage;
+//	}
+//
+//	public String getFilePdf() {
+//		return filePdf;
+//	}
+//
+//	public void setFilePdf(String filePdf) {
+//		this.filePdf = filePdf;
+//	}
 
 	public String getIS_DELETED() {
 		return IS_DELETED;

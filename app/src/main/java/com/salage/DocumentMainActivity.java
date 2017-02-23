@@ -49,6 +49,8 @@ public class DocumentMainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
+                startActivity(new Intent(con,DocumentDetailsActivity.class));
+
             }
         });
 

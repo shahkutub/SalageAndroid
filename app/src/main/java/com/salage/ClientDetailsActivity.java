@@ -60,23 +60,27 @@ public class ClientDetailsActivity extends AppCompatActivity {
         etIbn = (EditText) findViewById(R.id.etIbn);
         etSconti = (EditText) findViewById(R.id.etSconti);
 
-        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
-        etAgentFirstName.setText(AppConstant.customerTableInfo.getCUST_NAME1());
-        etAgentLastName.setText(AppConstant.customerTableInfo.getCUST_NAME2());
-        etAddress.setText(AppConstant.customerTableInfo.getCUST_ADDRESS());
-        //etCap.setText(AppConstant.customerTableInfo.getCUST_CODE());
-        etCity.setText(AppConstant.customerTableInfo.getCUST_CITY());
-        etProvince.setText(AppConstant.customerTableInfo.getCUST_PROVINCE());
-        etNazion.setText(AppConstant.customerTableInfo.getCUST_COUNTRY());
+        if(AppConstant.customerTableInfo!= null){
+            etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
+            etAgentFirstName.setText(AppConstant.customerTableInfo.getCUST_NAME1());
+            etAgentLastName.setText(AppConstant.customerTableInfo.getCUST_NAME2());
+            etAddress.setText(AppConstant.customerTableInfo.getCUST_ADDRESS());
+            //etCap.setText(AppConstant.customerTableInfo.getCUST_CODE());
+            etCity.setText(AppConstant.customerTableInfo.getCUST_CITY());
+            etProvince.setText(AppConstant.customerTableInfo.getCUST_PROVINCE());
+            etNazion.setText(AppConstant.customerTableInfo.getCUST_COUNTRY());
 
-        etNtel.setText(AppConstant.customerTableInfo.getCUST_TEL());
-        etFax.setText(AppConstant.customerTableInfo.getCUST_FAX());
-        etMobile.setText(AppConstant.customerTableInfo.getCUST_MOBILE());
-        etEmail.setText(AppConstant.customerTableInfo.getCUST_MAIL());
-        etCodeFiscal.setText(AppConstant.customerTableInfo.getCUST_CF());
-       // etPrtitaIVA.setText(AppConstant.customerTableInfo.getCUST_CODE());
-        etIbn.setText(AppConstant.customerTableInfo.getCUST_IBAN());
-        etSconti.setText(AppConstant.customerTableInfo.getCUST_ZIP());
+            etNtel.setText(AppConstant.customerTableInfo.getCUST_TEL());
+            etFax.setText(AppConstant.customerTableInfo.getCUST_FAX());
+            etMobile.setText(AppConstant.customerTableInfo.getCUST_MOBILE());
+            etEmail.setText(AppConstant.customerTableInfo.getCUST_MAIL());
+            etCodeFiscal.setText(AppConstant.customerTableInfo.getCUST_CF());
+            // etPrtitaIVA.setText(AppConstant.customerTableInfo.getCUST_CODE());
+            etIbn.setText(AppConstant.customerTableInfo.getCUST_IBAN());
+            etSconti.setText(AppConstant.customerTableInfo.getCUST_ZIP());
+        }
+
+
 //        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
 //        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
 //        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
