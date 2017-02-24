@@ -6,6 +6,7 @@ import android.util.Log;
 import com.salage.model.CateGoryInfo;
 import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
+import com.salage.model.DownLoadFile;
 import com.salage.model.ProductTableInfo;
 import com.salage.model.UpojelaOfficerInfo;
 
@@ -34,6 +35,8 @@ public class AppConstant {
     public static int processingFee =0;
     public static int logInt =0;
     public static String isSync ="false";
+    public static String isCustEdit ="";
+    public static String customerColumId ="";
 
 
 
@@ -42,7 +45,7 @@ public class AppConstant {
     public static UpojelaOfficerInfo upojelaOfficerInfo = new UpojelaOfficerInfo();
     public static ProductTableInfo productTableInfo = new ProductTableInfo();
     public static CustomerTableInfo customerTableInfo = new CustomerTableInfo();
-
+    public static List<DownLoadFile> DownLoadFileList= new ArrayList<DownLoadFile>();
 
     public static List getCat(DatabaseHelper db){
         List<CateGoryInfo> cateGoryInfoList= new ArrayList<CateGoryInfo>();

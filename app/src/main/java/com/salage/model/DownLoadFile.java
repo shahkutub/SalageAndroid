@@ -6,8 +6,13 @@ package com.salage.model;
 
 public class DownLoadFile {
 
+    //private String pri;
     private String image;
     private String pdf;
+
+    public DownLoadFile(String image) {
+        this.image = image;
+    }
 
     public String getImage() {
         return image;

@@ -7,10 +7,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -52,17 +55,23 @@ import com.salage.model.CateGoryInfo;
 import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.DocumentTableInfo;
+import com.salage.model.DownLoadFile;
 import com.salage.model.JsonInfo;
 import com.salage.model.JsonStructure;
+import com.salage.model.JsonToSendServer;
 import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
 import com.salage.model.SubCatTableInfo;
+import com.salage.model.SyncData;
 import com.salage.model.SyncResponse;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -98,7 +107,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     private List<CustomerTableInfo> CustomerTableInfoList  = new ArrayList<>();
     private List<AgentTableInfo> agentTableInfoList  = new ArrayList<>();
 
-
+    String isdataSync = "false";
     private String json;
     private JsonStructure jsonStructure;
     private Vector<JsonInfo> listVec = new Vector<JsonInfo>();
@@ -193,9 +202,18 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         linNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                drawerLayout.closeDrawers();
-//               // buttonView.setVisibility(View.GONE);
-//                setContentFragment(new NewsFragement(), false,"Active Work");
+               drawerLayout.closeDrawers();
+                ProductTableInfoList = db.getAllProducts();
+        Log.e("PROD size: ", ""+ProductTableInfoList.size());
+
+
+            for (int i = 0; i<ProductTableInfoList.size();i++) {
+                Log.e("PROD size: lop", ""+ProductTableInfoList.size());
+                new ImageLoadTask("http://www.ict-euro.com/demo/salage/uploads/"+ProductTableInfoList.get(i).getPROD_IMAGE());
+            }
+
+
+
             }
         });
         linClientMenu.setOnClickListener(new View.OnClickListener() {
@@ -286,6 +304,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                 makeJson();
             }
         });
+
+        makeJsonTosendServer();
     }
 
 
@@ -394,6 +414,30 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
    syncData("http://www.ict-euro.com/demo/salage/websync_native/index");
 
         listVec.clear();
+    }
+
+
+    private void makeJsonTosendServer(){
+        List<ProductTableInfo> ProductTableInfoList  = new ArrayList<>();
+        ProductTableInfoList = db.getAllProducts();
+         List<AgentInfo> agentList  = new ArrayList<>();
+        AgentInfo aifo = new AgentInfo();
+        aifo.setAGEN_CODE(PersistData.getStringData(con,AppConstant.agentCode));
+        agentList.add(aifo);
+
+        SyncData sdta = new SyncData();
+        //sdta.setProd_products(ProductTableInfoList);
+
+        JsonToSendServer jsonToSendServer = new JsonToSendServer();
+        jsonToSendServer.setInfo(agentList);
+        jsonToSendServer.setData(sdta);
+
+
+        Gson gson = new Gson();
+        json = gson.toJson(jsonToSendServer);
+        Log.e("gson TosendServer", "" + json);
+
+        agentList.clear();
     }
 
     private void insertDocumentHed() {
@@ -583,6 +627,16 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     @Override
     protected void onResume() {
         super.onResume();
+//        ProductTableInfoList = db.getAllProducts();
+//        Log.e("PROD size: ", ""+ProductTableInfoList.size());
+//        if(isdataSync.equalsIgnoreCase("true")){
+//
+//            for (ProductTableInfo pd : ProductTableInfoList) {
+//                new ImageLoadTask("http://www.ict-euro.com/demo/salage/uploads/"+pd.getPROD_IMAGE());
+//            }
+//
+//            isdataSync = "false";
+//        }
 
         if(PersistentUser.isLogged(con)&& AppConstant.logInt==1){
             tvSyncConfig.setText("SYNCRO");
@@ -665,6 +719,8 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                         agentData.addAll(syncResponse.getData().getAgen_agents());
                         db.deleteAgent();
                         for(int i = 0; i < agentData.size(); i++) {
+
+
 
                             db.addAgents(new AgentTableInfo(agentData.get(i).getAGEN_CODE(),
                                     agentData.get(i).getAGEN_NAME1(),agentData.get(i).getAGEN_NAME2(),
@@ -780,6 +836,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                     }
 
                     if(syncResponse.getData().getProd_products().size()>0){
+
                         List<ProductTableInfo> proDcData =new ArrayList<ProductTableInfo>();
                         proDcData.addAll(syncResponse.getData().getProd_products());
                         db.deleteProduct();
@@ -803,13 +860,11 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                             ProductTableInfoList = db.getAllProducts();
                             Log.e("PROD size: ", ""+ProductTableInfoList.size());
                             for (ProductTableInfo pd : ProductTableInfoList) {
-                                String log = "PROD_Image: "+pd.getPROD_CODE()+" ,PROD_P0: " + pd.getPROD_P0() + " ,PROD_P4: " + pd.getPROD_P4();
-                                // Writing Contacts to log
-                                Log.e("PROD DATA: ", log);
-
+                               // new ImageLoadTask("http://www.ict-euro.com/demo/salage/uploads/"+pd.getPROD_IMAGE());
                             }
 
                         }
+                        isdataSync = "true";
                     }
 
                     if(syncResponse.getData().getDoch_document_heads().size()>0){
@@ -853,6 +908,9 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                     }
                 }
 
+
+
+
             }
 
             @Override
@@ -863,6 +921,49 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
 
     }
 
+    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private String path;
+
+        public ImageLoadTask(String url) {
+            this.url = url;
+           // this.path = path;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            //imageView.setImageBitmap(result);
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            result.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            path = MediaStore.Images.Media.insertImage(con.getContentResolver(), result, "Title", null);
+
+            AppConstant.DownLoadFileList.add(new DownLoadFile(path));
+            Log.e("DownLoadFileList",""+AppConstant.DownLoadFileList.size());
+            // Picasso.with(con).load(path).into(imageView);
+            // return Uri.parse(path);
+        }
+
+    }
 
 
 }

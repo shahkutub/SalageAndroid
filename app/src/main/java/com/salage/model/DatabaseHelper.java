@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.salage.Utils.AppConstant;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1488,4 +1490,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //		// return count
 //		return cursor.getCount();
 //	}
+
+
+	public void updateCustomer(CustomerTableInfo customerTableInfo) {
+		SQLiteDatabase database = this.getReadableDatabase();
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(CUST_CUST_CODE, customerTableInfo.getCUST_CODE());
+		contentValues.put(CUST_CUST_NAME1, customerTableInfo.getCUST_NAME1());
+		contentValues.put(CUST_CUST_NAME2, customerTableInfo.getCUST_NAME2());
+		contentValues.put(CUST_CUST_ADDRESS, customerTableInfo.getCUST_ADDRESS());
+		contentValues.put(CUST_CUST_ZIP, customerTableInfo.getCUST_ZIP());
+		contentValues.put(CUST_CUST_CITY, customerTableInfo.getCUST_CITY());
+		contentValues.put(CUST_CUST_PROVINCE, customerTableInfo.getCUST_PROVINCE());
+		contentValues.put(CUST_COUNTRY, customerTableInfo.getCUST_COUNTRY());
+		contentValues.put(CUST_CUST_TEL, customerTableInfo.getCUST_TEL());
+		contentValues.put(CUST_CUST_FAX, customerTableInfo.getCUST_FAX());
+		contentValues.put(CUST_CUST_MOBILE, customerTableInfo.getCUST_MOBILE());
+		contentValues.put(CUST_CUST_MAIL, customerTableInfo.getCUST_MAIL());
+		contentValues.put(CUST_CUST_CF, customerTableInfo.getCUST_CF());
+		contentValues.put(CUST_CUST_VATNUM, customerTableInfo.getCUST_VATNUM());
+		contentValues.put(CUST_CUST_IBAN, customerTableInfo.getCUST_IBAN());
+		contentValues.put(CUST_VATT_ID, customerTableInfo.getVATT_ID());
+		contentValues.put(CUST_PAYM_ID, customerTableInfo.getPAYM_ID());
+		contentValues.put(CUST_AGEN_CODE, customerTableInfo.getAGEN_CODE());
+		contentValues.put(CUST_CUST_PRICELIST, customerTableInfo.getCUST_PRICELIST());
+		contentValues.put(CUST_CUST_DISCOUNT, customerTableInfo.getCUST_DISCOUNT());
+		contentValues.put(CUST_CUST_STATE, customerTableInfo.getCUST_STATE());
+		contentValues.put(CUST_CUST_TIMESTAMP, customerTableInfo.getCUST_TIMESTAMP());
+		contentValues.put(CUST_IS_DELETED, customerTableInfo.getIS_DELETED());
+
+		database.update(TABLE_cust_customers, contentValues, KEY_ID + " = ?", new String[]{AppConstant.customerColumId});
+		database.close();
+	}
 }

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.icteuro.salage.R;
 import com.salage.Utils.AppConstant;
+import com.squareup.picasso.Picasso;
+
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -64,6 +68,7 @@ public class ProductDetailsActivity extends AppCompatActivity{
         file_url = "http://www.ict-euro.com/demo/salage/uploads/"+AppConstant.productTableInfo.getPROD_IMAGE();
         Log.e("file_url",""+file_url);
         imgProd = (ImageView) findViewById(R.id.imgProd);
+        //Picasso.with(con).load(AppConstant.DownLoadFileList.get(0).getImage()).into(imgProd);
         new ImageLoadTask(file_url, imgProd).execute();
 
         dissmissCatListBtn = (ImageView) findViewById(R.id.dissmissCatListBtn);
@@ -245,7 +250,13 @@ public class ProductDetailsActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
-            imageView.setImageBitmap(result);
+            //imageView.setImageBitmap(result);
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            result.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            String path = MediaStore.Images.Media.insertImage(con.getContentResolver(), result, "Title", null);
+            Picasso.with(con).load(path).into(imageView);
+           // return Uri.parse(path);
         }
 
     }
