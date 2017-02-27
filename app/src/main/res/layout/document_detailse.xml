@@ -89,9 +89,9 @@
 
 
                 <Spinner
+                    android:id="@+id/spinnerTpo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
+                    android:layout_height="@dimen/dim20"
                     ></Spinner>
 
             </LinearLayout>
@@ -124,7 +124,7 @@
                 <Spinner
                     android:id="@+id/spinnerClient"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dim20"
                     ></Spinner>
 
             </LinearLayout>
@@ -141,7 +141,7 @@
                 android:layout_marginTop="@dimen/dim5"
                 />
             <EditText
-                android:id="@+id/etAgent"
+                android:id="@+id/etDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="06/02/2017"
@@ -165,6 +165,7 @@
                 android:layout_marginTop="@dimen/dim5"
                 />
             <EditText
+                android:id="@+id/etAegentCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Codice agente"
@@ -173,6 +174,7 @@
                 android:padding="@dimen/dim10"
                 android:singleLine="true"
                 android:inputType="text"
+                android:focusable="false"
                 android:background="@drawable/edittext_bg"
                 />
 
@@ -189,6 +191,7 @@
                  />
 
             <EditText
+                android:id="@+id/etClientCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Codice clienti"
@@ -214,6 +217,7 @@
                 />
 
             <EditText
+                android:id="@+id/clientFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Cliento pimo nome"
@@ -238,6 +242,7 @@
                 />
 
             <EditText
+                android:id="@+id/etClientLastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Cliento secondo nome"
@@ -261,7 +266,7 @@
                 />
 
             <EditText
-                android:id="@+id/address"
+                android:id="@+id/etAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Indirizzo"
@@ -285,7 +290,7 @@
                 android:gravity="left"
                 />
             <EditText
-                android:id="@+id/etCap"
+                android:id="@+id/etZip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="CAP"
@@ -489,6 +494,7 @@
                 android:layout_marginLeft="@dimen/dim10"
                 android:gravity="left"
                 />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -509,7 +515,6 @@
                     ></Spinner>
 
             </LinearLayout>
-
 
 
             <LinearLayout

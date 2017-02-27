@@ -108,7 +108,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     private List<AgentTableInfo> agentTableInfoList  = new ArrayList<>();
 
     String isdataSync = "false";
-    private String json;
+    private String json,jsonServer;
     private JsonStructure jsonStructure;
     private Vector<JsonInfo> listVec = new Vector<JsonInfo>();
     SyncResponse syncResponse;
@@ -302,10 +302,11 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
             @Override
             public void onClick(View view) {
                 makeJson();
+                //makeJsonTosendServer();
             }
         });
 
-        makeJsonTosendServer();
+
     }
 
 
@@ -418,25 +419,27 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
 
 
     private void makeJsonTosendServer(){
-        List<ProductTableInfo> ProductTableInfoList  = new ArrayList<>();
-        ProductTableInfoList = db.getAllProducts();
+        List<CustomerTableInfo> cstomerTableInfoList  = new ArrayList<>();
+        List<DocumentTableInfo> doch_document_heads =new ArrayList<DocumentTableInfo>();
+        cstomerTableInfoList = db.getAllCustomer();
+        doch_document_heads = db.getAllDocumentss();
          List<AgentInfo> agentList  = new ArrayList<>();
         AgentInfo aifo = new AgentInfo();
         aifo.setAGEN_CODE(PersistData.getStringData(con,AppConstant.agentCode));
         agentList.add(aifo);
 
         SyncData sdta = new SyncData();
-        //sdta.setProd_products(ProductTableInfoList);
-
+        sdta.setCust_customers(cstomerTableInfoList);
+        sdta.setDoch_document_heads(doch_document_heads);
         JsonToSendServer jsonToSendServer = new JsonToSendServer();
         jsonToSendServer.setInfo(agentList);
         jsonToSendServer.setData(sdta);
 
 
         Gson gson = new Gson();
-        json = gson.toJson(jsonToSendServer);
-        Log.e("gson TosendServer", "" + json);
-
+        jsonServer = gson.toJson(jsonToSendServer);
+        Log.d("gson TosendServer", "" + json);
+        sendDataServer("http://www.ict-euro.com/demo/salage/websync_native/index");
         agentList.clear();
     }
 
@@ -909,10 +912,56 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                 }
 
 
-
-
             }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        } );
+
+    }
+
+
+    protected void sendDataServer(final String url) {
+
+        if (!NetInfo.isOnline(con)) {
+            AlertMessage.showMessage(con, "Alert",
+                    "No Internet");
+            return;
+        }
+
+        final BusyDialog busyNow = new BusyDialog(con, true, false);
+        busyNow.show();
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+
+        final RequestParams param = new RequestParams();
+
+        try {
+
+            param.put("json_data", jsonServer);
+
+        } catch (final Exception e1) {
+            e1.printStackTrace();
+        }
+
+        client.post(url, param, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (busyNow != null) {
+                    busyNow.dismis();
+                }
+
+                Log.e("resposne ", ">>" + new String(responseBody));
+
+                Gson g = new Gson();
+                syncResponse = g.fromJson(new String(responseBody), SyncResponse.class);
+
+                if(syncResponse!=null) {
+
+                }
+                }
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 

@@ -73,7 +73,13 @@ public class ProductMainActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(con);
         cateGoryInfoList = db.getAllCategories();
+        CateGoryInfo cainf = new CateGoryInfo();
+        cainf.setCATE_DESCRIPTION("Select class");
+        cateGoryInfoList.add(cainf);
+
         subCateGoryInfoList = db.getAllSubcategories();
+
+
         barnadsList = db.getAllBrands();
         productList = db.getAllProducts();
 
@@ -177,14 +183,25 @@ public class ProductMainActivity extends AppCompatActivity {
 
 
 
-        spinnerClass.setPrompt("Select Classe");
-        spinnerSottoClass.setPrompt("Select Sotto classe");
+        //spinnerClass.setPrompt("Select Classe");
+        //spinnerSottoClass.setPrompt("Select Sotto classe");
         spinnerMarche.setPrompt("Select marche");
 //            spinnerClass.setOnItemSelectedListener(this);
 //            spinnerSottoClass.setOnItemSelectedListener(this);
 
         CustomAdapter customAdapter=new CustomAdapter(con,cateGoryInfoList);
         spinnerClass.setAdapter(customAdapter);
+        for(int i =0;i<cateGoryInfoList.size();i++){
+           if(cateGoryInfoList.get(i).getCATE_DESCRIPTION().equalsIgnoreCase("Select class")){
+               spinnerClass.setSelection(i);
+           }
+        }
+
+//        for(int i =0;i<subCateGoryInfoList.size();i++){
+//            if(subCateGoryInfoList.get(i).getSUBC_DESCRIPTION().equalsIgnoreCase("Select sotto class")){
+//                spinnerSottoClass.setSelection(i);
+//            }
+//        }
 
         CustomAdapterBrands customAdapterBrands=new CustomAdapterBrands(con,barnadsList);
         spinnerMarche.setAdapter(customAdapterBrands);
@@ -198,13 +215,16 @@ public class ProductMainActivity extends AppCompatActivity {
                 catId = cateGoryInfoList.get(i).getCATE_ID();
 
                 for(int s = 0; s<subCateGoryInfoList.size();s++){
-
-                    if(cateGoryInfoList.get(i).getCATE_ID().equalsIgnoreCase(subCateGoryInfoList.get(s).getCATE_ID())) {
-                        //Log.e("click","click");
-                        //subDes.add(subCateGoryInfoList.get(s).getSUBC_DESCRIPTION());
-                        subCateGoryInfoSpinnerList.add(subCateGoryInfoList.get(s));
-                        Log.e("subSpinnerList size",""+subCateGoryInfoSpinnerList.size());
+                    if (!cateGoryInfoList.get(i).getCATE_DESCRIPTION().equalsIgnoreCase("Select class")){
+                        if(cateGoryInfoList.get(i).getCATE_ID().equalsIgnoreCase(subCateGoryInfoList.get(s).getCATE_ID())) {
+                            //Log.e("click","click");
+                            //subDes.add(subCateGoryInfoList.get(s).getSUBC_DESCRIPTION());
+                            subCateGoryInfoSpinnerList.add(subCateGoryInfoList.get(s));
+                            Log.e("subSpinnerList size",""+subCateGoryInfoSpinnerList.size());
+                        }
                     }
+
+
                 }
 
                 if(subCateGoryInfoSpinnerList.size()>0){
@@ -212,9 +232,21 @@ public class ProductMainActivity extends AppCompatActivity {
                     spinnerSottoClass.setAdapter(customAdapterSubCat);
                     customAdapterSubCat.notifyDataSetChanged();
                     //subDes.clear();
-                }else {
-                    customAdapterSubCat.notifyDataSetChanged();
                 }
+
+//                SubCatTableInfo subInf = new SubCatTableInfo();
+//                subInf.setSUBC_DESCRIPTION("Select sotto class");
+//                subCateGoryInfoList.add(subInf);
+
+
+// else {
+//                    if(subCateGoryInfoSpinnerList.size()>0){
+//                        customAdapterSubCat = new CustomAdapterSubCat(con,subCateGoryInfoSpinnerList,subDes);
+//                        spinnerSottoClass.setAdapter(customAdapterSubCat);
+//                        customAdapterSubCat.notifyDataSetChanged();
+//                        //subDes.clear();
+//                    }
+//                }
             }
 
             @Override
@@ -227,6 +259,8 @@ public class ProductMainActivity extends AppCompatActivity {
         spinnerSottoClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
                 subCatId = subCateGoryInfoSpinnerList.get(i).getSUBC_ID();
                 Log.e("subCatId",""+subCatId);
 

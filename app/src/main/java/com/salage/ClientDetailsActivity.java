@@ -1,9 +1,11 @@
 package com.salage;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -92,33 +94,10 @@ public class ClientDetailsActivity extends AppCompatActivity {
 
                 if(AppConstant.isCustEdit.equalsIgnoreCase("true")){
 
-                    db.updateCustomer(new CustomerTableInfo(etCodeClient.getText().toString(),
-                            etAgentFirstName.getText().toString(),etAgentLastName.getText().toString(),
-                            etAddress.getText().toString(),etCap.getText().toString(),
-                            etCity.getText().toString(),etProvince.getText().toString(),
-                            etNazion.getText().toString(),etNtel.getText().toString(),
-                            etFax.getText().toString(),etMobile.getText().toString(),
-                            etEmail.getText().toString(),etCodeFiscal.getText().toString(),
-                            etPrtitaIVA.getText().toString(),etIbn.getText().toString(),
-                            "","",
-                            "","",
-                            etSconti.getText().toString(),"",
-                            "","0"));
-                    AppConstant.isCustEdit = "false";
+                    dialogueEdit();
+
                 }else {
-                    db.addCustomer(new CustomerTableInfo(etCodeClient.getText().toString(),
-                            etAgentFirstName.getText().toString(),etAgentLastName.getText().toString(),
-                            etAddress.getText().toString(),etCap.getText().toString(),
-                            etCity.getText().toString(),etProvince.getText().toString(),
-                            etNazion.getText().toString(),etNtel.getText().toString(),
-                            etFax.getText().toString(),etMobile.getText().toString(),
-                            etEmail.getText().toString(),etCodeFiscal.getText().toString(),
-                            etPrtitaIVA.getText().toString(),etIbn.getText().toString(),
-                            "","",
-                            "","",
-                            etSconti.getText().toString(),"",
-                            "","0"));
-                    Log.e("cust Size2",""+db.getAllCustomer().size());
+                    addDialogue();
                 }
 
             }
@@ -159,5 +138,87 @@ public class ClientDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void dialogueEdit(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure want to update this data?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                db.updateCustomer(new CustomerTableInfo(etCodeClient.getText().toString(),
+                        etAgentFirstName.getText().toString(),etAgentLastName.getText().toString(),
+                        etAddress.getText().toString(),etCap.getText().toString(),
+                        etCity.getText().toString(),etProvince.getText().toString(),
+                        etNazion.getText().toString(),etNtel.getText().toString(),
+                        etFax.getText().toString(),etMobile.getText().toString(),
+                        etEmail.getText().toString(),etCodeFiscal.getText().toString(),
+                        etPrtitaIVA.getText().toString(),etIbn.getText().toString(),
+                        "","",
+                        "","",
+                        etSconti.getText().toString(),"",
+                        "","0"));
+                AppConstant.isCustEdit = "false";
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void addDialogue(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure want to add this data?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                db.addCustomer(new CustomerTableInfo(etCodeClient.getText().toString(),
+                        etAgentFirstName.getText().toString(),etAgentLastName.getText().toString(),
+                        etAddress.getText().toString(),etCap.getText().toString(),
+                        etCity.getText().toString(),etProvince.getText().toString(),
+                        etNazion.getText().toString(),etNtel.getText().toString(),
+                        etFax.getText().toString(),etMobile.getText().toString(),
+                        etEmail.getText().toString(),etCodeFiscal.getText().toString(),
+                        etPrtitaIVA.getText().toString(),etIbn.getText().toString(),
+                        "","",
+                        "","",
+                        etSconti.getText().toString(),"",
+                        "","0"));
+                Log.e("cust Size2",""+db.getAllCustomer().size());
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

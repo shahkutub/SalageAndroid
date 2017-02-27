@@ -72,7 +72,7 @@ public class DocumentMainActivity extends AppCompatActivity{
         Context context;
 
         CustomAdapterProduct(Context context) {
-            super(context, R.layout.raw_product_details, documentTableInfoList);
+            super(context, R.layout.raw_document, documentTableInfoList);
 
             this.context = context;
 
@@ -86,7 +86,7 @@ public class DocumentMainActivity extends AppCompatActivity{
             if (v == null) {
                 final LayoutInflater vi = (LayoutInflater) context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.raw_product_details, null);
+                v = vi.inflate(R.layout.raw_document, null);
 
             }
 
@@ -94,16 +94,16 @@ public class DocumentMainActivity extends AppCompatActivity{
 
                 final DocumentTableInfo query = documentTableInfoList.get(position);
 
-                final TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
-                final TextView tvProdotti = (TextView) v.findViewById(R.id.tvProdotti);
-                final TextView tvClasse = (TextView) v.findViewById(R.id.tvClasse);
-                final TextView tvMarche = (TextView) v.findViewById(R.id.tvMarche);
+                final TextView tvCustomer = (TextView) v.findViewById(R.id.tvCustomer);
+                final TextView tvAgentCode = (TextView) v.findViewById(R.id.tvAgentCode);
+                final TextView tvDocumentNumber = (TextView) v.findViewById(R.id.tvDocumentNumber);
+                final TextView tvDocumentType = (TextView) v.findViewById(R.id.tvDocumentType);
                 final ImageView imgVisibility = (ImageView) v.findViewById(R.id.imgVisibility);
 
-//                tvCode.setText(query.getPROD_CODE());
-//                tvProdotti.setText(query.getPROD_DESCRIPTION());
-//                tvClasse.setText(query.getCATE_ID());
-//                tvMarche.setText(query.getBRAN_ID());
+                tvDocumentType.setText(query.getDOCH_TYPE());
+                tvAgentCode.setText(query.getAGEN_CODE());
+                tvDocumentNumber.setText(query.getDOCH_NUMBER());
+                tvCustomer.setText(query.getCUST_NAME1()+" "+query.getCUST_NAME2());
 
                 imgVisibility.setOnClickListener(new View.OnClickListener() {
                     @Override
