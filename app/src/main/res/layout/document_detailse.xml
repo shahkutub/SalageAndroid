@@ -444,6 +444,7 @@
 
 
                 <Spinner
+                    android:id="@+id/spinnerPriceList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -476,6 +477,7 @@
 
 
                 <Spinner
+                    android:id="@+id/spinnerVat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -509,6 +511,7 @@
 
 
                 <Spinner
+                    android:id="@+id/spinnerPayment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -516,155 +519,19 @@
 
             </LinearLayout>
 
+           <ListView
+               android:id="@+id/listProduct"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"></ListView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/dim10"
-                android:layout_marginRight="@dimen/dim10"
-                android:layout_marginLeft="@dimen/dim10"
-                android:background="@drawable/document_below_part_bg"
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="1"
-                    android:layout_margin="@dimen/dim10"
-                    android:padding="@dimen/dim10"
-                    android:singleLine="true"
-                    android:inputType="textUri"
-                    android:layout_marginTop="@dimen/dim10"
-                    />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#999999"
-                    android:layout_marginTop="@dimen/dim10"
-                    />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint=""
-                    android:textSize="15sp"
-                    android:layout_margin="@dimen/dim10"
-                    android:padding="@dimen/dim10"
-                    android:singleLine="true"
-                    android:inputType="textUri"
-                    android:layout_marginTop="@dimen/dim10"
-                    android:background="@drawable/edittext_bg"
-                    />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#999999"
-                    android:layout_marginTop="@dimen/dim10"
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Discrizione"
-                    android:textSize="15sp"
-                    android:layout_margin="@dimen/dim10"
-                    android:padding="@dimen/dim10"
-                    android:singleLine="true"
-                    android:inputType="textUri"
-                    android:layout_marginTop="@dimen/dim10"
-                    android:background="@drawable/edittext_bg"
-                    android:id="@+id/editText" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#999999"
-                    android:layout_marginTop="@dimen/dim10"
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Quantita"
-                    android:textSize="15sp"
-                    android:layout_margin="@dimen/dim10"
-                    android:padding="@dimen/dim10"
-                    android:singleLine="true"
-                    android:inputType="textUri"
-                    android:layout_marginTop="@dimen/dim10"
-                    android:background="@drawable/edittext_bg"
-                    />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#999999"
-                    android:layout_marginTop="@dimen/dim10"
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Lista"
-                    android:textSize="15sp"
-                    android:layout_margin="@dimen/dim10"
-                    android:padding="@dimen/dim10"
-                    android:singleLine="true"
-                    android:inputType="textUri"
-                    android:layout_marginTop="@dimen/dim10"
-                    android:background="@drawable/edittext_bg"
-                    />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#999999"
-                    android:layout_marginTop="@dimen/dim10"
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="totali"
-                    android:textSize="15sp"
-                    android:layout_margin="@dimen/dim10"
-                    android:padding="@dimen/dim10"
-                    android:singleLine="true"
-                    android:inputType="textUri"
-                    android:layout_marginTop="@dimen/dim10"
-                    android:background="@drawable/edittext_bg"
-                    />
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-
-                    >
-                    <ImageView
-                        android:layout_width="@dimen/dim50"
-                        android:layout_height="@dimen/dim50"
-                        android:layout_marginRight="@dimen/dim20"
-                        android:src="@drawable/ic_remove_circle_outline_black_24dp"
-                        />
-
-
-                    <ImageView
-                        android:layout_width="@dimen/dim50"
-                        android:layout_marginLeft="@dimen/dim20"
-                        android:layout_height="@dimen/dim50"
-                        android:src="@drawable/ic_add_circle_outline_black_24dp"
-                        />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
+            <ImageView
+                android:id="@+id/imgAddPro"
+                android:layout_width="@dimen/dim35"
+                android:layout_marginLeft="@dimen/dim20"
+                android:layout_height="@dimen/dim35"
+                android:visibility="visible"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
+                />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -686,6 +553,7 @@
                 android:layout_marginLeft="@dimen/dim10"
                 android:gravity="left"
                 />
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -697,7 +565,7 @@
                 android:inputType="textUri"
                 android:layout_marginTop="@dimen/dim10"
                 android:background="@drawable/edittext_bg"
-                />
+                android:id="@+id/editText2" />
 
             <View
                 android:layout_width="match_parent"

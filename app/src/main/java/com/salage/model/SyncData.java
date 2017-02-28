@@ -17,6 +17,24 @@ public class SyncData {
     public List<BrandsTableInfo> bran_brands =new ArrayList<BrandsTableInfo>();
     public List<CustomerTableInfo> cust_customers =new ArrayList<CustomerTableInfo>();
     public List<AgentTableInfo> agen_agents =new ArrayList<AgentTableInfo>();
+    public List<VatTableInfo> vatt_vat =new ArrayList<VatTableInfo>();
+    public List<PaymentTableInfo> paym_payments =new ArrayList<PaymentTableInfo>();
+
+    public List<VatTableInfo> getVatt_vat() {
+        return vatt_vat;
+    }
+
+    public void setVatt_vat(List<VatTableInfo> vatt_vat) {
+        this.vatt_vat = vatt_vat;
+    }
+
+    public List<PaymentTableInfo> getPaym_payments() {
+        return paym_payments;
+    }
+
+    public void setPaym_payments(List<PaymentTableInfo> paym_payments) {
+        this.paym_payments = paym_payments;
+    }
 
     public List<AgentTableInfo> getAgen_agents() {
         return agen_agents;

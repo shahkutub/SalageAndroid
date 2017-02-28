@@ -59,11 +59,13 @@ import com.salage.model.DownLoadFile;
 import com.salage.model.JsonInfo;
 import com.salage.model.JsonStructure;
 import com.salage.model.JsonToSendServer;
+import com.salage.model.PaymentTableInfo;
 import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
 import com.salage.model.SubCatTableInfo;
 import com.salage.model.SyncData;
 import com.salage.model.SyncResponse;
+import com.salage.model.VatTableInfo;
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
@@ -702,6 +704,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                 if(syncResponse!=null){
 
                     PersistData.setStringData(con,AppConstant.isSync,"true");
+
                     tvSyncConfig.setText("CONFIGARAZION");
                     tvConfig.setText("CONFIGARAZION");
 
@@ -775,6 +778,78 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                         }
                     }
 
+
+
+                    if(syncResponse.getData().getPric_pricelists().size()>0){
+                        List<PriceListTableInfo> priceListTableInfo =new ArrayList<PriceListTableInfo>();
+                        priceListTableInfo.addAll(syncResponse.getData().getPric_pricelists());
+                        db.deletePrice();
+                        for(int i = 0; i < priceListTableInfo.size(); i++) {
+
+                            db.addPriceList(new PriceListTableInfo(priceListTableInfo.get(i).getPRIC_DESC0(),
+                                    priceListTableInfo.get(i).getPRIC_DESC1(),priceListTableInfo.get(i).getPRIC_DESC2(),
+                                    priceListTableInfo.get(i).getPRIC_DESC3(),priceListTableInfo.get(i).getPRIC_DESC4(),
+                                    priceListTableInfo.get(i).getPRIC_DESC5(),priceListTableInfo.get(i).getPRIC_DESC5(),
+                                    priceListTableInfo.get(i).getPRIC_DESC6(),priceListTableInfo.get(i).getPRIC_DESC7(),
+                                    priceListTableInfo.get(i).getPRIC_DESC8(),priceListTableInfo.get(i).getPRIC_DESC9()));
+
+                            priceListTableInfo = db.getAllPriceList();
+                            Log.e("cat size: ", ""+brandsTableInfoList.size());
+                            for (PriceListTableInfo cd : priceListTableInfo) {
+                                String log = "BRAN_DESCRIPTION: "+cd.getPRIC_DESC0()+" ,BRAN_ID: " + cd.getPRIC_DESC1();
+                                // Writing Contacts to log
+                                Log.e("cat DATA: ", log);
+                            }
+                        }
+                    }
+
+
+                    if(syncResponse.getData().getPaym_payments().size()>0){
+                        List<PaymentTableInfo> paymentTableInfo =new ArrayList<PaymentTableInfo>();
+                        paymentTableInfo.addAll(syncResponse.getData().getPaym_payments());
+                         db.deletePayment();
+                        for(int i = 0; i < paymentTableInfo.size(); i++) {
+
+                            db.addPayment(new PaymentTableInfo(paymentTableInfo.get(i).getPAYM_ID(),
+                                    paymentTableInfo.get(i).getPAYM_CODE(),paymentTableInfo.get(i).getPAYM_DESCRIPTION(),
+                                    paymentTableInfo.get(i).getPAYM_DISCOUNT(),paymentTableInfo.get(i).getPAYM_TIMESTAMP(),
+                                    paymentTableInfo.get(i).getIS_DELETED()));
+
+                        }
+
+                        paymentTableInfo = db.getPaymentList();
+                        Log.e("cat size: ", ""+paymentTableInfo.size());
+                        for (PaymentTableInfo cd : paymentTableInfo) {
+                            String log = "BRAN_DESCRIPTION: "+cd.getPAYM_DESCRIPTION()+" ,BRAN_ID: " + cd.getPAYM_DISCOUNT();
+                            // Writing Contacts to log
+                            Log.e("cat DATA: ", log);
+                        }
+                    }
+
+                //Vat table
+                    if(syncResponse.getData().getVatt_vat().size()>0){
+                        List<VatTableInfo> vatTableInfo =new ArrayList<>();
+                        vatTableInfo.addAll(syncResponse.getData().getVatt_vat());
+                        Log.e("vat siz: ", ""+vatTableInfo.size());
+                          db.deleteVat();
+                        for(int i = 0; i < vatTableInfo.size(); i++) {
+                            Log.e("vat siz: ", ""+vatTableInfo.size());
+
+                            db.addVat(new VatTableInfo(vatTableInfo.get(i).getVATT_ID(),
+                                    vatTableInfo.get(i).getVATT_CODE(),vatTableInfo.get(i).getVATT_DESCRIPTION(),
+                                    vatTableInfo.get(i).getVATT_PERCENT(),vatTableInfo.get(i).getVATT_TIMESTAMP(),
+                                    vatTableInfo.get(i).getIS_DELETED()));
+
+                        }
+
+                        vatTableInfo = db.getAllVats();
+                        Log.e("vat siz: ", ""+vatTableInfo.size());
+                        for (VatTableInfo cd : vatTableInfo) {
+                            String log = "Vat id "+cd.getVATT_ID()+" ,vat code: " + cd.getVATT_CODE();
+                            // Writing Contacts to log
+                            Log.e("vat data ", log);
+                        }
+                    }
 
 
                     if(syncResponse.getData().getBran_brands().size()>0){

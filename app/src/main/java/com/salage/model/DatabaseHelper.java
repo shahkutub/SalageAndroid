@@ -192,7 +192,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String PRIC_DESC4 = "PRIC_DESC4";
 	private static final String PRIC_DESC5 = "PRIC_DESC5";
 	private static final String PRIC_DESC6 = "PRIC_DESC6";
-	static final String PRIC_DESC7 = "PRIC_DESC7";
+	private static final String PRIC_DESC7 = "PRIC_DESC7";
 
 	private static final String PRIC_DESC8 = "PRIC_DESC8";
 	private static final String PRIC_DESC9 = "PRIC_DESC9";
@@ -404,6 +404,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ VAT_VATT_ID + " TEXT,"
 			+ VAT_VATT_CODE + " TEXT,"
 			+ VAT_VATT_DESCRIPTION + " TEXT,"
+			+ VAT_VATT_PERCENT + " TEXT,"
 			+ VAT_IS_DELETED + " TEXT,"
 			+ VAT_VATT_TIMESTAMP + " DATETIME" + ")";
 
@@ -856,7 +857,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put(PRIC_DESC9, priceListTableInfo.getPRIC_DESC9());
 		values.put(PRIC_TIMESTAMP, priceListTableInfo.getPRIC_TIMESTAMP());
 		// Inserting Row
-		db.insert(TABLE_subc_subcategories, null, values);
+		db.insert(TABLE_pric_pricelists, null, values);
 		db.close(); // Closing database connection
 	}
 
@@ -1172,8 +1173,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				document.setID(cursor.getString(0));
 				document.setVATT_ID(cursor.getString(1));
 				document.setVATT_CODE(cursor.getString(2));
-				document.setVATT_PERCENT(cursor.getString(3));
-				document.setIS_DELETED(cursor.getString(4));
+				document.setVATT_DESCRIPTION(cursor.getString(3));
+				document.setVATT_PERCENT(cursor.getString(4));
+				document.setVATT_TIMESTAMP(cursor.getString(5));
+				document.setIS_DELETED(cursor.getString(6));
 				// Adding contact to list
 				barcodeList.add(document);
 			} while (cursor.moveToNext());
@@ -1343,7 +1346,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				document.setPRIC_DESC5(cursor.getString(6));
 				document.setPRIC_DESC6(cursor.getString(7));
 				document.setPRIC_DESC7(cursor.getString(8));
-
 				document.setPRIC_DESC8(cursor.getString(9));
 				document.setPRIC_DESC9(cursor.getString(10));
 				document.setPRIC_TIMESTAMP(cursor.getString(11));
@@ -1453,6 +1455,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void deleteBrands() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("delete from "+ TABLE_BRANDS);
+		db.close();
+	}
+
+	public void deleteVat() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_vatt_vat);
+		db.close();
+	}
+
+	public void deletePrice() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_pric_pricelists);
+		db.close();
+	}
+
+	public void deletePayment() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_paym_payments);
 		db.close();
 	}
 
