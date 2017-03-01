@@ -37,9 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:layout_marginTop="21dp"
         android:layout_below="@+id/topViewNewList"
-        android:layout_marginTop="@dimen/dim20"
-        >
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -62,7 +63,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:textSize="@dimen/dim15"
+                        android:textSize="12sp"
                         android:text="Codice/barcode"
                         android:layout_height="wrap_content" />
                     <EditText
@@ -70,7 +71,7 @@
                         android:layout_weight="1"
                         android:textSize="@dimen/dim15"
                         android:text=""
-                        android:hint="codice/barcode"
+                        android:hint="codice"
                         android:background="#ffffff"
                         android:padding="@dimen/dim10"
                         android:layout_height="wrap_content" />
@@ -84,22 +85,24 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/dim10"
+                    android:padding="@dimen/dim8"
                     >
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:textSize="@dimen/dim15"
+                        android:textSize="12sp"
                         android:text="prodotti"
                         android:layout_height="wrap_content" />
+
                     <EditText
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:textSize="@dimen/dim15"
-                        android:text="prodotti"
+                        android:text=""
                         android:background="#ffffff"
                         android:padding="@dimen/dim10"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editText" />
                 </LinearLayout>
 
                 <View
@@ -115,7 +118,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight=".5"
-                        android:textSize="@dimen/dim15"
+                        android:textSize="12sp"
                         android:padding="@dimen/dim10"
                         android:text="class"
                         android:layout_height="wrap_content" />
@@ -154,7 +157,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight=".5"
-                        android:textSize="@dimen/dim15"
+                        android:textSize="12sp"
                         android:padding="@dimen/dim5"
                         android:text="sottoclass"
                         android:layout_height="wrap_content" />
@@ -190,7 +193,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight=".5"
-                        android:textSize="@dimen/dim15"
+                        android:textSize="12sp"
                         android:padding="@dimen/dim10"
                         android:text="marche"
                         android:layout_height="wrap_content" />
@@ -225,7 +228,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:textSize="@dimen/dim15"
+                        android:textSize="12sp"
 
                         android:text="action"
                         android:layout_height="wrap_content" />
@@ -238,7 +241,7 @@
                         android:background="@color/gray"
                         android:text="CERCA"
                         android:gravity="center"
-                        android:layout_height="@dimen/dim50"
+                        android:layout_height="@dimen/dim35"
                         />
                 </LinearLayout>
             </LinearLayout>

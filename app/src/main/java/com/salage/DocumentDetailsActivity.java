@@ -86,6 +86,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private CustomAdapterSubCat customAdapterSubCat;
     private CustomAdapterProductDialogue customAdapterProductDialogue;
     String  catId,subCatId;
+    int proAddPos;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -349,6 +350,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
             if (position < proInfoAddList.size()) {
 
+
                 final ProductTableInfo query = proInfoAddList.get(position);
                 final Spinner spinnerProduct = (Spinner)v.findViewById(R.id.spinnerProduct);
                 final LinearLayout linProduct = (LinearLayout)v.findViewById(R.id.linProduct);
@@ -400,6 +402,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 listProName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                         etProName.setText(listProName.getItemAtPosition(i).toString());
                         listProName.setVisibility(View.GONE);
                         for(int j = 0; j<productList.size();j++){
@@ -424,6 +427,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 etProName.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
+                        proAddPos = position;
                         showProDialogue();
 
                         return false;
@@ -768,8 +772,10 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 imgVisibility.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AppConstant.productTableInfo = query;
-                        startActivity(new Intent(con, ProductDetailsActivity.class));
+                        //AppConstant.productTableInfo = query;
+                        proInfoAddList.set(proAddPos,query);
+                        customAdapterProduct.notifyDataSetChanged();
+                        dialogProduct.dismiss();
                     }
                 });
 
