@@ -33,6 +33,7 @@
 </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content">
@@ -446,7 +447,7 @@
                 <Spinner
                     android:id="@+id/spinnerPriceList"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dim20"
 
                     ></Spinner>
 
@@ -479,8 +480,7 @@
                 <Spinner
                     android:id="@+id/spinnerVat"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
+                    android:layout_height="@dimen/dim20"
                     ></Spinner>
 
             </LinearLayout>
@@ -513,7 +513,7 @@
                 <Spinner
                     android:id="@+id/spinnerPayment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dim20"
 
                     ></Spinner>
 
@@ -522,14 +522,16 @@
            <ListView
                android:id="@+id/listProduct"
                android:layout_width="match_parent"
+               android:layout_margin="@dimen/dim5"
                android:layout_height="wrap_content"></ListView>
 
             <ImageView
                 android:id="@+id/imgAddPro"
-                android:layout_width="@dimen/dim35"
+                android:layout_width="@dimen/dim50"
                 android:layout_marginLeft="@dimen/dim20"
-                android:layout_height="@dimen/dim35"
+                android:layout_height="@dimen/dim50"
                 android:visibility="visible"
+                android:padding="@dimen/dim10"
                 android:src="@drawable/ic_add_circle_outline_black_24dp"
                 />
 

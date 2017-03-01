@@ -10,7 +10,7 @@
         android:layout_marginTop="@dimen/dim10"
         android:layout_marginRight="@dimen/dim10"
         android:layout_marginLeft="@dimen/dim10"
-        android:background="@drawable/document_below_part_bg"
+        android:background="@drawable/document_product_part_bg"
         >
 
         <TextView
@@ -18,12 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="1"
-            android:layout_margin="@dimen/dim10"
-            android:padding="@dimen/dim10"
+            android:text=""
+            android:padding="@dimen/dim5"
             android:singleLine="true"
             android:inputType="textUri"
-            android:layout_marginTop="@dimen/dim10"
              />
 
         <View
@@ -32,6 +30,7 @@
             android:background="#999999"
             android:layout_marginTop="@dimen/dim10"
             />
+
         <EditText
             android:id="@+id/etProName"
             android:layout_width="match_parent"
@@ -42,10 +41,16 @@
             android:padding="@dimen/dim10"
             android:singleLine="true"
             android:inputType="textUri"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_marginTop="@dimen/dim10"
             android:background="@drawable/edittext_bg"
             />
+
+        <ListView
+            android:id="@+id/listProName"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim100"></ListView>
 
         <LinearLayout
             android:id="@+id/linProduct"
@@ -53,6 +58,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="@dimen/dim10"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/dim10"
             android:layout_marginLeft="@dimen/dim10"
             android:layout_marginRight="@dimen/dim10"
