@@ -117,18 +117,21 @@ public class ProductMainActivity extends AppCompatActivity {
 
                 if(!TextUtils.isEmpty(subCatId)){
                     for(int i=0;i<productList.size();i++){
-                        if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())&& subCatId.equalsIgnoreCase(productList.get(i).getSUBC_ID())){
-                            productDetailsList.add(productList.get(i));
-                            Log.e("productDetailsList size",""+productDetailsList.size());
+                        if(!TextUtils.isEmpty(catId)&& !TextUtils.isEmpty(catId)){
+                            if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())&& subCatId.equalsIgnoreCase(productList.get(i).getSUBC_ID())){
+                                productDetailsList.add(productList.get(i));
+                                Log.e("productDetailsList size",""+productDetailsList.size());
+                            }
                         }
-
 
                     }
                 }else {
                     for(int i=0;i<productList.size();i++){
-                        if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())){
-                            productDetailsList.add(productList.get(i));
-                            Log.e("productDetailsList size",""+productDetailsList.size());
+                        if(!TextUtils.isEmpty(catId)){
+                            if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())){
+                                productDetailsList.add(productList.get(i));
+                                Log.e("productDetailsList size",""+productDetailsList.size());
+                            }
                         }
                     }
                 }
@@ -231,7 +234,12 @@ public class ProductMainActivity extends AppCompatActivity {
                     customAdapterSubCat = new CustomAdapterSubCat(con,subCateGoryInfoSpinnerList,subDes);
                     spinnerSottoClass.setAdapter(customAdapterSubCat);
                     customAdapterSubCat.notifyDataSetChanged();
+
                     //subDes.clear();
+                }else {
+                    customAdapterSubCat = new CustomAdapterSubCat(con,subCateGoryInfoSpinnerList,subDes);
+                    spinnerSottoClass.setAdapter(customAdapterSubCat);
+                    customAdapterSubCat.notifyDataSetChanged();
                 }
 
 //                SubCatTableInfo subInf = new SubCatTableInfo();

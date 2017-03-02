@@ -1,5 +1,6 @@
 package com.salage;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -30,7 +32,9 @@ import android.widget.TextView;
 
 import com.icteuro.salage.R;
 import com.salage.Utils.AppConstant;
+import com.salage.Utils.Helper;
 import com.salage.Utils.PersistData;
+import com.salage.Utils.UIUtils;
 import com.salage.adapter.CustomAdapter;
 import com.salage.adapter.CustomAdapterBrands;
 import com.salage.adapter.CustomAdapterSubCat;
@@ -86,7 +90,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private CustomAdapterSubCat customAdapterSubCat;
     private CustomAdapterProductDialogue customAdapterProductDialogue;
     String  catId,subCatId;
-    int proAddPos;
+    int proAddPos,selectPos;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,10 +121,10 @@ public class DocumentDetailsActivity extends AppCompatActivity{
         });
 
 
-        spinnerClient = (Spinner)findViewById(R.id.spinnerClient);
-        ArrayAdapter<String> adp = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, agentCodeList);
-        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerClient.setAdapter(adp);
+//        spinnerClient = (Spinner)findViewById(R.id.spinnerClient);
+//        ArrayAdapter<String> adp = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, agentCodeList);
+//        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerClient.setAdapter(adp);
 
         etDate = (EditText)findViewById(R.id.etDate);
         etAegentCode = (EditText)findViewById(R.id.etAegentCode);
@@ -298,8 +302,9 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
 
         listProduct = (ListView)findViewById(R.id.listProduct);
+       // setListViewHeightBasedOnChildren(listProduct);
         scrollView = (ScrollView)findViewById(R.id.scrollView);
-        smartScroll(scrollView,listProduct);
+        //smartScroll(scrollView,listProduct);
 
 
         ProductTableInfo pinf = new ProductTableInfo();
@@ -307,7 +312,10 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
         customAdapterProduct = new CustomAdapterProduct(con);
         listProduct.setAdapter(customAdapterProduct);
-        customAdapterProduct.notifyDataSetChanged();
+        UIUtils.setListViewHeightBasedOnItems(listProduct);
+        //customAdapterProduct.notifyDataSetChanged();
+
+        Helper.getListViewSize(listProduct);
 
         imgAddPro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,6 +324,9 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 proInfoAddList.add(pinf);
                 customAdapterProduct = new CustomAdapterProduct(con);
                 listProduct.setAdapter(customAdapterProduct);
+                UIUtils.setListViewHeightBasedOnItems(listProduct);
+                //listProduct.setSelection(proAddPos-1);
+                listProduct.setItemChecked(proAddPos-1,true);
                 //customAdapterProduct.notifyDataSetChanged();
             }
         });
@@ -413,6 +424,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                                 productTableInfo.setPROD_MIN_QT(productList.get(j).getPROD_MIN_QT());
                                 proInfoAddList.set(position,productTableInfo);
                                 customAdapterProduct.notifyDataSetChanged();
+                                UIUtils.setListViewHeightBasedOnItems(listProduct);
                             }
 
                         }
@@ -439,6 +451,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                     public void onClick(View view) {
                    proInfoAddList.remove(position);
                    customAdapterProduct.notifyDataSetChanged();
+                        UIUtils.setListViewHeightBasedOnItems(listProduct);
                     }
                 });
 
@@ -539,6 +552,14 @@ public class DocumentDetailsActivity extends AppCompatActivity{
         tvSearch = (TextView)dialogProduct.findViewById(R.id.tvSearch);
         dissmissCatListBtn = (ImageView) dialogProduct.findViewById(R.id.dissmissCatListBtn);
 
+        ImageView imageCross = (ImageView) dialogProduct.findViewById(R.id.imageCross);
+
+        imageCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogProduct.dismiss();
+            }
+        });
         spinnerClass = (Spinner)dialogProduct.findViewById(R.id.spinnerClass);
         spinnerSottoClass = (Spinner)dialogProduct.findViewById(R.id.spinnerSottoClass);
         spinnerMarche = (Spinner)dialogProduct.findViewById(R.id.spinnerMarche);
@@ -567,18 +588,20 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
                 if(!TextUtils.isEmpty(subCatId)){
                     for(int i=0;i<productList.size();i++){
-                        if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())&& subCatId.equalsIgnoreCase(productList.get(i).getSUBC_ID())){
-                            productDetailsList.add(productList.get(i));
-                            Log.e("productDetailsList size",""+productDetailsList.size());
+                        if(!TextUtils.isEmpty(catId)&& !TextUtils.isEmpty(catId)){
+                            if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())&& subCatId.equalsIgnoreCase(productList.get(i).getSUBC_ID())){
+                                productDetailsList.add(productList.get(i));
+                                Log.e("productDetailsList size",""+productDetailsList.size());
+                            }
                         }
-
-
                     }
                 }else {
                     for(int i=0;i<productList.size();i++){
-                        if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())){
-                            productDetailsList.add(productList.get(i));
-                            Log.e("productDetailsList size",""+productDetailsList.size());
+                        if(!TextUtils.isEmpty(catId)){
+                            if(catId.equalsIgnoreCase(productList.get(i).getCATE_ID())){
+                                productDetailsList.add(productList.get(i));
+                                Log.e("productDetailsList size",""+productDetailsList.size());
+                            }
                         }
                     }
                 }
@@ -682,6 +705,10 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                     spinnerSottoClass.setAdapter(customAdapterSubCat);
                     customAdapterSubCat.notifyDataSetChanged();
                     //subDes.clear();
+                }else {
+                    customAdapterSubCat = new CustomAdapterSubCat(con,subCateGoryInfoSpinnerList,subDes);
+                    spinnerSottoClass.setAdapter(customAdapterSubCat);
+                    customAdapterSubCat.notifyDataSetChanged();
                 }
 
 //                SubCatTableInfo subInf = new SubCatTableInfo();
@@ -787,6 +814,32 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
         }
 
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View v = getCurrentFocus();
+
+        if (v != null &&
+                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
+                v instanceof EditText &&
+                !v.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            v.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + v.getTop() - scrcoords[1];
+
+            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom())
+                hideKeyboard(this);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        if (activity != null && activity.getWindow() != null && activity.getWindow().getDecorView() != null) {
+            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 
 }

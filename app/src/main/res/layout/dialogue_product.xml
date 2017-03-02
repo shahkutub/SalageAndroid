@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#E8E8E8"
     >
+
     <RelativeLayout
         android:layout_alignParentTop="true"
         android:background="#4F5A78"
@@ -36,11 +37,11 @@
         android:id="@+id/scTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/topViewNewList"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageCross"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -279,6 +280,7 @@
                     android:id="@+id/textView3" />
             </LinearLayout>
 
+
             <ListView
                 android:id="@+id/listProDetails"
                 android:layout_width="match_parent"
@@ -334,4 +336,11 @@
 
         </LinearLayout>
     </ScrollView>
+    <ImageView
+        android:layout_width="@dimen/dim30"
+        android:layout_height="@dimen/dim30"
+        android:src="@drawable/cross"
+        android:layout_marginBottom="@dimen/dim20"
+        android:layout_alignParentRight="true"
+        android:id="@+id/imageCross" />
 </RelativeLayout>

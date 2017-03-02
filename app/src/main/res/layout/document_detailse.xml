@@ -527,11 +527,10 @@
 
             <ImageView
                 android:id="@+id/imgAddPro"
-                android:layout_width="@dimen/dim50"
-                android:layout_marginLeft="@dimen/dim20"
-                android:layout_height="@dimen/dim50"
+                android:layout_width="@dimen/dim35"
+                android:layout_height="@dimen/dim35"
                 android:visibility="visible"
-                android:padding="@dimen/dim10"
+                android:layout_marginLeft="@dimen/dim10"
                 android:src="@drawable/ic_add_circle_outline_black_24dp"
                 />
 
