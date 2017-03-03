@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -66,7 +67,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private DatabaseHelper db;
     private List<String> agentCodeList = new ArrayList<>();
     private EditText etDate,etAegentCode,etClientCode,clientFirstName,etClientLastName,etAddress,
-            etZip,etCity,etEmail,etProvince,etSconti,etNazion;
+            etZip,etCity,etEmail,etProvince,etSconti,etNazion,etTotalAll;
     private List<CustomerTableInfo> customerTableInfoList  = new ArrayList<>();
     private List<ProductTableInfo> proInfoAddList  = new ArrayList<>();
     private String custName,vatid,paymId;
@@ -84,13 +85,16 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private List<String> subDes = new ArrayList<String>();
     private List<String> proNameList = new ArrayList<String>();
     private ArrayAdapter<String> listAdapter;
+    private List<String> listTotal = new ArrayList<String>();
     private ListView listProDetails;
     private TextView tvSearch;
     private boolean isSpinnerInitial = true;
     private CustomAdapterSubCat customAdapterSubCat;
     private CustomAdapterProductDialogue customAdapterProductDialogue;
-    String  catId,subCatId;
-    int proAddPos,selectPos;
+    private String  catId,subCatId;
+    int tottalResult = 0;
+    int tottal = 0;
+    int proAddPos,selectPos,proTotal;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +129,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 //        ArrayAdapter<String> adp = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, agentCodeList);
 //        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        spinnerClient.setAdapter(adp);
-
+        etTotalAll = (EditText)findViewById(R.id.etTotalAll);
         etDate = (EditText)findViewById(R.id.etDate);
         etAegentCode = (EditText)findViewById(R.id.etAegentCode);
         etClientCode = (EditText)findViewById(R.id.etClientCode);
@@ -328,6 +332,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 //listProduct.setSelection(proAddPos-1);
                 listProduct.setItemChecked(proAddPos-1,true);
                 //customAdapterProduct.notifyDataSetChanged();
+
             }
         });
 
@@ -369,8 +374,49 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 final EditText etDescript = (EditText) v.findViewById(R.id.etDescript);
                 final EditText etQuantity = (EditText) v.findViewById(R.id.etQuantity);
                 final EditText etLista = (EditText) v.findViewById(R.id.etLista);
-                final EditText etScont = (EditText) v.findViewById(R.id.etScont);
+                final EditText etTotal = (EditText) v.findViewById(R.id.etTotal);
+                etTotal.setText(query.getTotal());
 
+//                proInfoAddList.set(position,new ProductTableInfo(etTotal.getText().toString()));
+//                for(int p = 0; p<proInfoAddList.size();p++){
+//                    if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
+//                        tottal = Integer.parseInt(proInfoAddList.get(p).getTotal());
+//                    }
+//                }
+//
+//                tottalResult += tottal;
+//                Log.e("tottalResult",""+tottalResult);
+//                etTotalAll.setText(tottalResult+"");
+
+
+                etTotal.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+//                        ProductTableInfo pTotal = new ProductTableInfo();
+//                        pTotal.setTotal(etTotal.getText().toString());
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        proInfoAddList.set(position,new ProductTableInfo(etTotal.getText().toString()));
+                        for(int p = 0; p<proInfoAddList.size();p++){
+                            if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
+                                tottal = Integer.parseInt(proInfoAddList.get(p).getTotal());
+                            }
+                        }
+
+                        tottalResult += tottal;
+                        Log.e("tottalResult",""+tottalResult);
+                        etTotalAll.setText(tottalResult+"");
+
+                    }
+                });
 
                 etDescript.setText(query.getPROD_DESCRIPTION());
                 etQuantity.setText(query.getPROD_MIN_QT());
@@ -449,9 +495,18 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 imgMinus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                 // tottalResult -= Integer.parseInt(query.getTotal());
                    proInfoAddList.remove(position);
                    customAdapterProduct.notifyDataSetChanged();
                         UIUtils.setListViewHeightBasedOnItems(listProduct);
+
+                      // Log.e("tottalResult",""+tottalResult);
+                        if(!TextUtils.isEmpty(etTotal.getText().toString())){
+                            int totall = Integer.parseInt(etTotal.getText().toString());
+                            tottalResult -= totall;
+                            etTotalAll.setText(tottalResult+"");
+                        }
+
                     }
                 });
 
@@ -571,15 +626,15 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 finish();
             }
         });
-        listProDetails.setOnTouchListener(new View.OnTouchListener() {
-            // Setting on Touch Listener for handling the touch inside ScrollView
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Disallow the touch request for parent scroll on touch of child view
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
+//        listProDetails.setOnTouchListener(new View.OnTouchListener() {
+//            // Setting on Touch Listener for handling the touch inside ScrollView
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                // Disallow the touch request for parent scroll on touch of child view
+//                v.getParent().requestDisallowInterceptTouchEvent(true);
+//                return false;
+//            }
+//        });
 
         tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -612,11 +667,13 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                     listProDetails.setAdapter(customAdapterProductDialogue);
                     listProDetails.setVisibility(View.VISIBLE);
                     customAdapterProductDialogue.notifyDataSetChanged();
+                    UIUtils.setListViewHeightBasedOnItems(listProDetails);
                 }else {
                     customAdapterProductDialogue = new CustomAdapterProductDialogue(con);
                     listProDetails.setAdapter(customAdapterProductDialogue);
                     customAdapterProductDialogue.notifyDataSetChanged();
                     listProDetails.setVisibility(View.GONE);
+                    UIUtils.setListViewHeightBasedOnItems(listProDetails);
                 }
 
             }
@@ -835,7 +892,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
         return super.dispatchTouchEvent(ev);
     }
 
-    public static void hideKeyboard(Activity activity) {
+    public  void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null && activity.getWindow().getDecorView() != null) {
             InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);

@@ -288,6 +288,7 @@
                 android:fadeScrollbars="false"
                 android:scrollbarThumbVertical="@drawable/custom_scroll_style"
                 android:layout_marginTop="@dimen/dim10"
+                android:layout_marginBottom="@dimen/dim15"
                 android:layout_height="match_parent"></ListView>
 
             <TextView
@@ -305,7 +306,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/dim5"
                 >
 

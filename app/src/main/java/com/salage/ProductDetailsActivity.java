@@ -1,5 +1,6 @@
 package com.salage;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,7 +19,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.icteuro.salage.R;
@@ -260,5 +264,6 @@ public class ProductDetailsActivity extends AppCompatActivity{
         }
 
     }
+
 
 }

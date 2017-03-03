@@ -32,10 +32,21 @@ public class ProductTableInfo {
 	String PROD_TIMESTAMP;
 	String PROD_AVL_TIMESTAMP;
 	String IS_DELETED;
-//	String fileImage;
+	String total;
 //	String filePdf;
 
 
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+
+	public ProductTableInfo(String total) {
+		this.total = total;
+	}
 
 	public ProductTableInfo() {
 	}

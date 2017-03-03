@@ -145,15 +145,16 @@
             />
 
         <EditText
-            android:id="@+id/etScont"
+            android:id="@+id/etTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="totali"
+            android:hint=""
+            android:text="0"
             android:textSize="15sp"
             android:layout_margin="@dimen/dim10"
             android:padding="@dimen/dim10"
             android:singleLine="true"
-            android:inputType="textUri"
+            android:inputType="number"
             android:layout_marginTop="@dimen/dim10"
             android:background="@drawable/edittext_bg"
             />
