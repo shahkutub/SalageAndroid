@@ -87,7 +87,7 @@
         android:id="@+id/etCodeClient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ash0101"
+        android:hint=""
         android:textSize="15sp"
         android:layout_margin="@dimen/dim10"
         android:padding="@dimen/dim8"
@@ -121,7 +121,7 @@
         <Spinner
             android:id="@+id/spinnerState"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dim20"
 
             ></Spinner>
 
@@ -159,7 +159,7 @@
         android:id="@+id/etAgentFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Codice agente"
+        android:hint=""
         android:textSize="15sp"
         android:layout_margin="@dimen/dim10"
         android:padding="@dimen/dim10"
@@ -183,7 +183,7 @@
         android:id="@+id/etAgentLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Codice agente"
+        android:hint=""
         android:textSize="15sp"
         android:layout_margin="@dimen/dim10"
         android:padding="@dimen/dim10"
@@ -224,7 +224,7 @@
             <EditText
                 android:id="@+id/etAddress"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dim150"
+                android:layout_height="@dimen/dim100"
                 android:hint=""
                 android:textSize="@dimen/dim20"
                 android:layout_margin="@dimen/dim10"
@@ -249,7 +249,7 @@
         android:id="@+id/etCap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Url/Porta server"
+        android:hint=""
         android:textSize="15sp"
         android:layout_margin="@dimen/dim10"
         android:padding="@dimen/dim10"
@@ -290,7 +290,7 @@
                 android:id="@+id/etCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="dhaka"
+                android:hint=""
                 android:textSize="15sp"
                 android:layout_margin="@dimen/dim10"
                 android:padding="@dimen/dim10"
@@ -312,7 +312,7 @@
                 android:id="@+id/etProvince"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Bangladesh"
+                android:hint=""
                 android:textSize="15sp"
                 android:layout_margin="@dimen/dim10"
                 android:padding="@dimen/dim10"
@@ -358,7 +358,7 @@
                 android:id="@+id/etNtel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Bangladesh"
+                android:hint=""
                 android:textSize="15sp"
                 android:layout_margin="@dimen/dim10"
                 android:padding="@dimen/dim10"
@@ -381,7 +381,7 @@
                 android:id="@+id/etFax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Bangladesh"
+                android:hint=""
                 android:textSize="15sp"
                 android:layout_margin="@dimen/dim10"
                 android:padding="@dimen/dim10"
@@ -443,7 +443,7 @@
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Bangladesh"
+                android:hint=""
                 android:textSize="15sp"
                 android:layout_margin="@dimen/dim10"
                 android:padding="@dimen/dim10"
@@ -540,7 +540,7 @@
                 <Spinner
                     android:id="@+id/spinnerPagemanto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dim20"
 
                     ></Spinner>
 
@@ -560,7 +560,7 @@
                 android:id="@+id/etIbn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Bangladesh"
+                android:hint=""
                 android:textSize="15sp"
                 android:layout_margin="@dimen/dim10"
                 android:padding="@dimen/dim10"
@@ -610,7 +610,7 @@
                 <Spinner
                     android:id="@+id/spinnerListano"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dim20"
 
                     ></Spinner>
 
@@ -630,7 +630,7 @@
                 android:id="@+id/etSconti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Bangladesh"
+                android:hint=""
                 android:textSize="15sp"
                 android:layout_margin="@dimen/dim10"
                 android:padding="@dimen/dim10"
@@ -663,9 +663,9 @@
 
 
                 <Spinner
-                    android:id="@+id/spinnerIva"
+                    android:id="@+id/spinnerIvat"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dim20"
 
                     ></Spinner>
 

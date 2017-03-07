@@ -218,4 +218,19 @@ public class ClientMainActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        customerTableInfo = db.getAllCustomer();
+        customerTableInfoList.clear();
+        for(int i=0;i<customerTableInfo.size();i++) {
+            if (customerTableInfo.get(i).getIS_DELETED().equalsIgnoreCase("0")) {
+                customerTableInfoList.add(customerTableInfo.get(i));
+                customAdapterProduct = new CustomAdapterProduct(context);
+                listClient.setAdapter(customAdapterProduct);
+                customAdapterProduct.notifyDataSetChanged();
+            }
+        }
+    }
 }

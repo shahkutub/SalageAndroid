@@ -3,10 +3,12 @@ package com.salage;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -42,6 +44,7 @@ import com.salage.adapter.CustomAdapterSubCat;
 import com.salage.model.AgentTableInfo;
 import com.salage.model.BrandsTableInfo;
 import com.salage.model.CateGoryInfo;
+import com.salage.model.CustomerProductTableInfo;
 import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.PaymentTableInfo;
@@ -49,6 +52,8 @@ import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
 import com.salage.model.SubCatTableInfo;
 import com.salage.model.VatTableInfo;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,7 +72,8 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private DatabaseHelper db;
     private List<String> agentCodeList = new ArrayList<>();
     private EditText etDate,etAegentCode,etClientCode,clientFirstName,etClientLastName,etAddress,
-            etZip,etCity,etEmail,etProvince,etSconti,etNazion,etTotalAll;
+            etZip,etCity,etEmail,etProvince,etSconti,etNazion,etTotalAll,etQuantity
+            ,etProNameSearch,etProName,etIva,etIvaInclode;
     private List<CustomerTableInfo> customerTableInfoList  = new ArrayList<>();
     private List<ProductTableInfo> proInfoAddList  = new ArrayList<>();
     private String custName,vatid,paymId;
@@ -84,17 +90,21 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private List<ProductTableInfo> productDetailsList  = new ArrayList<>();
     private List<String> subDes = new ArrayList<String>();
     private List<String> proNameList = new ArrayList<String>();
+    private String [] proName;
     private ArrayAdapter<String> listAdapter;
     private List<String> listTotal = new ArrayList<String>();
-    private ListView listProDetails;
+    private ListView listProDetails, listProName;
     private TextView tvSearch;
     private boolean isSpinnerInitial = true;
     private CustomAdapterSubCat customAdapterSubCat;
     private CustomAdapterProductDialogue customAdapterProductDialogue;
-    private String  catId,subCatId;
-    int tottalResult = 0;
-    int tottal = 0;
+    private String  catId,subCatId,fromDialog="",pricrCode,pricrNumber = "0";
+    double tottalResult,vat;
+    double tottal;
     int proAddPos,selectPos,proTotal;
+    private LinearLayout linAddProduct;
+    List <PriceListTableInfo> listPriceTable = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,10 +122,13 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
         for(int i = 0; i<productList.size();i++){
             proNameList.add(productList.get(i).getPROD_CODE());
+            proName=proNameList.toArray(new String[i]);
+
         }
 
 
-        imgAddPro = (ImageView) findViewById(R.id.imgAddPro);
+       // imgAddPro = (ImageView) findViewById(R.id.imgAddPro);
+        linAddProduct = (LinearLayout) findViewById(R.id.linAddProduct);
         dissmissCatListBtn = (ImageView) findViewById(R.id.dissmissCatListBtn);
         dissmissCatListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +155,8 @@ public class DocumentDetailsActivity extends AppCompatActivity{
         etZip = (EditText)findViewById(R.id.etZip);
         etAddress = (EditText)findViewById(R.id.etAddress);
         etNazion = (EditText)findViewById(R.id.etNazion);
-
+        etIva = (EditText)findViewById(R.id.etIva);
+        etIvaInclode = (EditText)findViewById(R.id.etIvaInclode);
         spinnerVat = (Spinner)findViewById(R.id.spinnerVat);
         spinnerPayment = (Spinner)findViewById(R.id.spinnerPayment);
 
@@ -166,7 +180,11 @@ public class DocumentDetailsActivity extends AppCompatActivity{
         List <String> listAgent = new ArrayList<>();
         listAgent.add("Select Agent");
         listAgent.add("nuovo cliente");
-        listAgent.add(PersistData.getStringData(con, AppConstant.agentCode));
+        if(AppConstant.isDoc.equalsIgnoreCase("true")){
+            listAgent.add(AppConstant.documentTableInfo.getCUST_CODE());
+        }else {
+            listAgent.add(PersistData.getStringData(con, AppConstant.agentCode));
+        }
 
         ArrayAdapter<String> adpAgent=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,listAgent);
@@ -209,8 +227,6 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
 
                 List <String> listVat = new ArrayList<>();
-                listVat.add("Select IVA spacial");
-
                 List <VatTableInfo> vatListInfo = new ArrayList<>();
                 vatListInfo = db.getAllVats();
 
@@ -228,10 +244,24 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 adpVat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerVat.setAdapter(adpVat);
 
+                spinnerVat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        String str=spinnerVat.getSelectedItem().toString().trim();
+                        String numberOnly= str.replaceAll("[^0-9]", "");
+                        vat= Double.parseDouble(numberOnly);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
 
                 List <String> listPayment = new ArrayList<>();
                 listPayment.add("Select payment");
-
                 List <PaymentTableInfo> paymentTableInfoListInfo = new ArrayList<>();
                 paymentTableInfoListInfo = db.getPaymentList();
                 Log.e("paymId tabale size",""+paymentTableInfoListInfo.size());
@@ -248,8 +278,9 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
                 ArrayAdapter<String> adpPaym=new ArrayAdapter<String>(con,
                         android.R.layout.simple_list_item_1,listPayment);
-                adpVat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                adpPaym.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerPayment.setAdapter(adpPaym);
+
 
             }
 
@@ -262,8 +293,8 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
         spinnerPriceList = (Spinner)findViewById(R.id.spinnerPriceList);
         List <String> listPrice = new ArrayList<>();
-        listPrice.add("Select price");
-        List <PriceListTableInfo> listPriceTable = new ArrayList<>();
+        //listPrice.add("Select price");
+
         listPriceTable = db.getAllPriceList();
         for(int i=0;i<listPriceTable.size();i++){
             if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC0())){
@@ -301,8 +332,91 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
         ArrayAdapter<String> adpprice=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,listPrice);
-        adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adpprice.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPriceList.setAdapter(adpprice);
+
+        spinnerPriceList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if(spinnerPriceList.getSelectedItem().toString().trim().equalsIgnoreCase("Select price")){
+//                    pricrCode ="";
+//                }else {
+                    pricrCode =spinnerPriceList.getSelectedItem().toString().trim();
+                //}
+
+
+                    for(int j=0;j<listPriceTable.size();j++){
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC0())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC0())){
+                                pricrNumber = "0";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC1())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC1())){
+                                pricrNumber = "1";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC2())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC2())){
+                                pricrNumber = "2";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC3())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC3())){
+                                pricrNumber = "3";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC4())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC4())){
+                                pricrNumber = "4";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC5())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC5())){
+                                pricrNumber = "5";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC6())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC6())){
+                                pricrNumber = "6";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC7())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC7())){
+                                pricrNumber = "7";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC8())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC8())){
+                                pricrNumber = "8";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+                        if(!TextUtils.isEmpty(listPriceTable.get(j).getPRIC_DESC9())){
+                            if(pricrCode.equalsIgnoreCase(listPriceTable.get(j).getPRIC_DESC9())){
+                                pricrNumber = "9";
+                                customAdapterProduct.notifyDataSetChanged();
+                            }
+                        }
+
+                    }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         listProduct = (ListView)findViewById(R.id.listProduct);
@@ -319,9 +433,9 @@ public class DocumentDetailsActivity extends AppCompatActivity{
         UIUtils.setListViewHeightBasedOnItems(listProduct);
         //customAdapterProduct.notifyDataSetChanged();
 
-        Helper.getListViewSize(listProduct);
+        //Helper.getListViewSize(listProduct);
 
-        imgAddPro.setOnClickListener(new View.OnClickListener() {
+        linAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ProductTableInfo pinf = new ProductTableInfo();
@@ -366,30 +480,22 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
             if (position < proInfoAddList.size()) {
 
-
                 final ProductTableInfo query = proInfoAddList.get(position);
                 final Spinner spinnerProduct = (Spinner)v.findViewById(R.id.spinnerProduct);
                 final LinearLayout linProduct = (LinearLayout)v.findViewById(R.id.linProduct);
-                final EditText etProName = (EditText) v.findViewById(R.id.etProName);
+                etProName = (EditText) v.findViewById(R.id.etProName);
                 final EditText etDescript = (EditText) v.findViewById(R.id.etDescript);
-                final EditText etQuantity = (EditText) v.findViewById(R.id.etQuantity);
+                 etQuantity = (EditText) v.findViewById(R.id.etQuantity);
                 final EditText etLista = (EditText) v.findViewById(R.id.etLista);
                 final EditText etTotal = (EditText) v.findViewById(R.id.etTotal);
+                etProNameSearch = (EditText) v.findViewById(R.id.etProNameSearch);
+
+                etDescript.setText(query.getPROD_DESCRIPTION());
+                etLista.setText(query.getPriceData());
+                etQuantity.setText(query.getQuantity());
                 etTotal.setText(query.getTotal());
-
-//                proInfoAddList.set(position,new ProductTableInfo(etTotal.getText().toString()));
-//                for(int p = 0; p<proInfoAddList.size();p++){
-//                    if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
-//                        tottal = Integer.parseInt(proInfoAddList.get(p).getTotal());
-//                    }
-//                }
-//
-//                tottalResult += tottal;
-//                Log.e("tottalResult",""+tottalResult);
-//                etTotalAll.setText(tottalResult+"");
-
-
-                etTotal.addTextChangedListener(new TextWatcher() {
+                etProName.setText(query.getPROD_CODE());
+                etProName.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -397,41 +503,106 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
                     @Override
                     public void onTextChanged(CharSequence s, int i, int i1, int i2) {
-//                        ProductTableInfo pTotal = new ProductTableInfo();
-//                        pTotal.setTotal(etTotal.getText().toString());
+                       if(s.length()==0){
+                           etProName.setVisibility(View.GONE);
+                           etProNameSearch.setVisibility(View.VISIBLE);
+                       }
 
                     }
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        proInfoAddList.set(position,new ProductTableInfo(etTotal.getText().toString()));
-                        for(int p = 0; p<proInfoAddList.size();p++){
-                            if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
-                                tottal = Integer.parseInt(proInfoAddList.get(p).getTotal());
-                            }
-                        }
-
-                        tottalResult += tottal;
-                        Log.e("tottalResult",""+tottalResult);
-                        etTotalAll.setText(tottalResult+"");
 
                     }
                 });
 
-                etDescript.setText(query.getPROD_DESCRIPTION());
-                etQuantity.setText(query.getPROD_MIN_QT());
-                //etLista.setText(productList.get(i).getPROD_DESCRIPTION());
-                // etScont.setText(productList.get(i).getPROD_DESCRIPTION());
+
+                if(pricrNumber.equalsIgnoreCase("0")){
+                    etLista.setText(query.getPROD_P0());
+                }
+                if(pricrNumber.equalsIgnoreCase("0")){
+                    etLista.setText(query.getPROD_P0());
+                }
+                if(pricrNumber.equalsIgnoreCase("1")){
+                    etLista.setText(query.getPROD_P1());
+                }
+                if(pricrNumber.equalsIgnoreCase("2")){
+                    etLista.setText(query.getPROD_P2());
+                }
+                if(pricrNumber.equalsIgnoreCase("3")){
+                    etLista.setText(query.getPROD_P3());
+                }
+                if(pricrNumber.equalsIgnoreCase("4")){
+                    etLista.setText(query.getPROD_P4());
+                }
+                if(pricrNumber.equalsIgnoreCase("5")){
+                    etLista.setText(query.getPROD_P5());
+                }
+                if(pricrNumber.equalsIgnoreCase("6")){
+                    etLista.setText(query.getPROD_P6());
+                }
+                if(pricrNumber.equalsIgnoreCase("7")){
+                    etLista.setText(query.getPROD_P7());
+                }
+                if(pricrNumber.equalsIgnoreCase("8")){
+                    etLista.setText(query.getPROD_P8());
+                }
+                if(pricrNumber.equalsIgnoreCase("9")){
+                    etLista.setText(query.getPROD_P9());
+                }
+                etTotal.setFocusable(false);
+
+
+
+                etQuantity.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        if(!TextUtils.isEmpty(etQuantity.getText().toString())&& !TextUtils.isEmpty(etLista.getText().toString())){
+                            double price = Double.parseDouble(etLista.getText().toString());
+                            double quantity = Double.parseDouble(etQuantity.getText().toString());
+                            double totali = price*quantity;
+                            etTotal.setText(String.valueOf(totali));
+
+                            tottalResult = 0;
+                            proInfoAddList.set(position,new ProductTableInfo(etTotal.getText().toString(),etLista.getText().toString(),etQuantity.getText().toString()));
+                            for(int p = 0; p<proInfoAddList.size();p++){
+                                if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
+                                    tottal = Double.parseDouble(proInfoAddList.get(p).getTotal());
+                                    tottalResult += tottal;
+                                    Log.e("tottalResult",""+tottalResult);
+                                    etTotalAll.setText(tottalResult+"");
+                                    double vatTotal = (tottalResult*vat)/100;
+                                    etIva.setText(String.valueOf(vatTotal));
+                                    etIvaInclode.setText(String.valueOf(tottalResult+vatTotal));
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
 
                 final TextView tvViewNum = (TextView) v.findViewById(R.id.tvViewNum);
-                final ListView listProName = (ListView) v.findViewById(R.id.listProName);
+                listProName = (ListView) v.findViewById(R.id.listProName);
                 listProName.setTextFilterEnabled(false);
                 //setListViewHeightBasedOnChildren(listProName);
-                listAdapter = new ArrayAdapter<String>(con, android.R.layout.simple_list_item_1, android.R.id.text1, proNameList);
+                listAdapter = new ArrayAdapter<String>(con, R.layout.item_layout, R.id.tvtext1, proNameList);
                 listProName.setAdapter(listAdapter);
+                listAdapter.notifyDataSetChanged();
+                UIUtils.setListViewHeightBasedOnItems(listProName);
                 final Filter filter = listAdapter.getFilter();
 
-                etProName.addTextChangedListener(new TextWatcher() {
+                etProNameSearch.addTextChangedListener(new TextWatcher() {
 
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -442,7 +613,11 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 //                        listProName.setFilterText(s.toString());
 //                        listAdapter.getFilter().filter(s);
 //                       // listAdapter.notifyDataSetChanged();
+                        //dialogueProductMenu(proName);
                         filter.filter(s);
+                        listAdapter.notifyDataSetChanged();
+                        getListViewHeight(listProName,listAdapter.getCount());
+                        UIUtils.setListViewHeightBasedOnItems(listProName);
                         listProName.setVisibility(View.VISIBLE);
                         if(s.length()<1){
                             listProName.setVisibility(View.GONE);
@@ -459,21 +634,27 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 listProName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        etQuantity.requestFocus();
+                        etProNameSearch.setText(listProName.getItemAtPosition(i).toString());
 
-                        etProName.setText(listProName.getItemAtPosition(i).toString());
+                        List<CustomerProductTableInfo> crpList = new ArrayList<CustomerProductTableInfo>();
+                        crpList = db.getAllCusProduct();
+                        for(int p = 0; p<crpList.size();p++){
+
+                        }
+
                         listProName.setVisibility(View.GONE);
                         for(int j = 0; j<productList.size();j++){
 
-                            if(etProName.getText().toString().equalsIgnoreCase(productList.get(j).getPROD_CODE())){
-                                ProductTableInfo productTableInfo = new ProductTableInfo();
-                                productTableInfo.setPROD_DESCRIPTION(productList.get(j).getPROD_DESCRIPTION());
-                                productTableInfo.setPROD_MIN_QT(productList.get(j).getPROD_MIN_QT());
-                                proInfoAddList.set(position,productTableInfo);
+                            if(etProNameSearch.getText().toString().equalsIgnoreCase(productList.get(j).getPROD_CODE())){
+
+                                proInfoAddList.set(position,productList.get(j));
                                 customAdapterProduct.notifyDataSetChanged();
                                 UIUtils.setListViewHeightBasedOnItems(listProduct);
                             }
 
                         }
+
                     }
                 });
 
@@ -482,7 +663,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 int pnum = position+1;
                 tvViewNum.setText(""+pnum);
                 final ImageView imgMinus = (ImageView) v.findViewById(R.id.imgMinus);
-                etProName.setOnLongClickListener(new View.OnLongClickListener() {
+                etProNameSearch.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
                         proAddPos = position;
@@ -495,17 +676,42 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 imgMinus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                 // tottalResult -= Integer.parseInt(query.getTotal());
+//                        if(!TextUtils.isEmpty(etTotal.getText().toString())){
+//                            double totall = Double.parseDouble(etTotal.getText().toString());
+//                            tottalResult -= totall;
+//                            etTotalAll.setText(tottalResult+"");
+//                        }
                    proInfoAddList.remove(position);
+                        if(!TextUtils.isEmpty(etQuantity.getText().toString())&& !TextUtils.isEmpty(etLista.getText().toString())){
+                            double price = Double.parseDouble(etLista.getText().toString());
+                            double quantity = Double.parseDouble(etQuantity.getText().toString());
+                            double totali = price*quantity;
+                            etTotal.setText(String.valueOf(totali));
+
+                            tottalResult = 0;
+                        //    proInfoAddList.set(position-1,new ProductTableInfo(etTotal.getText().toString(),etLista.getText().toString(),etQuantity.getText().toString()));
+                            for(int p = 0; p<proInfoAddList.size();p++){
+                                if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
+                                    tottal = Double.parseDouble(proInfoAddList.get(p).getTotal());
+                                    tottalResult += tottal;
+                                    Log.e("tottalResult",""+tottalResult);
+                                    etTotalAll.setText(round(tottalResult,3)+"");
+                                    double vatTotal = (tottalResult*vat)/100;
+                                    round(vatTotal,3);
+                                    etIva.setText(String.valueOf(vatTotal));
+                                    etIvaInclode.setText(String.valueOf(tottalResult+vatTotal));
+                                }
+                            }
+                        }
                    customAdapterProduct.notifyDataSetChanged();
                         UIUtils.setListViewHeightBasedOnItems(listProduct);
 
                       // Log.e("tottalResult",""+tottalResult);
-                        if(!TextUtils.isEmpty(etTotal.getText().toString())){
-                            int totall = Integer.parseInt(etTotal.getText().toString());
-                            tottalResult -= totall;
-                            etTotalAll.setText(tottalResult+"");
-                        }
+                       if(proInfoAddList.size()==0){
+                           etTotalAll.setText("");
+                           etIvaInclode.setText("");
+                           etIva.setText("");
+                       }
 
                     }
                 });
@@ -860,6 +1066,10 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                         proInfoAddList.set(proAddPos,query);
                         customAdapterProduct.notifyDataSetChanged();
                         dialogProduct.dismiss();
+                        etProNameSearch.setVisibility(View.GONE);
+                        etProName.setVisibility(View.VISIBLE);
+                        etQuantity.requestFocus();
+
                     }
                 });
 
@@ -899,4 +1109,51 @@ public class DocumentDetailsActivity extends AppCompatActivity{
         }
     }
 
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
+    private void dialogueProductMenu(String[] items){
+       // final String[] items = {"AAAAAA", "BBBBBBB", "CCCCCCC", "DDDDDDDD"};
+
+
+        final TextView textView = (TextView)findViewById(R.id.tvtext1);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(con);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+               // textView.setText();
+            }
+        });
+
+        // Creating alert dialog
+
+        AlertDialog alert = builder.create();
+
+
+
+        //Showing alert dialog
+
+        alert.show();
+    }
+
+    private int getListViewHeight(ListView list,int count) {
+        ListAdapter adapter = list.getAdapter();
+
+        int listviewHeight = 0;
+
+        list.measure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+        listviewHeight = list.getMeasuredHeight() * count + (adapter.getCount() * list.getDividerHeight());
+
+        return listviewHeight;
+    }
 }

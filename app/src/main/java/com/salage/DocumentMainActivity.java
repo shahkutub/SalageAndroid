@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.icteuro.salage.R;
+import com.salage.Utils.AppConstant;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.DocumentTableInfo;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class DocumentMainActivity extends AppCompatActivity{
     private List<DocumentTableInfo> documentTableInfoList  = new ArrayList<>();
     private CustomAdapterProduct customAdapterProduct;
     private ListView listDocDetails;
+    private LinearLayout linPlus;
     DatabaseHelper db;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,11 +47,12 @@ public class DocumentMainActivity extends AppCompatActivity{
     private void initUi() {
         db = new DatabaseHelper(con);
         documentTableInfoList = db.getAllDocumentss();
-        img_add = (ImageView)findViewById(R.id.img_add);
-        img_add.setOnClickListener(new View.OnClickListener() {
+        linPlus = (LinearLayout)findViewById(R.id.linPlus);
+        linPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                AppConstant.isDoc = "false";
                 startActivity(new Intent(con,DocumentDetailsActivity.class));
 
             }
@@ -108,7 +112,8 @@ public class DocumentMainActivity extends AppCompatActivity{
                 imgVisibility.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //AppConstant.productTableInfo = query;
+                        AppConstant.documentTableInfo = query;
+                        AppConstant.isDoc = "true";
                         startActivity(new Intent(con, DocumentDetailsActivity.class));
                     }
                 });

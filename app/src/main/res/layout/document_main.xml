@@ -21,10 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dim10"
-        android:padding="@dimen/dim20"
-        android:layout_below="@+id/linPlus"
         android:gravity="center"
+        android:background="#D4D4D4"
+        android:layout_marginTop="@dimen/dim10"
+        android:layout_below="@+id/linPlus"
         >
 
         <TextView
@@ -35,16 +35,17 @@
             />
 
         <Spinner
+            android:id="@+id/spinnerDocClient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             ></Spinner>
 
         <TextView
             android:layout_width="wrap_content"
             android:textSize="@dimen/dim15"
             android:text="Entries"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <ListView
@@ -52,10 +53,12 @@
         android:id="@+id/listDocDetails"
         android:layout_width="match_parent"
         android:layout_above="@+id/bottomPro"
+        android:layout_marginBottom="@dimen/dim10"
         android:layout_height="wrap_content"></ListView>
 <LinearLayout
     android:id="@+id/bottomPro"
     android:layout_width="match_parent"
+    android:visibility="gone"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:orientation="vertical"
@@ -140,11 +143,9 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@drawable/edittext_bg"
-        android:layout_marginLeft="14dp"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="14dp">
+        android:layout_alignParentStart="true">
 
         <TextView
             android:layout_width="wrap_content"

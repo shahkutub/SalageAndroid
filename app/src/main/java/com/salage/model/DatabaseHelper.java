@@ -789,6 +789,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 
+	public void addCustomersproducts(CustomerProductTableInfo customerProductTableInfo) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(CUPR_CUST_CODE, customerProductTableInfo.getCUST_CODE());
+		values.put(CUPR_PROD_CODE, customerProductTableInfo.getPROD_CODE());
+		values.put(CUPR_CUPR_DISCOUNT, customerProductTableInfo.getCUPR_DISCOUNT());
+		values.put(CUPR_CUPR_PRICE, customerProductTableInfo.getCUPR_PRICE());
+		values.put(CUPR_CUPR_TIMESTAMP, customerProductTableInfo.getCUPR_TIMESTAMP());
+		values.put(CUPR_IS_DELETED, customerProductTableInfo.getIS_DELETED());
+		// Inserting Row
+		db.insert(TABLE_cupr_customersproducts, null, values);
+		db.close(); // Closing database connection
+	}
+
+
+	public List<CustomerProductTableInfo> getAllCusProduct() {
+		List<CustomerProductTableInfo> barcodeList = new ArrayList<>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_cupr_customersproducts;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				CustomerProductTableInfo document = new CustomerProductTableInfo();
+				document.setId(cursor.getString(0));
+				document.setCUST_CODE(cursor.getString(1));
+				document.setPROD_CODE(cursor.getString(2));
+				document.setCUPR_DISCOUNT(cursor.getString(3));
+				document.setCUPR_PRICE(cursor.getString(4));
+				document.setCUPR_TIMESTAMP(cursor.getString(5));
+				document.setIS_DELETED(cursor.getString(6));
+				// Adding contact to list
+				barcodeList.add(document);
+			} while (cursor.moveToNext());
+		}
+
+		// return contact list
+		return barcodeList;
+	}
+
+
 	public void addSubcategory(SubCatTableInfo subCatTableInfo) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -1499,6 +1544,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("delete from "+ TABLE_DOCUMENTS);
 		db.close();
 	}
+
+	public void deleteCustmerProduct() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from "+ TABLE_cupr_customersproducts);
+		db.close();
+	}
+
 
 	// Getting contacts Count
 //	public int getContactsCount() {

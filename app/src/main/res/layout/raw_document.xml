@@ -109,7 +109,7 @@
             android:id="@+id/imgVisibility"
             android:layout_width="@dimen/dim30"
             android:layout_height="@dimen/dim30"
-            android:src="@drawable/ic_visibility_black_24dp"
+            android:src="@drawable/ic_mode_edit_black_24dp"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/dim10"
             />

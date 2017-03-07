@@ -6,6 +6,7 @@ import android.util.Log;
 import com.salage.model.CateGoryInfo;
 import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
+import com.salage.model.DocumentTableInfo;
 import com.salage.model.DownLoadFile;
 import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
@@ -36,13 +37,14 @@ public class AppConstant {
     public static int processingFee =0;
     public static int logInt =0;
     public static String isSync ="false";
+    public static String isDoc ="false";
     public static String isCustEdit ="";
     public static String customerColumId ="";
     public static List<PriceListTableInfo> priceListTableInfo= new ArrayList<PriceListTableInfo>();
 
     public static int CAMERA_RUNTIME_PERMISSION=2,WRITEEXTERNAL_PERMISSION_RUNTIME=3,LOCATION_PERMISSION=4;
     public static boolean isGallery=false;
-    public static UpojelaOfficerInfo upojelaOfficerInfo = new UpojelaOfficerInfo();
+    public static DocumentTableInfo documentTableInfo = new DocumentTableInfo();
     public static ProductTableInfo productTableInfo = new ProductTableInfo();
     public static CustomerTableInfo customerTableInfo = new CustomerTableInfo();
     public static List<DownLoadFile> DownLoadFileList= new ArrayList<DownLoadFile>();

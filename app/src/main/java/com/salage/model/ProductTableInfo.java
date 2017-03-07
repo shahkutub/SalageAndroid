@@ -33,8 +33,26 @@ public class ProductTableInfo {
 	String PROD_AVL_TIMESTAMP;
 	String IS_DELETED;
 	String total;
+	String priceData;
+	String quantity;
 //	String filePdf;
 
+
+	public String getPriceData() {
+		return priceData;
+	}
+
+	public void setPriceData(String priceData) {
+		this.priceData = priceData;
+	}
+
+	public String getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
+	}
 
 	public String getTotal() {
 		return total;
@@ -44,8 +62,10 @@ public class ProductTableInfo {
 		this.total = total;
 	}
 
-	public ProductTableInfo(String total) {
+	public ProductTableInfo(String total,String priceData,String quantity) {
 		this.total = total;
+		this.priceData = priceData;
+		this.quantity = quantity;
 	}
 
 	public ProductTableInfo() {

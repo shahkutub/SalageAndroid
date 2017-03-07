@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,7 +23,13 @@ import com.salage.Utils.AlertMessage;
 import com.salage.Utils.AppConstant;
 import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
+import com.salage.model.PaymentTableInfo;
+import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
+import com.salage.model.VatTableInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 2/17/2017.
@@ -35,9 +43,10 @@ public class ClientDetailsActivity extends AppCompatActivity {
     private EditText etCodeClient,etAgentFirstName,etAgentLastName,etAddress,etCap,etCity,
             etProvince,etNazion,etNtel,etFax,etMobile,etEmail,etCodeFiscal,etPrtitaIVA,etIbn,
             etSconti;
-    private Spinner spinnerState,spinnerPagemanto,spinnerListano,spinnerIva;
+    private Spinner spinnerState,spinnerPagemanto,spinnerListano,spinnerIvat;
     DatabaseHelper db;
     private Button btnSave;
+    private String vatid,paymId,paymentName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +80,9 @@ public class ClientDetailsActivity extends AppCompatActivity {
         etPrtitaIVA = (EditText) findViewById(R.id.etPrtitaIVA);
         etIbn = (EditText) findViewById(R.id.etIbn);
         etSconti = (EditText) findViewById(R.id.etSconti);
+        spinnerPagemanto = (Spinner) findViewById(R.id.spinnerPagemanto);
+        spinnerListano = (Spinner) findViewById(R.id.spinnerListano);
+        spinnerIvat = (Spinner) findViewById(R.id.spinnerIvat);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +123,7 @@ public class ClientDetailsActivity extends AppCompatActivity {
             etAgentFirstName.setText(AppConstant.customerTableInfo.getCUST_NAME1());
             etAgentLastName.setText(AppConstant.customerTableInfo.getCUST_NAME2());
             etAddress.setText(AppConstant.customerTableInfo.getCUST_ADDRESS());
-            //etCap.setText(AppConstant.customerTableInfo.getCUST_CODE());
+            etCap.setText(AppConstant.customerTableInfo.getCUST_ZIP());
             etCity.setText(AppConstant.customerTableInfo.getCUST_CITY());
             etProvince.setText(AppConstant.customerTableInfo.getCUST_PROVINCE());
             etNazion.setText(AppConstant.customerTableInfo.getCUST_COUNTRY());
@@ -124,13 +136,104 @@ public class ClientDetailsActivity extends AppCompatActivity {
              etPrtitaIVA.setText(AppConstant.customerTableInfo.getCUST_VATNUM());
             etIbn.setText(AppConstant.customerTableInfo.getCUST_IBAN());
             etSconti.setText(AppConstant.customerTableInfo.getCUST_DISCOUNT());
+            paymId = AppConstant.customerTableInfo.getPAYM_ID();
+            vatid = AppConstant.customerTableInfo.getVATT_ID();
         }
 
+        List <String> listPaymentSpinner = new ArrayList<>();
+        listPaymentSpinner.add("Select payment");
 
-//        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
-//        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
-//        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
-//        etCodeClient.setText(AppConstant.customerTableInfo.getCUST_CODE());
+        List<PaymentTableInfo> listPayment = new ArrayList<>();
+        listPayment = db.getPaymentList();
+
+        for(int i = 0;i<listPayment.size();i++){
+            if(!TextUtils.isEmpty(paymId)){
+                if(paymId.equalsIgnoreCase(listPayment.get(i).getPAYM_ID())){
+                    listPaymentSpinner.add(listPayment.get(i).getPAYM_DESCRIPTION());
+                }
+            }
+        }
+        ArrayAdapter<String> adpPaym=new ArrayAdapter<String>(con,
+                android.R.layout.simple_list_item_1,listPaymentSpinner);
+        adpPaym.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPagemanto.setAdapter(adpPaym);
+        spinnerPagemanto.setSelection(0);
+        spinnerPagemanto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(!spinnerPagemanto.getSelectedItem().toString().trim().equalsIgnoreCase("Select payment")){
+                    paymentName = spinnerPagemanto.getSelectedItem().toString().trim();
+                    Log.e("paymentName",paymentName);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        List <String> listPrice = new ArrayList<>();
+        listPrice.add("Select price");
+        List <PriceListTableInfo> listPriceTable = new ArrayList<>();
+        listPriceTable = db.getAllPriceList();
+        for(int i=0;i<listPriceTable.size();i++){
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC0())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC0());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC1())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC1());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC2())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC2());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC3())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC3());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC4())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC4());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC5())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC5());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC6())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC6());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC7())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC7());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC8())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC8());
+            }
+            if(!TextUtils.isEmpty(listPriceTable.get(i).getPRIC_DESC9())){
+                listPrice.add(listPriceTable.get(i).getPRIC_DESC9());
+            }
+
+        }
+
+        ArrayAdapter<String> adpprice=new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,listPrice);
+        adpprice.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerListano.setAdapter(adpprice);
+        List <String> listVat = new ArrayList<>();
+        listVat.add("Select IVA spacial");
+
+        List <VatTableInfo> vatListInfo = new ArrayList<>();
+        vatListInfo = db.getAllVats();
+
+        for(int j = 0; j<vatListInfo.size();j++){
+            if(!TextUtils.isEmpty(vatid)){
+                if(vatid.equalsIgnoreCase(vatListInfo.get(j).getVATT_ID())){
+                    Log.e("vatid tabale",vatListInfo.get(j).getVATT_ID());
+                    listVat.add(vatListInfo.get(j).getVATT_DESCRIPTION());
+                }
+            }
+
+        }
+        ArrayAdapter<String> adpVat=new ArrayAdapter<String>(con,
+                android.R.layout.simple_list_item_1,listVat);
+        adpVat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIvat.setAdapter(adpVat);
 
         dissmissCatListBtn.setOnClickListener(new View.OnClickListener() {
             @Override

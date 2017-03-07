@@ -52,6 +52,7 @@ import com.salage.model.AgentInfo;
 import com.salage.model.AgentTableInfo;
 import com.salage.model.BrandsTableInfo;
 import com.salage.model.CateGoryInfo;
+import com.salage.model.CustomerProductTableInfo;
 import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.DocumentTableInfo;
@@ -70,6 +71,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -718,6 +720,29 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                     linProductMenu.setVisibility(View.VISIBLE);
                     linDocumentMenu.setVisibility(View.VISIBLE);
                     linSincroMenu.setVisibility(View.VISIBLE);
+                    Log.e("crpData sizeres: ", ""+syncResponse.getData().getCupr_customersproducts().size());
+                    if(syncResponse.getData().getCupr_customersproducts().size()>0){
+                        db.deleteCustmerProduct();
+                        List<CustomerProductTableInfo> crpData =new ArrayList<>();
+                        crpData.addAll(syncResponse.getData().getCupr_customersproducts());
+
+                        for(int i = 0; i < crpData.size(); i++) {
+
+                            db.addCustomersproducts(new CustomerProductTableInfo(crpData.get(i).getCUST_CODE(),
+                                    crpData.get(i).getPROD_CODE(),crpData.get(i).getCUPR_DISCOUNT(),
+                                    crpData.get(i).getCUPR_PRICE(),crpData.get(i).getCUPR_TIMESTAMP(),
+                                    crpData.get(i).getIS_DELETED()));
+
+                        }
+
+                        crpData = db.getAllCusProduct();
+                        Log.e("crpData size: ", ""+crpData.size());
+                        for (CustomerProductTableInfo cd : crpData) {
+                            String log = "price: "+cd.getCUPR_PRICE();
+                            // Writing Contacts to log
+                            Log.e("crpData: ", log);
+                        }
+                    }
 
 
                     if(syncResponse.getData().getAgen_agents().size()>0){
@@ -725,8 +750,6 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                         agentData.addAll(syncResponse.getData().getAgen_agents());
                         db.deleteAgent();
                         for(int i = 0; i < agentData.size(); i++) {
-
-
 
                             db.addAgents(new AgentTableInfo(agentData.get(i).getAGEN_CODE(),
                                     agentData.get(i).getAGEN_NAME1(),agentData.get(i).getAGEN_NAME2(),
@@ -738,13 +761,14 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                                     agentData.get(i).getAGEN_CANADDCOMMENTS(),agentData.get(i).getAGEN_TIMESTAMP(),
                                     agentData.get(i).getIS_DELETED(),agentData.get(i).getAGENT_TYPE()));
 
-                            agentTableInfoList = db.getAllAgents();
-                            Log.e("AGEN size: ", ""+agentTableInfoList.size());
-                            for (AgentTableInfo cd : agentTableInfoList) {
-                                String log = "AGEN_CODE: "+cd.getAGEN_CODE()+" ,AGEN_NAME1: " + cd.getAGEN_NAME1();
-                                // Writing Contacts to log
-                                Log.e("AGENT DATA: ", log);
                             }
+
+                        agentTableInfoList = db.getAllAgents();
+                        Log.e("AGEN size: ", ""+agentTableInfoList.size());
+                        for (AgentTableInfo cd : agentTableInfoList) {
+                            String log = "AGEN_CODE: "+cd.getAGEN_CODE()+" ,AGEN_NAME1: " + cd.getAGEN_NAME1();
+                            // Writing Contacts to log
+                            Log.e("AGENT DATA: ", log);
                         }
                     }
 
@@ -1089,5 +1113,58 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
 
     }
 
+
+    class DownloadFile extends AsyncTask<String,Integer,Long> {
+        ProgressDialog mProgressDialog = new ProgressDialog(con);// Change Mainactivity.this with your activity name.
+        String strFolderName;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog.setMessage("Downloading");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setMax(100);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.show();
+        }
+        @Override
+        protected Long doInBackground(String... aurl) {
+            int count;
+            try {
+                URL url = new URL((String) aurl[0]);
+                URLConnection conexion = url.openConnection();
+                conexion.connect();
+                String targetFileName="Name"+".rar";//Change name and subname
+                int lenghtOfFile = conexion.getContentLength();
+                String PATH = Environment.getExternalStorageDirectory()+ "/"+"salageImage"+"/";
+                File folder = new File(PATH);
+                if(!folder.exists()){
+                    folder.mkdir();//If there is no folder it will be created.
+                }
+                InputStream input = new BufferedInputStream(url.openStream());
+                OutputStream output = new FileOutputStream(PATH+targetFileName);
+                byte data[] = new byte[1024];
+                long total = 0;
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    publishProgress ((int)(total*100/lenghtOfFile));
+                    output.write(data, 0, count);
+                }
+                output.flush();
+                output.close();
+                input.close();
+            } catch (Exception e) {}
+            return null;
+        }
+        protected void onProgressUpdate(Integer... progress) {
+            mProgressDialog.setProgress(progress[0]);
+            if(mProgressDialog.getProgress()==mProgressDialog.getMax()){
+                mProgressDialog.dismiss();
+                //Toast.makeText(fa, "File Downloaded", Toast.LENGTH_SHORT).show();
+            }
+        }
+        protected void onPostExecute(String result) {
+        }
+    }
 
 }

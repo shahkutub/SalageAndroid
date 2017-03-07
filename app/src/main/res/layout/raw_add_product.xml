@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/dim10"
         android:layout_marginRight="@dimen/dim10"
         android:layout_marginLeft="@dimen/dim10"
         android:background="@drawable/document_product_part_bg"
@@ -24,33 +23,47 @@
             android:inputType="textUri"
              />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#999999"
-            android:layout_marginTop="@dimen/dim10"
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Name"
+            android:layout_marginLeft="@dimen/dim10"
             />
+        <EditText
+            android:id="@+id/etProNameSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim8"
+            android:background="@drawable/edittext_bg"
+            android:hint="product name"
+            android:inputType="textUri"
+            android:padding="@dimen/dim8"
+            android:singleLine="true"
+            android:textSize="15sp"
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/etProName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="product name"
-            android:textSize="15sp"
             android:layout_margin="@dimen/dim10"
-            android:padding="@dimen/dim10"
-            android:singleLine="true"
-            android:inputType="textUri"
-            android:visibility="visible"
             android:layout_marginTop="@dimen/dim10"
             android:background="@drawable/edittext_bg"
-            />
+            android:hint="product name"
+            android:inputType="textUri"
+            android:padding="@dimen/dim10"
+            android:singleLine="true"
+            android:textSize="15sp"
+            android:visibility="gone" />
 
         <ListView
             android:id="@+id/listProName"
             android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dim100"></ListView>
+            android:background="@color/transparent"
+            android:layout_height="wrap_content"></ListView>
 
         <LinearLayout
             android:id="@+id/linProduct"
@@ -75,31 +88,30 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#999999"
-            android:layout_marginTop="@dimen/dim10"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Description"
+            android:layout_marginLeft="@dimen/dim10"
             />
-
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Discrizione"
             android:textSize="15sp"
-            android:layout_margin="@dimen/dim10"
-            android:padding="@dimen/dim10"
+            android:layout_margin="@dimen/dim8"
+            android:padding="@dimen/dim8"
             android:singleLine="true"
             android:inputType="textUri"
             android:layout_marginTop="@dimen/dim10"
             android:background="@drawable/edittext_bg"
             android:id="@+id/etDescript" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#999999"
-            android:layout_marginTop="@dimen/dim10"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Quantity"
+            android:layout_marginLeft="@dimen/dim10"
             />
 
         <EditText
@@ -108,83 +120,95 @@
             android:layout_height="wrap_content"
             android:hint="Quantita"
             android:textSize="15sp"
-            android:layout_margin="@dimen/dim10"
-            android:padding="@dimen/dim10"
+            android:layout_margin="@dimen/dim8"
+            android:padding="@dimen/dim8"
             android:singleLine="true"
-            android:inputType="textUri"
-            android:layout_marginTop="@dimen/dim10"
+            android:inputType="number"
             android:background="@drawable/edittext_bg"
             />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#999999"
-            android:layout_marginTop="@dimen/dim10"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Price"
+            android:layout_marginLeft="@dimen/dim10"
             />
 
         <EditText
             android:id="@+id/etLista"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Lista"
-            android:textSize="15sp"
-            android:layout_margin="@dimen/dim10"
-            android:padding="@dimen/dim10"
-            android:singleLine="true"
-            android:inputType="textUri"
-            android:layout_marginTop="@dimen/dim10"
+            android:layout_margin="@dimen/dim8"
             android:background="@drawable/edittext_bg"
-            />
+            android:hint="Lista"
+            android:inputType="numberDecimal"
+            android:padding="@dimen/dim8"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#999999"
-            android:layout_marginTop="@dimen/dim10"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Total"
+            android:layout_marginLeft="@dimen/dim10"
             />
 
         <EditText
             android:id="@+id/etTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint=""
-            android:text="0"
-            android:textSize="15sp"
-            android:layout_margin="@dimen/dim10"
-            android:padding="@dimen/dim10"
-            android:singleLine="true"
-            android:inputType="number"
-            android:layout_marginTop="@dimen/dim10"
+            android:layout_margin="@dimen/dim8"
             android:background="@drawable/edittext_bg"
+            android:hint="Total"
+            android:inputType="numberDecimal"
+            android:padding="@dimen/dim8"
+            android:singleLine="true"
+            android:text=""
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Discount"
+            android:layout_marginLeft="@dimen/dim10"
             />
 
-
+        <EditText
+            android:id="@+id/etDiscount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim8"
+            android:background="@drawable/edittext_bg"
+            android:hint="Discount"
+            android:inputType="numberDecimal"
+            android:padding="@dimen/dim8"
+            android:singleLine="true"
+            android:text=""
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dim10"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dim8"
 
             >
+
             <ImageView
                 android:id="@+id/imgMinus"
                 android:layout_width="@dimen/dim35"
                 android:layout_height="@dimen/dim35"
                 android:layout_marginRight="@dimen/dim20"
-                android:src="@drawable/ic_remove_circle_outline_black_24dp"
-                />
+                android:src="@drawable/ic_remove_circle_outline_black_24dp" />
 
 
             <ImageView
                 android:layout_width="@dimen/dim30"
-                android:layout_marginLeft="@dimen/dim20"
                 android:layout_height="@dimen/dim30"
-                android:visibility="gone"
+                android:layout_marginLeft="@dimen/dim20"
                 android:src="@drawable/ic_add_circle_outline_black_24dp"
-                />
+                android:visibility="gone" />
 
         </LinearLayout>
 
