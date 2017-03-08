@@ -92,13 +92,15 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private List<String> proNameList = new ArrayList<String>();
     private String [] proName;
     private ArrayAdapter<String> listAdapter;
+    List <String> listPayment = new ArrayList<>();
+    List <String> listVat = new ArrayList<>();
     private List<String> listTotal = new ArrayList<String>();
     private ListView listProDetails, listProName;
     private TextView tvSearch;
     private boolean isSpinnerInitial = true;
     private CustomAdapterSubCat customAdapterSubCat;
     private CustomAdapterProductDialogue customAdapterProductDialogue;
-    private String  catId,subCatId,fromDialog="",pricrCode,pricrNumber = "0";
+    private String  catId,subCatId,fromDialog="",pricrCode,pricrNumber = "0",docType="";
     double tottalResult,vat;
     double tottal;
     int proAddPos,selectPos,proTotal;
@@ -164,122 +166,142 @@ public class DocumentDetailsActivity extends AppCompatActivity{
         CharSequence s  = DateFormat.format("dd/MM/yyyy", d.getTime());
         etDate.setText(s);
 
+        spinnerClient = (Spinner)findViewById(R.id.spinnerClient);
+
+
         spinnerTpo = (Spinner)findViewById(R.id.spinnerTpo);
         List <String> listTpo = new ArrayList<>();
         listTpo.add("Select document Type");
-        listTpo.add("PREVENTOVO");
-        listTpo.add("ORDINE");
+        listTpo.add("QUOTE");
+        listTpo.add("ORDER");
 
         ArrayAdapter<String> adp1=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,listTpo);
         adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTpo.setAdapter(adp1);
+        spinnerTpo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                List <String> listAgent = new ArrayList<>();
+                docType = spinnerTpo.getSelectedItem().toString().trim();
+                if(docType.equalsIgnoreCase("ORDER")){
+                    if(AppConstant.isDoc.equalsIgnoreCase("true")){
+                        listAgent.add(AppConstant.documentTableInfo.getCUST_CODE());
+                    }else {
+                        listAgent.add(PersistData.getStringData(con, AppConstant.agentCode));
+                    }
+                }else if(docType.equalsIgnoreCase("QUOTE")){
+                    listAgent.add("nuovo cliente");
+                }
 
+                ArrayAdapter<String> adpAgent=new ArrayAdapter<String>(con,
+                        android.R.layout.simple_list_item_1,listAgent);
+                adpAgent.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerClient.setAdapter(adpAgent);
+            }
 
-        spinnerClient = (Spinner)findViewById(R.id.spinnerClient);
-        List <String> listAgent = new ArrayList<>();
-        listAgent.add("Select Agent");
-        listAgent.add("nuovo cliente");
-        if(AppConstant.isDoc.equalsIgnoreCase("true")){
-            listAgent.add(AppConstant.documentTableInfo.getCUST_CODE());
-        }else {
-            listAgent.add(PersistData.getStringData(con, AppConstant.agentCode));
-        }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-        ArrayAdapter<String> adpAgent=new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,listAgent);
-        adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerClient.setAdapter(adpAgent);
+            }
+        });
+
 
         spinnerClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                custName=spinnerClient.getSelectedItem().toString().trim();
 
-                for(int i =0; i<customerTableInfoList.size();i++){
-                    if(custName.equalsIgnoreCase(customerTableInfoList.get(i).getAGEN_CODE())){
-                        etAegentCode.setText(customerTableInfoList.get(i).getCUST_CODE());
+                if(spinnerClient.getSelectedItem().toString().trim().equalsIgnoreCase("nuovo cliente")){
+                    emptyEditField();
+                }else {
+                    custName=spinnerClient.getSelectedItem().toString().trim();
 
-                        etClientCode.setText(customerTableInfoList.get(i).getCUST_CODE());
-                        clientFirstName.setText(customerTableInfoList.get(i).getCUST_NAME1());
-                        etClientLastName.setText(customerTableInfoList.get(i).getCUST_NAME2());
-                        etAddress.setText(customerTableInfoList.get(i).getCUST_ADDRESS());
-                        etZip.setText(customerTableInfoList.get(i).getCUST_ZIP());
-                        etCity.setText(customerTableInfoList.get(i).getCUST_CITY());
-                        etProvince.setText(customerTableInfoList.get(i).getCUST_PROVINCE());
-                        etNazion.setText(customerTableInfoList.get(i).getCUST_COUNTRY());
-                        vatid = customerTableInfoList.get(i).getVATT_ID();
-                        Log.e("vatid",vatid);
-                        paymId = customerTableInfoList.get(i).getPAYM_ID();
-                        Log.e("paymId",paymId);
+                    for(int i =0; i<customerTableInfoList.size();i++){
+                        if(custName.equalsIgnoreCase(customerTableInfoList.get(i).getAGEN_CODE())){
+                            etAegentCode.setText(customerTableInfoList.get(i).getCUST_CODE());
+
+                            etClientCode.setText(customerTableInfoList.get(i).getCUST_CODE());
+                            clientFirstName.setText(customerTableInfoList.get(i).getCUST_NAME1());
+                            etClientLastName.setText(customerTableInfoList.get(i).getCUST_NAME2());
+                            etAddress.setText(customerTableInfoList.get(i).getCUST_ADDRESS());
+                            etZip.setText(customerTableInfoList.get(i).getCUST_ZIP());
+                            etCity.setText(customerTableInfoList.get(i).getCUST_CITY());
+                            etProvince.setText(customerTableInfoList.get(i).getCUST_PROVINCE());
+                            etNazion.setText(customerTableInfoList.get(i).getCUST_COUNTRY());
+                            vatid = customerTableInfoList.get(i).getVATT_ID();
+                            Log.e("vatid",vatid);
+                            paymId = customerTableInfoList.get(i).getPAYM_ID();
+                            Log.e("paymId",paymId);
 //               etNtel.setText(AppConstant.customerTableInfo.getCUST_TEL());
 //               etFax.setText(AppConstant.customerTableInfo.getCUST_FAX());
 //               etMobile.setText(AppConstant.customerTableInfo.getCUST_MOBILE());
-                        etEmail.setText(customerTableInfoList.get(i).getCUST_MAIL());
+                            etEmail.setText(customerTableInfoList.get(i).getCUST_MAIL());
 //               etCodeFiscal.setText(AppConstant.customerTableInfo.getCUST_CF());
 //               etPrtitaIVA.setText(AppConstant.customerTableInfo.getCUST_VATNUM());
 //               etIbn.setText(AppConstant.customerTableInfo.getCUST_IBAN());
-                        etNazion.setText(customerTableInfoList.get(i).getCUST_COUNTRY());
-                        etSconti.setText(customerTableInfoList.get(i).getCUST_DISCOUNT());
-                    }
-
-                }
-
-
-                List <String> listVat = new ArrayList<>();
-                List <VatTableInfo> vatListInfo = new ArrayList<>();
-                vatListInfo = db.getAllVats();
-
-                for(int j = 0; j<vatListInfo.size();j++){
-                    if(!TextUtils.isEmpty(vatid)){
-                        if(vatid.equalsIgnoreCase(vatListInfo.get(j).getVATT_ID())){
-                            Log.e("vatid tabale",vatListInfo.get(j).getVATT_ID());
-                            listVat.add(vatListInfo.get(j).getVATT_DESCRIPTION());
+                            etNazion.setText(customerTableInfoList.get(i).getCUST_COUNTRY());
+                            etSconti.setText(customerTableInfoList.get(i).getCUST_DISCOUNT());
                         }
-                    }
-
-                }
-                ArrayAdapter<String> adpVat=new ArrayAdapter<String>(con,
-                        android.R.layout.simple_list_item_1,listVat);
-                adpVat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerVat.setAdapter(adpVat);
-
-                spinnerVat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                        String str=spinnerVat.getSelectedItem().toString().trim();
-                        String numberOnly= str.replaceAll("[^0-9]", "");
-                        vat= Double.parseDouble(numberOnly);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
 
                     }
-                });
 
 
-                List <String> listPayment = new ArrayList<>();
-                listPayment.add("Select payment");
-                List <PaymentTableInfo> paymentTableInfoListInfo = new ArrayList<>();
-                paymentTableInfoListInfo = db.getPaymentList();
-                Log.e("paymId tabale size",""+paymentTableInfoListInfo.size());
 
-                for(int n = 0; n<paymentTableInfoListInfo.size();n++){
-                    if(!TextUtils.isEmpty(paymId)){
-                        if(paymId.equalsIgnoreCase(paymentTableInfoListInfo.get(n).getPAYM_ID())){
-                            Log.e("paymId tabale",paymentTableInfoListInfo.get(n).getPAYM_DESCRIPTION());
-                            listPayment.add(paymentTableInfoListInfo.get(n).getPAYM_DESCRIPTION());
+                    List <VatTableInfo> vatListInfo = new ArrayList<>();
+                    vatListInfo = db.getAllVats();
+
+                    for(int j = 0; j<vatListInfo.size();j++){
+                        if(!TextUtils.isEmpty(vatid)){
+                            if(vatid.equalsIgnoreCase(vatListInfo.get(j).getVATT_ID())){
+                                Log.e("vatid tabale",vatListInfo.get(j).getVATT_ID());
+                                listVat.add(vatListInfo.get(j).getVATT_DESCRIPTION());
+                            }
                         }
+
+                    }
+                    ArrayAdapter<String> adpVat=new ArrayAdapter<String>(con,
+                            android.R.layout.simple_list_item_1,listVat);
+                    adpVat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerVat.setAdapter(adpVat);
+
+                    spinnerVat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            String str=spinnerVat.getSelectedItem().toString().trim();
+                            String numberOnly= str.replaceAll("[^0-9]", "");
+                            vat= Double.parseDouble(numberOnly);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+
+
+
+//                listPayment.add("Select payment");
+                    List <PaymentTableInfo> paymentTableInfoListInfo = new ArrayList<>();
+                    paymentTableInfoListInfo = db.getPaymentList();
+                    Log.e("paymId tabale size",""+paymentTableInfoListInfo.size());
+
+                    for(int n = 0; n<paymentTableInfoListInfo.size();n++){
+                        if(!TextUtils.isEmpty(paymId)){
+                            if(paymId.equalsIgnoreCase(paymentTableInfoListInfo.get(n).getPAYM_ID())){
+                                Log.e("paymId tabale",paymentTableInfoListInfo.get(n).getPAYM_DESCRIPTION());
+                                listPayment.add(paymentTableInfoListInfo.get(n).getPAYM_DESCRIPTION());
+                            }
+                        }
+
                     }
 
+                    ArrayAdapter<String> adpPaym=new ArrayAdapter<String>(con,
+                            android.R.layout.simple_list_item_1,listPayment);
+                    adpPaym.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerPayment.setAdapter(adpPaym);
                 }
 
-                ArrayAdapter<String> adpPaym=new ArrayAdapter<String>(con,
-                        android.R.layout.simple_list_item_1,listPayment);
-                adpPaym.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerPayment.setAdapter(adpPaym);
 
 
             }
@@ -409,7 +431,6 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
                     }
 
-
             }
 
             @Override
@@ -464,8 +485,6 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
         }
 
-
-
         @Override
         public View getView(final int position, View convertView,
                             ViewGroup parent) {
@@ -475,7 +494,6 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 final LayoutInflater vi = (LayoutInflater) context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.raw_add_product, null);
-
             }
 
             if (position < proInfoAddList.size()) {
@@ -487,13 +505,14 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 final EditText etDescript = (EditText) v.findViewById(R.id.etDescript);
                  etQuantity = (EditText) v.findViewById(R.id.etQuantity);
                 final EditText etLista = (EditText) v.findViewById(R.id.etLista);
-                final EditText etTotal = (EditText) v.findViewById(R.id.etTotal);
+                final EditText etSubTotal = (EditText) v.findViewById(R.id.etSubTotal);
+                final EditText etDiscount = (EditText) v.findViewById(R.id.etDiscount);
                 etProNameSearch = (EditText) v.findViewById(R.id.etProNameSearch);
 
                 etDescript.setText(query.getPROD_DESCRIPTION());
                 etLista.setText(query.getPriceData());
                 etQuantity.setText(query.getQuantity());
-                etTotal.setText(query.getTotal());
+                etSubTotal.setText(query.getTotal());
                 etProName.setText(query.getPROD_CODE());
                 etProName.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -515,7 +534,6 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
                     }
                 });
-
 
                 if(pricrNumber.equalsIgnoreCase("0")){
                     etLista.setText(query.getPROD_P0());
@@ -550,9 +568,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 if(pricrNumber.equalsIgnoreCase("9")){
                     etLista.setText(query.getPROD_P9());
                 }
-                etTotal.setFocusable(false);
-
-
+                etSubTotal.setFocusable(false);
 
                 etQuantity.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -567,10 +583,10 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                             double price = Double.parseDouble(etLista.getText().toString());
                             double quantity = Double.parseDouble(etQuantity.getText().toString());
                             double totali = price*quantity;
-                            etTotal.setText(String.valueOf(totali));
+                            etSubTotal.setText(String.valueOf(totali));
 
                             tottalResult = 0;
-                            proInfoAddList.set(position,new ProductTableInfo(etTotal.getText().toString(),etLista.getText().toString(),etQuantity.getText().toString()));
+                            proInfoAddList.set(position,new ProductTableInfo(etSubTotal.getText().toString(),etLista.getText().toString(),etQuantity.getText().toString()));
                             for(int p = 0; p<proInfoAddList.size();p++){
                                 if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
                                     tottal = Double.parseDouble(proInfoAddList.get(p).getTotal());
@@ -607,7 +623,6 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                     }
-
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
 //                        listProName.setFilterText(s.toString());
@@ -640,7 +655,16 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                         List<CustomerProductTableInfo> crpList = new ArrayList<CustomerProductTableInfo>();
                         crpList = db.getAllCusProduct();
                         for(int p = 0; p<crpList.size();p++){
+                            if(listProName.getItemAtPosition(i).toString().trim().equalsIgnoreCase(crpList.get(p).getPROD_CODE())){
+                               if(!TextUtils.isEmpty(crpList.get(p).getCUPR_DISCOUNT())) {
+                                   etDiscount.setText(crpList.get(p).getCUPR_DISCOUNT());
+                               }
 
+
+
+                            }else {
+                                etDiscount.setText(etSconti.getText().toString());
+                            }
                         }
 
                         listProName.setVisibility(View.GONE);
@@ -652,9 +676,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                                 customAdapterProduct.notifyDataSetChanged();
                                 UIUtils.setListViewHeightBasedOnItems(listProduct);
                             }
-
                         }
-
                     }
                 });
 
@@ -686,7 +708,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                             double price = Double.parseDouble(etLista.getText().toString());
                             double quantity = Double.parseDouble(etQuantity.getText().toString());
                             double totali = price*quantity;
-                            etTotal.setText(String.valueOf(totali));
+                            etSubTotal.setText(String.valueOf(totali));
 
                             tottalResult = 0;
                         //    proInfoAddList.set(position-1,new ProductTableInfo(etTotal.getText().toString(),etLista.getText().toString(),etQuantity.getText().toString()));
@@ -1156,4 +1178,33 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
         return listviewHeight;
     }
+
+
+    private void emptyEditField(){
+        etAegentCode.setText("");
+        etClientCode.setText("");
+        clientFirstName.setText("");
+        etClientLastName.setText("");
+        etAddress.setText("");
+        etZip.setText("");
+        etCity.setText("");
+        etEmail.setText("");
+        etProvince.setText("");
+        etSconti.setText("");
+        etNazion.setText("");
+        listPayment.clear();
+        listVat.clear();
+        ArrayAdapter<String> adpVat=new ArrayAdapter<String>(con,
+                android.R.layout.simple_list_item_1,listVat);
+        adpVat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerVat.setAdapter(adpVat);
+
+        ArrayAdapter<String> adpPaym=new ArrayAdapter<String>(con,
+                android.R.layout.simple_list_item_1,listPayment);
+        adpPaym.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPayment.setAdapter(adpPaym);
+
+    }
+
+
 }

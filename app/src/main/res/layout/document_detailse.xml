@@ -73,7 +73,7 @@
                 android:text="TPO DOCUMENTO"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,7 +104,7 @@
                 android:text="SELEZIONA CLIENTI"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,7 +134,7 @@
                 android:text="DATA"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etDate"
@@ -157,7 +157,7 @@
                 android:text="CODICE AGENTE"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etAegentCode"
@@ -181,7 +181,7 @@
                 android:text="CODICE CLIENTI"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etClientCode"
@@ -205,7 +205,7 @@
                 android:text=" CLIENTO PRIMO NOME"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/clientFirstName"
@@ -228,7 +228,7 @@
                 android:text=" CLIENTO SECONO NOME"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etClientLastName"
@@ -250,7 +250,7 @@
                 android:text="INDIRIZZO"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etAddress"
@@ -263,7 +263,7 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:padding="@dimen/dim10"
                 android:scrollbars="vertical"
-                android:textSize="@dimen/dim20" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -273,7 +273,7 @@
                 android:text="CAP"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etZip"
@@ -281,7 +281,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dim10"
                 android:background="@drawable/edittext_bg"
-                android:hint="CAP"
+                android:hint="Cap"
                 android:inputType="textUri"
                 android:padding="@dimen/dim10"
                 android:singleLine="true"
@@ -292,10 +292,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dim10"
                 android:gravity="left"
-                android:text="CITTA"
+                android:text="Citta"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etCity"
@@ -317,7 +317,7 @@
                 android:text="E-MAIL"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -339,7 +339,7 @@
                 android:text="Provincia"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etProvince"
@@ -347,7 +347,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dim10"
                 android:background="@drawable/edittext_bg"
-                android:hint="Bangladesh"
+                android:hint="Provincia"
                 android:inputType="textUri"
                 android:padding="@dimen/dim10"
                 android:singleLine="true"
@@ -361,7 +361,7 @@
                 android:text="Sconti:"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etSconti"
@@ -369,7 +369,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dim10"
                 android:background="@drawable/edittext_bg"
-                android:hint="Bangladesh"
+                android:hint="Sconti"
                 android:inputType="textEmailAddress"
                 android:padding="@dimen/dim10"
                 android:singleLine="true"
@@ -383,7 +383,7 @@
                 android:text="Nazione"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/etNazion"
@@ -391,7 +391,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dim10"
                 android:background="@drawable/edittext_bg"
-                android:hint="Bangladesh"
+                android:hint="Nazione"
                 android:inputType="textUri"
                 android:padding="@dimen/dim10"
                 android:singleLine="true"
@@ -407,7 +407,7 @@
                 android:text="LISTINO"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -439,7 +439,7 @@
                 android:text="IVA SPECIAL"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -469,7 +469,7 @@
                 android:text="PAGAMENTO"
                 android:textColor="#333333"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <LinearLayout
                 android:layout_width="match_parent"

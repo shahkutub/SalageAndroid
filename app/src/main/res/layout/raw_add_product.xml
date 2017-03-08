@@ -6,31 +6,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginRight="@dimen/dim10"
         android:layout_marginLeft="@dimen/dim10"
+        android:layout_marginRight="@dimen/dim10"
         android:background="@drawable/document_product_part_bg"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvViewNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text=""
+            android:inputType="textUri"
             android:padding="@dimen/dim5"
             android:singleLine="true"
-            android:inputType="textUri"
-             />
-
+            android:text=""
+            android:textSize="15sp" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Name"
             android:layout_marginLeft="@dimen/dim10"
-            />
+            android:text="Product Name" />
+
         <EditText
             android:id="@+id/etProNameSearch"
             android:layout_width="match_parent"
@@ -60,79 +57,74 @@
 
         <ListView
             android:id="@+id/listProName"
-            android:visibility="gone"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:layout_height="wrap_content"></ListView>
+            android:visibility="gone"></ListView>
 
         <LinearLayout
             android:id="@+id/linProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/dim10"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/dim10"
             android:layout_marginLeft="@dimen/dim10"
             android:layout_marginRight="@dimen/dim10"
+            android:layout_marginTop="@dimen/dim10"
             android:background="@drawable/edittext_bg"
             android:gravity="center"
-            >
+            android:orientation="horizontal"
+            android:padding="@dimen/dim10"
+            android:visibility="gone">
 
 
             <Spinner
                 android:id="@+id/spinnerProduct"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dim20"
-                ></Spinner>
+                android:layout_height="@dimen/dim20"></Spinner>
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Description"
             android:layout_marginLeft="@dimen/dim10"
-            />
+            android:text="Product Description" />
+
         <EditText
+            android:id="@+id/etDescript"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Discrizione"
-            android:textSize="15sp"
             android:layout_margin="@dimen/dim8"
-            android:padding="@dimen/dim8"
-            android:singleLine="true"
-            android:inputType="textUri"
             android:layout_marginTop="@dimen/dim10"
             android:background="@drawable/edittext_bg"
-            android:id="@+id/etDescript" />
+            android:hint="Discrizione"
+            android:inputType="textUri"
+            android:padding="@dimen/dim8"
+            android:singleLine="true"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Quantity"
             android:layout_marginLeft="@dimen/dim10"
-            />
+            android:text="Product Quantity" />
 
         <EditText
             android:id="@+id/etQuantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quantita"
-            android:textSize="15sp"
             android:layout_margin="@dimen/dim8"
+            android:background="@drawable/edittext_bg"
+            android:hint="Quantita"
+            android:inputType="number"
             android:padding="@dimen/dim8"
             android:singleLine="true"
-            android:inputType="number"
-            android:background="@drawable/edittext_bg"
-            />
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Price"
             android:layout_marginLeft="@dimen/dim10"
-            />
+            android:text="Product Price" />
 
         <EditText
             android:id="@+id/etLista"
@@ -149,12 +141,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Total"
             android:layout_marginLeft="@dimen/dim10"
-            />
+            android:text="Product Sub Total" />
 
         <EditText
-            android:id="@+id/etTotal"
+            android:id="@+id/etSubTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim8"
@@ -169,9 +160,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Discount"
             android:layout_marginLeft="@dimen/dim10"
-            />
+            android:text="Product Discount" />
 
         <EditText
             android:id="@+id/etDiscount"
@@ -180,6 +170,25 @@
             android:layout_margin="@dimen/dim8"
             android:background="@drawable/edittext_bg"
             android:hint="Discount"
+            android:inputType="numberDecimal"
+            android:padding="@dimen/dim8"
+            android:singleLine="true"
+            android:text=""
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim10"
+            android:text="Product Total(After Discount)" />
+
+        <EditText
+            android:id="@+id/etTotAfDis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim8"
+            android:background="@drawable/edittext_bg"
+            android:hint="Total"
             android:inputType="numberDecimal"
             android:padding="@dimen/dim8"
             android:singleLine="true"
