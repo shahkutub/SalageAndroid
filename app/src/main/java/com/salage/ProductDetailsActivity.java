@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.icteuro.salage.R;
 import com.salage.Utils.AppConstant;
+import com.salage.model.DatabaseHelper;
+import com.salage.model.ProductTableInfo;
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
@@ -37,6 +39,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 2/22/2017.
@@ -49,12 +53,13 @@ public class ProductDetailsActivity extends AppCompatActivity{
     private ImageView dissmissCatListBtn,imgProd;
     TextView tvCodedPro,tvDescriptPro,tvLinkPdf,tvCat,tvSubCat,tvMarche,tvIva,tvSup,tvBarcode;
     private ProgressDialog pDialog;
-
+    DatabaseHelper db;
     // Progress dialog type (0 - for Horizontal progress bar)
     public static final int progress_bar_type = 0;
 
     // File url to download
     private static String file_url = "",urlPdf="";
+    List<ProductTableInfo> plist = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,13 +72,19 @@ public class ProductDetailsActivity extends AppCompatActivity{
     }
 
     private void initUi() {
-        Log.e("imageUrl", ""+AppConstant.productTableInfo.getPROD_IMAGE());
-        urlPdf =  "http://www.ict-euro.com/demo/salage/uploads/"+AppConstant.productTableInfo.getPROD_PDF();
-        file_url = "http://www.ict-euro.com/demo/salage/uploads/"+AppConstant.productTableInfo.getPROD_IMAGE();
-        Log.e("file_url",""+file_url);
+        db = new DatabaseHelper(con);
+        plist = db.getAllProducts();
+
         imgProd = (ImageView) findViewById(R.id.imgProd);
-        //Picasso.with(con).load(AppConstant.DownLoadFileList.get(0).getImage()).into(imgProd);
-        new ImageLoadTask(file_url, imgProd).execute();
+        for(int i = 0; i<plist.size();i++){
+            if(AppConstant.productTableInfo.getPROD_CODE().
+                    equalsIgnoreCase(plist.get(i).getPROD_CODE())){
+                imgProd.setImageBitmap(AppConstant.rowItem.get(i).getBitmapImage());
+            }
+        }
+
+        //Picasso.with(con).load(AppConstant.rowItem.get(0).getBitmapImage()).into(imgProd);
+        //new ImageLoadTask(file_url, imgProd).execute();
 
         dissmissCatListBtn = (ImageView) findViewById(R.id.dissmissCatListBtn);
         dissmissCatListBtn.setOnClickListener(new View.OnClickListener() {

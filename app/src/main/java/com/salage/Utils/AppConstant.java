@@ -10,6 +10,7 @@ import com.salage.model.DocumentTableInfo;
 import com.salage.model.DownLoadFile;
 import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
+import com.salage.model.RowItem;
 import com.salage.model.UpojelaOfficerInfo;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class AppConstant {
     public static ProductTableInfo productTableInfo = new ProductTableInfo();
     public static CustomerTableInfo customerTableInfo = new CustomerTableInfo();
     public static List<DownLoadFile> DownLoadFileList= new ArrayList<DownLoadFile>();
+
+    public static List<RowItem> rowItem= new ArrayList<>();
 
     public static List getCat(DatabaseHelper db){
         List<CateGoryInfo> cateGoryInfoList= new ArrayList<CateGoryInfo>();

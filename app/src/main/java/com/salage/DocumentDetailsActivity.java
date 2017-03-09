@@ -72,7 +72,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private DatabaseHelper db;
     private List<String> agentCodeList = new ArrayList<>();
     private EditText etDate,etAegentCode,etClientCode,clientFirstName,etClientLastName,etAddress,
-            etZip,etCity,etEmail,etProvince,etSconti,etNazion,etTotalAll,etQuantity
+            etZip,etCity,etEmail,etProvince,etSconti,etNazion,etTotalAll,etQuantity,etTotAfDis
             ,etProNameSearch,etProName,etIva,etIvaInclode;
     private List<CustomerTableInfo> customerTableInfoList  = new ArrayList<>();
     private List<ProductTableInfo> proInfoAddList  = new ArrayList<>();
@@ -101,8 +101,9 @@ public class DocumentDetailsActivity extends AppCompatActivity{
     private CustomAdapterSubCat customAdapterSubCat;
     private CustomAdapterProductDialogue customAdapterProductDialogue;
     private String  catId,subCatId,fromDialog="",pricrCode,pricrNumber = "0",docType="";
-    double tottalResult,vat;
+    double subTottal,aftDiscTotal,vat;
     double tottal;
+    private String discounts;
     int proAddPos,selectPos,proTotal;
     private LinearLayout linAddProduct;
     List <PriceListTableInfo> listPriceTable = new ArrayList<>();
@@ -271,6 +272,8 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                             String str=spinnerVat.getSelectedItem().toString().trim();
                             String numberOnly= str.replaceAll("[^0-9]", "");
                             vat= Double.parseDouble(numberOnly);
+
+
                         }
 
                         @Override
@@ -504,6 +507,7 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                 etProName = (EditText) v.findViewById(R.id.etProName);
                 final EditText etDescript = (EditText) v.findViewById(R.id.etDescript);
                  etQuantity = (EditText) v.findViewById(R.id.etQuantity);
+                 etTotAfDis = (EditText) v.findViewById(R.id.etTotAfDis);
                 final EditText etLista = (EditText) v.findViewById(R.id.etLista);
                 final EditText etSubTotal = (EditText) v.findViewById(R.id.etSubTotal);
                 final EditText etDiscount = (EditText) v.findViewById(R.id.etDiscount);
@@ -585,20 +589,37 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                             double totali = price*quantity;
                             etSubTotal.setText(String.valueOf(totali));
 
-                            tottalResult = 0;
+                            subTottal = 0;
                             proInfoAddList.set(position,new ProductTableInfo(etSubTotal.getText().toString(),etLista.getText().toString(),etQuantity.getText().toString()));
                             for(int p = 0; p<proInfoAddList.size();p++){
                                 if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
                                     tottal = Double.parseDouble(proInfoAddList.get(p).getTotal());
-                                    tottalResult += tottal;
-                                    Log.e("tottalResult",""+tottalResult);
-                                    etTotalAll.setText(tottalResult+"");
-                                    double vatTotal = (tottalResult*vat)/100;
+                                    subTottal += tottal;
+                                    Log.e("tottalResult",""+subTottal);
+                                    etTotalAll.setText(subTottal+"");
+                                    double vatTotal = (subTottal*vat)/100;
                                     etIva.setText(String.valueOf(vatTotal));
-                                    etIvaInclode.setText(String.valueOf(tottalResult+vatTotal));
+                                    etIvaInclode.setText(String.valueOf(subTottal+vatTotal));
                                 }
                             }
                         }
+
+                        if(!TextUtils.isEmpty(discounts)){
+                            String[] parts = discounts.split("\\+");
+                            List<String> values = new ArrayList<String>();
+                            for(int s = 0 ; s<parts.length;s++){
+                                values.add(parts[s]);
+                                Log.e("dis size",""+values.size());
+                                Log.e("dis value",""+values.get(s));
+                                double singleVal = Double.parseDouble(values.get(s));
+                               double aftDisTottal = (subTottal*singleVal)/100;
+                                subTottal -= aftDisTottal;
+                                Log.e("aftDisTottal",""+aftDisTottal);
+                                etTotAfDis.setText(String.valueOf(subTottal));
+
+                            }
+                        }
+
                     }
 
                     @Override
@@ -664,6 +685,9 @@ public class DocumentDetailsActivity extends AppCompatActivity{
 
                             }else {
                                 etDiscount.setText(etSconti.getText().toString());
+                                discounts = etDiscount.getText().toString();
+
+
                             }
                         }
 
@@ -710,18 +734,18 @@ public class DocumentDetailsActivity extends AppCompatActivity{
                             double totali = price*quantity;
                             etSubTotal.setText(String.valueOf(totali));
 
-                            tottalResult = 0;
+                            subTottal = 0;
                         //    proInfoAddList.set(position-1,new ProductTableInfo(etTotal.getText().toString(),etLista.getText().toString(),etQuantity.getText().toString()));
                             for(int p = 0; p<proInfoAddList.size();p++){
                                 if(!TextUtils.isEmpty(proInfoAddList.get(p).getTotal())){
                                     tottal = Double.parseDouble(proInfoAddList.get(p).getTotal());
-                                    tottalResult += tottal;
-                                    Log.e("tottalResult",""+tottalResult);
-                                    etTotalAll.setText(round(tottalResult,3)+"");
-                                    double vatTotal = (tottalResult*vat)/100;
+                                    subTottal += tottal;
+                                    Log.e("tottalResult",""+subTottal);
+                                    etTotalAll.setText(round(subTottal,3)+"");
+                                    double vatTotal = (subTottal*vat)/100;
                                     round(vatTotal,3);
                                     etIva.setText(String.valueOf(vatTotal));
-                                    etIvaInclode.setText(String.valueOf(tottalResult+vatTotal));
+                                    etIvaInclode.setText(String.valueOf(subTottal+vatTotal));
                                 }
                             }
                         }

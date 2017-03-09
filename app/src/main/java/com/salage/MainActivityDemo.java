@@ -45,6 +45,8 @@ import com.loopj.android.http.RequestParams;
 import com.salage.Utils.AlertMessage;
 import com.salage.Utils.AppConstant;
 import com.salage.Utils.BusyDialog;
+import com.salage.Utils.FileDownloader;
+import com.salage.Utils.FileUtils;
 import com.salage.Utils.NetInfo;
 import com.salage.Utils.PersistData;
 import com.salage.Utils.PersistentUser;
@@ -63,6 +65,7 @@ import com.salage.model.JsonToSendServer;
 import com.salage.model.PaymentTableInfo;
 import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
+import com.salage.model.RowItem;
 import com.salage.model.SubCatTableInfo;
 import com.salage.model.SyncData;
 import com.salage.model.SyncResponse;
@@ -70,12 +73,15 @@ import com.salage.model.VatTableInfo;
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -101,7 +107,7 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     EditText etUrl,etAgent,etPassword,etCode;
     ImageView  img_home;
     private ScrollView buttonView;
-   Activity activity;
+    Activity activity;
     private DatabaseHelper db;
     private List<DocumentTableInfo> documentTableInfoList  = new ArrayList<>();
     private List<ProductTableInfo> ProductTableInfoList  = new ArrayList<>();
@@ -116,7 +122,13 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     private JsonStructure jsonStructure;
     private Vector<JsonInfo> listVec = new Vector<JsonInfo>();
     SyncResponse syncResponse;
-
+    ProgressDialog progressDialog;
+    private String [] arrayImagUrl;
+    private List<String> listImageUrl = new ArrayList<>();
+    private List<String> listPdfUrl = new ArrayList<>();
+    private List<String> listPdfName = new ArrayList<>();
+    private String [] arrayPdfurl;
+    private String [] arrayPdfName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +144,48 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         img_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                ProductTableInfoList = db.getAllProducts();
+
+                //Pdf download
+
+                listPdfUrl.clear();
+                listPdfName.clear();
+
+                for(int i = 0; i<ProductTableInfoList.size();i++){
+                    listPdfUrl.add(i,"http://www.ict-euro.com/demo/salage/uploads/"+ProductTableInfoList.get(i).getPROD_PDF());
+                    listPdfName.add(i,ProductTableInfoList.get(i).getPROD_CODE());
+                }
+                for(int i =0; i<listPdfUrl.size();i++){
+                    arrayPdfurl = listPdfUrl.toArray(new String[i]);
+                    arrayPdfName = listPdfName.toArray(new String[i]);
+                }
+
+               // new DownloadFile().execute(arrayPdfurl, arrayPdfName);
+
+                //Image download
+                listImageUrl.clear();
+
+                for(int i = 0; i<ProductTableInfoList.size();i++){
+                    listImageUrl.add(i,"http://www.ict-euro.com/demo/salage/uploads/"+ProductTableInfoList.get(i).getPROD_IMAGE());
+                }
+                for(int i =0; i<listImageUrl.size();i++){
+                    arrayImagUrl = listImageUrl.toArray(new String[i]);
+                }
+
+                GetXMLTask task = new GetXMLTask(MainActivityDemo.this);
+                task.execute(arrayImagUrl);
+
+                progressDialog = new ProgressDialog(MainActivityDemo.this);
+                progressDialog.setTitle("In progress...");
+                progressDialog.setMessage("Loading...");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setIndeterminate(false);
+                progressDialog.setMax(100);
+                //progressDialog.setIcon(R.drawable.arrow_stop_down);
+                progressDialog.setCancelable(true);
+                progressDialog.show();
+
+               // onBackPressed();
             }
         });
                 navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -1114,56 +1167,167 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
     }
 
 
-    class DownloadFile extends AsyncTask<String,Integer,Long> {
-        ProgressDialog mProgressDialog = new ProgressDialog(con);// Change Mainactivity.this with your activity name.
-        String strFolderName;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDialog.setMessage("Downloading");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setMax(100);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mProgressDialog.show();
+//    class DownloadFile extends AsyncTask<String,Integer,Long> {
+//        ProgressDialog mProgressDialog = new ProgressDialog(con);// Change Mainactivity.this with your activity name.
+//        String strFolderName;
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            mProgressDialog.setMessage("Downloading");
+//            mProgressDialog.setIndeterminate(false);
+//            mProgressDialog.setMax(100);
+//            mProgressDialog.setCancelable(true);
+//            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//            mProgressDialog.show();
+//        }
+//        @Override
+//        protected Long doInBackground(String... aurl) {
+//            int count;
+//            try {
+//                URL url = new URL((String) aurl[0]);
+//                URLConnection conexion = url.openConnection();
+//                conexion.connect();
+//                String targetFileName="Name"+".rar";//Change name and subname
+//                int lenghtOfFile = conexion.getContentLength();
+//                String PATH = Environment.getExternalStorageDirectory()+ "/"+"salageImage"+"/";
+//                File folder = new File(PATH);
+//                if(!folder.exists()){
+//                    folder.mkdir();//If there is no folder it will be created.
+//                }
+//                InputStream input = new BufferedInputStream(url.openStream());
+//                OutputStream output = new FileOutputStream(PATH+targetFileName);
+//                byte data[] = new byte[1024];
+//                long total = 0;
+//                while ((count = input.read(data)) != -1) {
+//                    total += count;
+//                    publishProgress ((int)(total*100/lenghtOfFile));
+//                    output.write(data, 0, count);
+//                }
+//                output.flush();
+//                output.close();
+//                input.close();
+//            } catch (Exception e) {}
+//            return null;
+//        }
+//        protected void onProgressUpdate(Integer... progress) {
+//            mProgressDialog.setProgress(progress[0]);
+//            if(mProgressDialog.getProgress()==mProgressDialog.getMax()){
+//                mProgressDialog.dismiss();
+//                //Toast.makeText(fa, "File Downloaded", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//        protected void onPostExecute(String result) {
+//        }
+//    }
+
+
+    private class GetXMLTask extends AsyncTask<String, Integer, List<RowItem>> {
+        private Activity context;
+        List<RowItem> rowItems;
+        int noOfURLs;
+        public GetXMLTask(Activity context) {
+            this.context = context;
         }
+
         @Override
-        protected Long doInBackground(String... aurl) {
-            int count;
+        protected List<RowItem> doInBackground(String... urls) {
+            noOfURLs = urls.length;
+            rowItems = new ArrayList<RowItem>();
+            Bitmap map = null;
+            for (String url : urls) {
+                map = downloadImage(url);
+                rowItems.add(new RowItem(map));
+            }
+            return rowItems;
+        }
+
+        private Bitmap downloadImage(String urlString) {
+
+            int count = 0;
+            Bitmap bitmap = null;
+
+            URL url;
+            InputStream inputStream = null;
+            BufferedOutputStream outputStream = null;
+
             try {
-                URL url = new URL((String) aurl[0]);
-                URLConnection conexion = url.openConnection();
-                conexion.connect();
-                String targetFileName="Name"+".rar";//Change name and subname
-                int lenghtOfFile = conexion.getContentLength();
-                String PATH = Environment.getExternalStorageDirectory()+ "/"+"salageImage"+"/";
-                File folder = new File(PATH);
-                if(!folder.exists()){
-                    folder.mkdir();//If there is no folder it will be created.
-                }
-                InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(PATH+targetFileName);
-                byte data[] = new byte[1024];
+                url = new URL(urlString);
+                URLConnection connection = url.openConnection();
+                int lenghtOfFile = connection.getContentLength();
+
+                inputStream = new BufferedInputStream(url.openStream());
+                ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+
+                outputStream = new BufferedOutputStream(dataStream);
+
+                byte data[] = new byte[512];
                 long total = 0;
-                while ((count = input.read(data)) != -1) {
+
+                while ((count = inputStream.read(data)) != -1) {
                     total += count;
-                    publishProgress ((int)(total*100/lenghtOfFile));
-                    output.write(data, 0, count);
+                    /*publishing progress update on UI thread.
+                    Invokes onProgressUpdate()*/
+                    publishProgress((int)((total*100)/lenghtOfFile));
+
+                    // writing data to byte array stream
+                    outputStream.write(data, 0, count);
                 }
-                output.flush();
-                output.close();
-                input.close();
-            } catch (Exception e) {}
-            return null;
+                outputStream.flush();
+
+                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                bmOptions.inSampleSize = 1;
+
+                byte[] bytes = dataStream.toByteArray();
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length,bmOptions);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                FileUtils.close(inputStream);
+                FileUtils.close(outputStream);
+            }
+            return bitmap;
         }
+
         protected void onProgressUpdate(Integer... progress) {
-            mProgressDialog.setProgress(progress[0]);
-            if(mProgressDialog.getProgress()==mProgressDialog.getMax()){
-                mProgressDialog.dismiss();
-                //Toast.makeText(fa, "File Downloaded", Toast.LENGTH_SHORT).show();
+            progressDialog.setProgress(progress[0]);
+            if(rowItems != null) {
+                progressDialog.setMessage("Loading " + (rowItems.size()+1) + "/" + noOfURLs);
             }
         }
-        protected void onPostExecute(String result) {
+
+        @Override
+        protected void onPostExecute(List<RowItem> rowItems) {
+            AppConstant.rowItem = rowItems;
+//            listViewAdapter = new CustomListViewAdapter(context, rowItems);
+//            listView.setAdapter(listViewAdapter);
+            progressDialog.dismiss();
+        }
+
+    }
+
+
+    private class DownloadFile extends AsyncTask<String, List<String>, List<String>>{
+
+        @Override
+        protected List<String>  doInBackground(String... strings) {
+            String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
+            String fileName = strings[1];  // -> maven.pdf
+            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+            File folder = new File(extStorageDirectory, "testthreepdf");
+            folder.mkdir();
+
+            File pdfFile = new File(folder, fileName);
+
+            try{
+                pdfFile.createNewFile();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            FileDownloader.downloadFile(fileUrl, pdfFile);
+            return null;
         }
     }
 
