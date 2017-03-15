@@ -3,6 +3,7 @@ package com.salage;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,13 +28,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.icteuro.salage.R;
 import com.salage.Utils.AppConstant;
+import com.salage.Utils.PersistData;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.ProductTableInfo;
+import com.salage.model.RowItem;
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -60,6 +65,7 @@ public class ProductDetailsActivity extends AppCompatActivity{
     // File url to download
     private static String file_url = "",urlPdf="";
     List<ProductTableInfo> plist = new ArrayList<>();
+    List<RowItem> items = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,11 +81,14 @@ public class ProductDetailsActivity extends AppCompatActivity{
         db = new DatabaseHelper(con);
         plist = db.getAllProducts();
 
+        //items = PersistData.getStringArrayPref(con,"urls");
         imgProd = (ImageView) findViewById(R.id.imgProd);
         for(int i = 0; i<plist.size();i++){
             if(AppConstant.productTableInfo.getPROD_CODE().
                     equalsIgnoreCase(plist.get(i).getPROD_CODE())){
-                imgProd.setImageBitmap(AppConstant.rowItem.get(i).getBitmapImage());
+                //imgProd.setImageBitmap(AppConstant.rowItem.get(i).getBitmapImage());
+
+               // imgProd.setImageBitmap(AppConstant.rowItem.get(i).getBitmapImage());
             }
         }
 
@@ -101,8 +110,29 @@ public class ProductDetailsActivity extends AppCompatActivity{
         tvLinkPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlPdf));
-                startActivity(browserIntent);
+
+                for(int i = 0; i<plist.size();i++){
+                    if(AppConstant.productTableInfo.getPROD_CODE().
+                            equalsIgnoreCase(plist.get(i).getPROD_CODE())){
+
+                        OutputStream out = null;
+                        try {
+                            out = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()+"out.pdf");
+                            out.write(AppConstant.pdfFileItem.get(i).getPdf());
+                            out.close();
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+////                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstant.pdfFileItem.get(i).getPdf()));
+////                        startActivity(browserIntent);
+//                        imgProd.setImageBitmap(AppConstant.rowItem.get(i).getBitmapImage());
+                    }
+                }
+
             }
         });
         tvCat = (TextView) findViewById(R.id.tvCat);
@@ -275,6 +305,5 @@ public class ProductDetailsActivity extends AppCompatActivity{
         }
 
     }
-
 
 }

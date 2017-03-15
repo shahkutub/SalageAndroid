@@ -8,6 +8,7 @@ import com.salage.model.CustomerTableInfo;
 import com.salage.model.DatabaseHelper;
 import com.salage.model.DocumentTableInfo;
 import com.salage.model.DownLoadFile;
+import com.salage.model.PdfFileItem;
 import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
 import com.salage.model.RowItem;
@@ -51,6 +52,7 @@ public class AppConstant {
     public static List<DownLoadFile> DownLoadFileList= new ArrayList<DownLoadFile>();
 
     public static List<RowItem> rowItem= new ArrayList<>();
+    public static List<PdfFileItem> pdfFileItem= new ArrayList<>();
 
     public static List getCat(DatabaseHelper db){
         List<CateGoryInfo> cateGoryInfoList= new ArrayList<CateGoryInfo>();

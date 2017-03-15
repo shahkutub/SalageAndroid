@@ -63,6 +63,7 @@ import com.salage.model.JsonInfo;
 import com.salage.model.JsonStructure;
 import com.salage.model.JsonToSendServer;
 import com.salage.model.PaymentTableInfo;
+import com.salage.model.PdfFileItem;
 import com.salage.model.PriceListTableInfo;
 import com.salage.model.ProductTableInfo;
 import com.salage.model.RowItem;
@@ -84,6 +85,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -160,9 +162,14 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                     arrayPdfName = listPdfName.toArray(new String[i]);
                 }
 
-               // new DownloadFile().execute(arrayPdfurl, arrayPdfName);
+
+                DownloadPdf df = new DownloadPdf(MainActivityDemo.this);
+                df.execute(arrayPdfurl);
+
 
                 //Image download
+
+                //
                 listImageUrl.clear();
 
                 for(int i = 0; i<ProductTableInfoList.size();i++){
@@ -172,9 +179,10 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
                     arrayImagUrl = listImageUrl.toArray(new String[i]);
                 }
 
-                GetXMLTask task = new GetXMLTask(MainActivityDemo.this);
-                task.execute(arrayImagUrl);
+//                GetXMLTask task = new GetXMLTask(MainActivityDemo.this);
+//                task.execute(arrayImagUrl);
 
+                //
                 progressDialog = new ProgressDialog(MainActivityDemo.this);
                 progressDialog.setTitle("In progress...");
                 progressDialog.setMessage("Loading...");
@@ -219,8 +227,6 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
-
-
 
     }
 
@@ -1301,6 +1307,145 @@ public class MainActivityDemo extends AppCompatActivity implements OnFragmentInt
         @Override
         protected void onPostExecute(List<RowItem> rowItems) {
             AppConstant.rowItem = rowItems;
+            PersistData.setStringArrayPref(con, "data", rowItems);
+//            listViewAdapter = new CustomListViewAdapter(context, rowItems);
+//            listView.setAdapter(listViewAdapter);
+            progressDialog.dismiss();
+        }
+
+    }
+
+
+
+
+
+    private class DownloadPdf extends AsyncTask<String, Integer, List<PdfFileItem>> {
+        private Activity context;
+        List<PdfFileItem> rowItems;
+        int noOfURLs;
+        public DownloadPdf(Activity context) {
+            this.context = context;
+        }
+
+        @Override
+        protected List<PdfFileItem> doInBackground(String... urls) {
+            noOfURLs = urls.length;
+            rowItems = new ArrayList<PdfFileItem>();
+            byte [] map = null;
+            for (String url : urls) {
+                map = downloadImage(url);
+                rowItems.add(new PdfFileItem(map));
+            }
+            return rowItems;
+        }
+
+        private byte[] downloadImage(String urlString) {
+
+            int count = 0;
+            byte[] bitmap = null;
+
+            URL url;
+            InputStream inputStream = null;
+            BufferedOutputStream outputStream = null;
+
+            try {
+                url = new URL(urlString);
+                URLConnection connection = url.openConnection();
+                int lenghtOfFile = connection.getContentLength();
+
+                inputStream = new BufferedInputStream(url.openStream());
+                ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+
+                outputStream = new BufferedOutputStream(dataStream);
+
+                byte data[] = new byte[512];
+                long total = 0;
+
+                while ((count = inputStream.read(data)) != -1) {
+                    total += count;
+                    /*publishing progress update on UI thread.
+                    Invokes onProgressUpdate()*/
+                    publishProgress((int)((total*100)/lenghtOfFile));
+
+                    // writing data to byte array stream
+                    outputStream.write(data, 0, count);
+                }
+                outputStream.flush();
+
+//                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//                bmOptions.inSampleSize = 1;
+
+                bitmap = dataStream.toByteArray();
+//                bitmap = new String(bytes, "UTF-8");
+//                Log.e("pdf",bitmap);
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                FileUtils.close(inputStream);
+                FileUtils.close(outputStream);
+            }
+            return bitmap;
+
+
+//            try {
+//                URL url = new URL(urlString);
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+//
+//            URLConnection connection = urlString.openConnection();
+//            // Since you get a URLConnection, use it to get the InputStream
+//            InputStream in = connection.getInputStream();
+//            // Now that the InputStream is open, get the content length
+//            int contentLength = connection.getContentLength();
+//
+//            // To avoid having to resize the array over and over and over as
+//            // bytes are written to the array, provide an accurate estimate of
+//            // the ultimate size of the byte array
+//            ByteArrayOutputStream tmpOut;
+//            if (contentLength != -1) {
+//                tmpOut = new ByteArrayOutputStream(contentLength);
+//            } else {
+//                tmpOut = new ByteArrayOutputStream(16384); // Pick some appropriate size
+//            }
+//
+//            byte[] buf = new byte[512];
+//            while (true) {
+//                int len = in.read(buf);
+//                if (len == -1) {
+//                    break;
+//                }
+//                tmpOut.write(buf, 0, len);
+//            }
+//            in.close();
+//            tmpOut.close(); // No effect, but good to do anyway to keep the metaphor alive
+//
+//            byte[] array = tmpOut.toByteArray();
+//
+//            //Lines below used to test if file is corrupt
+//            //FileOutputStream fos = new FileOutputStream("C:\\abc.pdf");
+//            //fos.write(array);
+//            //fos.close();
+//
+//            return ByteBuffer.wrap(array);
+
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            progressDialog.setProgress(progress[0]);
+            if(rowItems != null) {
+                progressDialog.setMessage("Loading " + (rowItems.size()+1) + "/" + noOfURLs);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<PdfFileItem> rowItems) {
+            AppConstant.pdfFileItem = rowItems;
+
 //            listViewAdapter = new CustomListViewAdapter(context, rowItems);
 //            listView.setAdapter(listViewAdapter);
             progressDialog.dismiss();

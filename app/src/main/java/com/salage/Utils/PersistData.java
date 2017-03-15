@@ -3,6 +3,16 @@ package com.salage.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
+
+import com.salage.MainActivityDemo;
+import com.salage.model.RowItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersistData {
 
@@ -25,6 +35,40 @@ public class PersistData {
 		editor.putString(key, data);
 		editor.commit();
 	}
+
+	public static void setStringArrayPref(final Context ctx, String key, List<RowItem> values) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = prefs.edit();
+		JSONArray a = new JSONArray();
+		for (int i = 0; i < values.size(); i++) {
+			a.put(values.get(i));
+		}
+		if (!values.isEmpty()) {
+			editor.putString(key, a.toString());
+		} else {
+			editor.putString(key, null);
+		}
+		editor.commit();
+	}
+
+	public static List<RowItem> getStringArrayPref(Context context, String key) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String json = prefs.getString(key, null);
+		ArrayList<RowItem> urls = new ArrayList<RowItem>();
+		if (json != null) {
+			try {
+				JSONArray a = new JSONArray(json);
+				for (int i = 0; i < a.length(); i++) {
+					String url = a.optString(i);
+					//urls.add(new RowItem());
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return urls;
+	}
+
 
 
 	/*

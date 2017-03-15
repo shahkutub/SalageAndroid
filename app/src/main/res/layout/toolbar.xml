@@ -17,11 +17,11 @@
 
         <ImageView
             android:id="@+id/img_home"
-            android:layout_width="@dimen/dim20"
+            android:layout_width="@dimen/dim30"
             android:visibility="visible"
-            android:layout_height="@dimen/dim20"
+            android:layout_height="@dimen/dim30"
             android:layout_centerVertical="true"
-            android:src="@drawable/home"
+            android:src="@drawable/download"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dim20"
             />
